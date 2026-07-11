@@ -116,3 +116,19 @@ export async function countConfirmedReferrals(db: SupabaseClient, signupId: stri
   if (error) throw error
   return count ?? 0
 }
+
+export interface VerifiedSignupRow {
+  id: string
+  verified_at: string | null
+}
+
+/** Verified signups on a waitlist, in the shape the position engine needs. */
+export async function listVerifiedSignups(db: SupabaseClient, waitlistId: string): Promise<VerifiedSignupRow[]> {
+  const { data, error } = await db
+    .from('signups')
+    .select('id, verified_at')
+    .eq('waitlist_id', waitlistId)
+    .eq('verified', true)
+  if (error) throw error
+  return (data ?? []) as VerifiedSignupRow[]
+}
