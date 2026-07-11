@@ -25,3 +25,9 @@ create table signups (
 create index signups_waitlist_verified_idx on signups (waitlist_id, verified);
 create index signups_referred_by_idx on signups (referred_by);
 create index signups_verify_token_idx on signups (verify_token);
+
+-- This CLI's local stack no longer auto-exposes new tables to the Data API roles
+-- (see `auto_expose_new_tables` in supabase/config.toml, a deprecated legacy flag).
+-- All access in this app goes through the service role (server-side only), so grant
+-- it explicitly rather than relying on that flag. anon/authenticated stay revoked.
+grant select, insert, update, delete on waitlists, signups to service_role;
