@@ -12,6 +12,7 @@
     "test:integration": "vitest run --config vitest.integration.config.ts"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.110.2",
     "disposable-email-domains": "^1.0.62",
     "nanoid": "^5.1.16",
     "next": "15.5.20",
