@@ -22,3 +22,25 @@ export function computePositions(rows: SignupRow[]): Map<string, number> {
   sorted.forEach((row, i) => positions.set(row.id, i + 1))
   return positions
 }
+
+export interface RewardTier {
+  referrals: number
+  label: string
+}
+
+export interface RewardStatus {
+  unlocked: RewardTier[]
+  next: RewardTier | null
+  toNext: number // referrals still needed to reach `next` (0 if none)
+}
+
+export function resolveRewards(confirmedReferrals: number, tiers: RewardTier[]): RewardStatus {
+  const sorted = [...tiers].sort((a, b) => a.referrals - b.referrals)
+  const unlocked = sorted.filter(t => confirmedReferrals >= t.referrals)
+  const next = sorted.find(t => confirmedReferrals < t.referrals) ?? null
+  return {
+    unlocked,
+    next,
+    toNext: next ? next.referrals - confirmedReferrals : 0,
+  }
+}

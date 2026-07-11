@@ -1,5 +1,6 @@
 import { test, expect, describe } from 'vitest'
 import { computePositions, type SignupRow } from './position'
+import { resolveRewards, type RewardTier } from './position'
 
 function s(id: string, referrals: number, verifiedAtIso: string): SignupRow {
   return { id, confirmedReferrals: referrals, verifiedAt: new Date(verifiedAtIso) }
@@ -40,5 +41,35 @@ describe('computePositions', () => {
     const pos = computePositions(rows)
     expect(pos.get('a')).toBe(1) // 'a' < 'b'
     expect(pos.get('b')).toBe(2)
+  })
+})
+
+describe('resolveRewards', () => {
+  const tiers: RewardTier[] = [
+    { referrals: 3, label: 'Early access' },
+    { referrals: 10, label: 'Founding member' },
+  ]
+  test('reports unlocked tiers and the next target', () => {
+    const r = resolveRewards(4, tiers)
+    expect(r.unlocked.map(t => t.label)).toEqual(['Early access'])
+    expect(r.next).toEqual({ referrals: 10, label: 'Founding member' })
+    expect(r.toNext).toBe(6)
+  })
+  test('all unlocked -> next is null', () => {
+    const r = resolveRewards(12, tiers)
+    expect(r.unlocked.length).toBe(2)
+    expect(r.next).toBeNull()
+    expect(r.toNext).toBe(0)
+  })
+  test('none unlocked at zero referrals', () => {
+    const r = resolveRewards(0, tiers)
+    expect(r.unlocked).toEqual([])
+    expect(r.next?.label).toBe('Early access')
+    expect(r.toNext).toBe(3)
+  })
+  test('unsorted tiers are handled', () => {
+    const r = resolveRewards(4, [{ referrals: 10, label: 'B' }, { referrals: 3, label: 'A' }])
+    expect(r.unlocked.map(t => t.label)).toEqual(['A'])
+    expect(r.next?.label).toBe('B')
   })
 })
