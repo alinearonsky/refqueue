@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/db/client'
 import { verifySignup } from '@/lib/db/signups'
+import { getEmailSender } from '@/lib/email'
+import { notifyReferrerMilestone } from '@/lib/notifications/milestone'
 
 export async function GET(req: Request) {
   const token = new URL(req.url).searchParams.get('token')
@@ -9,6 +11,13 @@ export async function GET(req: Request) {
   const db = createServiceClient()
   const signup = await verifySignup(db, token)
   if (!signup) return NextResponse.json({ error: 'invalid_or_used_token' }, { status: 410 })
+
+  // Best-effort milestone notification to the referrer (never fail verification on it).
+  try {
+    await notifyReferrerMilestone(db, getEmailSender(), signup)
+  } catch (err) {
+    console.error('verify: milestone notification failed', err)
+  }
 
   return NextResponse.json({ verified: true, referralCode: signup.referral_code })
 }

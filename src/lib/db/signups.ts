@@ -14,10 +14,14 @@ export interface SignupRecord {
   verified_at: string | null
 }
 
-export async function createWaitlistForTest(db: SupabaseClient, slug: string) {
+export async function createWaitlistForTest(
+  db: SupabaseClient,
+  slug: string,
+  rewardTiers: { referrals: number; label: string }[] = [],
+) {
   const { data, error } = await db
     .from('waitlists')
-    .insert({ name: slug, slug })
+    .insert({ name: slug, slug, reward_tiers: rewardTiers })
     .select()
     .single()
   if (error) throw error
@@ -31,6 +35,12 @@ export async function getSignupByCode(db: SupabaseClient, waitlistId: string, co
     .eq('waitlist_id', waitlistId)
     .eq('referral_code', code)
     .maybeSingle()
+  if (error) throw error
+  return (data as SignupRecord) ?? null
+}
+
+export async function getSignupById(db: SupabaseClient, id: string): Promise<SignupRecord | null> {
+  const { data, error } = await db.from('signups').select('*').eq('id', id).maybeSingle()
   if (error) throw error
   return (data as SignupRecord) ?? null
 }

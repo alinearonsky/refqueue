@@ -14,3 +14,9 @@ export async function getWaitlistBySlug(db: SupabaseClient, slug: string): Promi
   if (error) throw error
   return (data as WaitlistRecord) ?? null
 }
+
+export async function getWaitlistById(db: SupabaseClient, id: string): Promise<WaitlistRecord | null> {
+  const { data, error } = await db.from('waitlists').select('*').eq('id', id).maybeSingle()
+  if (error) throw error
+  return (data as WaitlistRecord) ?? null
+}

@@ -1,7 +1,9 @@
-import { test, expect, describe, beforeEach } from 'vitest'
+import { test, expect, describe, beforeEach, afterEach } from 'vitest'
 import { GET } from './route'
 import { createServiceClient } from '@/lib/db/client'
 import { createWaitlistForTest, createSignup } from '@/lib/db/signups'
+import { FakeEmailSender } from '@/lib/email/fake'
+import { setEmailSenderForTest } from '@/lib/email'
 
 const db = createServiceClient()
 async function reset() {
@@ -12,6 +14,13 @@ const verifyReq = (token: string) => new Request(`http://localhost/api/verify?to
 
 describe('GET /api/verify (integration)', () => {
   beforeEach(reset)
+
+  let fakeEmail: FakeEmailSender
+  beforeEach(() => {
+    fakeEmail = new FakeEmailSender()
+    setEmailSenderForTest(fakeEmail)
+  })
+  afterEach(() => setEmailSenderForTest(null))
 
   test('valid token verifies the signup and returns 200', async () => {
     const wl = await createWaitlistForTest(db, 'v1')
@@ -30,5 +39,14 @@ describe('GET /api/verify (integration)', () => {
   test('already-used or unknown token returns 410', async () => {
     const res = await GET(verifyReq('deadbeefdeadbeefdeadbeefdeadbeef'))
     expect(res.status).toBe(410)
+  })
+
+  test('verifying a referred signup emails the referrer their tier unlock', async () => {
+    const wl = await createWaitlistForTest(db, 'v-ms', [{ referrals: 1, label: 'Early access' }])
+    const referrer = await createSignup(db, { waitlistId: wl.id, email: 'ref@example.com' })
+    const referred = await createSignup(db, { waitlistId: wl.id, email: 'friend@example.com', referrerCode: referrer.referral_code })
+    const res = await GET(verifyReq(referred.verify_token!))
+    expect(res.status).toBe(200)
+    expect(fakeEmail.sent.some(m => m.to === 'ref@example.com' && m.subject.includes('Early access'))).toBe(true)
   })
 })
