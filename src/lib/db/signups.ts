@@ -25,23 +25,25 @@ export async function createWaitlistForTest(db: SupabaseClient, slug: string) {
 }
 
 export async function getSignupByCode(db: SupabaseClient, waitlistId: string, code: string) {
-  const { data } = await db
+  const { data, error } = await db
     .from('signups')
     .select('*')
     .eq('waitlist_id', waitlistId)
     .eq('referral_code', code)
     .maybeSingle()
+  if (error) throw error
   return (data as SignupRecord) ?? null
 }
 
 async function findReferrerId(db: SupabaseClient, waitlistId: string, referrerCode?: string): Promise<string | null> {
   if (!referrerCode) return null
-  const { data } = await db
+  const { data, error } = await db
     .from('signups')
     .select('id')
     .eq('waitlist_id', waitlistId)
     .eq('referral_code', referrerCode)
     .maybeSingle()
+  if (error) throw error
   return data ? (data as { id: string }).id : null
 }
 
@@ -52,12 +54,13 @@ export async function createSignup(
   const email = input.email.trim().toLowerCase()
 
   // Idempotent: return the existing row if this email already signed up on this waitlist.
-  const { data: existing } = await db
+  const { data: existing, error: existingError } = await db
     .from('signups')
     .select('*')
     .eq('waitlist_id', input.waitlistId)
     .eq('email', email)
     .maybeSingle()
+  if (existingError) throw existingError
   if (existing) return existing as SignupRecord
 
   const referredBy = await findReferrerId(db, input.waitlistId, input.referrerCode)
@@ -78,12 +81,13 @@ export async function createSignup(
     if (!error) return data as SignupRecord
     // 23505 = unique_violation. If it's the email (race), fetch & return; if code, retry.
     if (error.code === '23505') {
-      const { data: raced } = await db
+      const { data: raced, error: racedError } = await db
         .from('signups')
         .select('*')
         .eq('waitlist_id', input.waitlistId)
         .eq('email', email)
         .maybeSingle()
+      if (racedError) throw racedError
       if (raced) return raced as SignupRecord
       continue // code collision — regenerate and retry
     }
