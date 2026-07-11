@@ -10,6 +10,11 @@ import { computePositions } from '@/lib/referral/position'
 // Module-scoped limiter: 5 signups / 10 min / IP. Plan 6 swaps in a shared store.
 const limiter = new InMemoryRateLimiter({ max: 5, windowMs: 10 * 60_000 })
 
+// Rate-limit key is derived from x-forwarded-for. RefQueue must be deployed behind a
+// reverse proxy (Vercel, or nginx/Caddy for Docker self-hosters) that OVERWRITES this
+// header with the real client IP — otherwise the value is client-spoofable, and if the
+// header is absent all traffic collapses into a single 'unknown' bucket. Trusted-proxy
+// config and a shared/distributed limiter are handled in Plan 6 (deploy).
 function clientIp(req: Request): string {
   return (req.headers.get('x-forwarded-for') ?? '').split(',')[0].trim() || 'unknown'
 }
@@ -33,10 +38,11 @@ export async function POST(req: Request) {
   const signup = await createSignup(db, { waitlistId: waitlist.id, email, referrerCode: ref })
 
   // Compute this signup's current position across verified signups (+ itself if verified).
-  const { data: rows } = await db
+  const { data: rows, error: rowsError } = await db
     .from('signups')
     .select('id, verified, verified_at, referred_by')
     .eq('waitlist_id', waitlist.id)
+  if (rowsError) throw rowsError
   const verified = (rows ?? []).filter(r => r.verified)
   const withCounts = await Promise.all(
     verified.map(async r => ({
