@@ -6,6 +6,8 @@ import { createServiceClient } from '@/lib/db/client'
 import { getWaitlistBySlug } from '@/lib/db/waitlists'
 import { createSignup, countConfirmedReferrals, listVerifiedSignups } from '@/lib/db/signups'
 import { computePositions } from '@/lib/referral/position'
+import { getEmailSender } from '@/lib/email'
+import { buildConfirmationEmail } from '@/lib/email/templates'
 
 // Module-scoped limiter: 5 signups / 10 min / IP. Plan 6 swaps in a shared store.
 const limiter = new InMemoryRateLimiter({ max: 5, windowMs: 10 * 60_000 })
@@ -36,6 +38,20 @@ export async function POST(req: Request) {
   if (!waitlist) return NextResponse.json({ error: 'waitlist_not_found' }, { status: 404 })
 
   const signup = await createSignup(db, { waitlistId: waitlist.id, email, referrerCode: ref })
+
+  // Send the double-opt-in confirmation email (best-effort; a send failure must not
+  // fail the signup — the row exists and re-signing up re-sends). Awaited so it
+  // completes before the serverless function returns.
+  if (!signup.verified && signup.verify_token) {
+    const base = process.env.APP_BASE_URL ?? 'http://localhost:3000'
+    const verifyUrl = `${base}/api/verify?token=${signup.verify_token}`
+    const confirmation = buildConfirmationEmail({ waitlistName: waitlist.name, verifyUrl })
+    try {
+      await getEmailSender().send({ to: signup.email, subject: confirmation.subject, html: confirmation.html })
+    } catch (err) {
+      console.error('signup: confirmation email failed to send', err)
+    }
+  }
 
   // Compute this signup's current position across verified signups (+ itself if verified).
   const verified = await listVerifiedSignups(db, waitlist.id)

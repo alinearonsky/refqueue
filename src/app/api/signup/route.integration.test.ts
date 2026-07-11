@@ -1,7 +1,9 @@
-import { test, expect, describe, beforeEach } from 'vitest'
+import { test, expect, describe, beforeEach, afterEach } from 'vitest'
 import { POST } from './route'
 import { createServiceClient } from '@/lib/db/client'
 import { createWaitlistForTest } from '@/lib/db/signups'
+import { FakeEmailSender } from '@/lib/email/fake'
+import { setEmailSenderForTest } from '@/lib/email'
 
 const db = createServiceClient()
 async function reset() {
@@ -19,6 +21,24 @@ function req(body: unknown, ip = '10.0.0.1') {
 
 describe('POST /api/signup (integration)', () => {
   beforeEach(reset)
+
+  let fakeEmail: FakeEmailSender
+  beforeEach(() => {
+    fakeEmail = new FakeEmailSender()
+    setEmailSenderForTest(fakeEmail)
+  })
+  afterEach(() => setEmailSenderForTest(null))
+
+  test('sends a confirmation email containing the verify link', async () => {
+    await createWaitlistForTest(db, 'launchmail')
+    const res = await POST(req({ waitlistSlug: 'launchmail', email: 'mail@example.com' }))
+    expect(res.status).toBe(200)
+    expect(fakeEmail.sent).toHaveLength(1)
+    const sent = fakeEmail.sent[0]
+    expect(sent.to).toBe('mail@example.com')
+    expect(sent.subject).toContain('launchmail')
+    expect(sent.html).toContain('/api/verify?token=')
+  })
 
   test('valid signup returns 200 with a referral code and position', async () => {
     const wl = await createWaitlistForTest(db, 'launch')
