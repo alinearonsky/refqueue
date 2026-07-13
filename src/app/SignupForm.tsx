@@ -16,7 +16,15 @@ const ERROR_MESSAGES: Record<string, string> = {
   waitlist_not_found: 'This waitlist isn’t set up yet. Try again shortly.',
 }
 
-export function SignupForm({ waitlistSlug, referralCode }: { waitlistSlug: string; referralCode?: string }) {
+export function SignupForm({
+  waitlistSlug,
+  referralCode,
+  ctaLabel = 'Join the waitlist',
+}: {
+  waitlistSlug: string
+  referralCode?: string
+  ctaLabel?: string
+}) {
   const [email, setEmail] = useState('')
   const [pending, setPending] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -71,7 +79,7 @@ export function SignupForm({ waitlistSlug, referralCode }: { waitlistSlug: strin
         disabled={pending}
       />
       <button type="submit" disabled={pending}>
-        {pending ? 'Joining…' : 'Join the waitlist'}
+        {pending ? 'Joining…' : ctaLabel}
       </button>
       {error && (
         <p role="alert" className={styles.error}>

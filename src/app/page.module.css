@@ -28,6 +28,13 @@
   font-size: 0.9rem;
 }
 
+.logo {
+  height: 44px;
+  width: auto;
+  max-width: 220px;
+  object-fit: contain;
+}
+
 @media (prefers-color-scheme: dark) {
   .subhead {
     color: #999;

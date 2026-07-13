@@ -22,8 +22,8 @@
   padding: 10px 18px;
   border: none;
   border-radius: 8px;
-  background: var(--foreground);
-  color: var(--background);
+  background: var(--accent, var(--foreground));
+  color: var(--accent-text, var(--background));
   font-size: 1rem;
   cursor: pointer;
 }
