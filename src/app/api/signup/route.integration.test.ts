@@ -65,4 +65,14 @@ describe('POST /api/signup (integration)', () => {
     const res = await POST(req({ waitlistSlug: 'ghost', email: 'a@example.com' }))
     expect(res.status).toBe(404)
   })
+
+  test('response includes the shareable referral link and reward status', async () => {
+    await createWaitlistForTest(db, 'launch-rewards', [{ referrals: 3, label: 'Early access' }])
+    const res = await POST(req({ waitlistSlug: 'launch-rewards', email: 'r@example.com' }, '10.0.0.9'))
+    expect(res.status).toBe(200)
+    const json = await res.json()
+    const base = process.env.APP_BASE_URL ?? 'http://localhost:3000'
+    expect(json.referralLink).toBe(`${base}/?ref=${json.referralCode}`)
+    expect(json.rewards).toEqual({ unlocked: [], next: { referrals: 3, label: 'Early access' }, toNext: 3 })
+  })
 })

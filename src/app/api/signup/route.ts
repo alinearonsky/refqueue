@@ -4,8 +4,9 @@ import { isDisposableEmail } from '@/lib/antiabuse/disposable'
 import { InMemoryRateLimiter } from '@/lib/antiabuse/ratelimit'
 import { createServiceClient } from '@/lib/db/client'
 import { getWaitlistBySlug } from '@/lib/db/waitlists'
-import { createSignup, countConfirmedReferrals, listVerifiedSignups } from '@/lib/db/signups'
-import { computePositions } from '@/lib/referral/position'
+import { createSignup } from '@/lib/db/signups'
+import { getSignupStatus } from '@/lib/status/status'
+import { getAppBaseUrl } from '@/lib/config'
 import { getEmailSender } from '@/lib/email'
 import { buildConfirmationEmail } from '@/lib/email/templates'
 
@@ -43,8 +44,7 @@ export async function POST(req: Request) {
   // fail the signup — the row exists and re-signing up re-sends). Awaited so it
   // completes before the serverless function returns.
   if (!signup.verified && signup.verify_token) {
-    const base = process.env.APP_BASE_URL ?? 'http://localhost:3000'
-    const verifyUrl = `${base}/api/verify?token=${signup.verify_token}`
+    const verifyUrl = `${getAppBaseUrl()}/api/verify?token=${signup.verify_token}`
     const confirmation = buildConfirmationEmail({ waitlistName: waitlist.name, verifyUrl })
     try {
       await getEmailSender().send({ to: signup.email, subject: confirmation.subject, html: confirmation.html })
@@ -53,20 +53,12 @@ export async function POST(req: Request) {
     }
   }
 
-  // Compute this signup's current position across verified signups (+ itself if verified).
-  const verified = await listVerifiedSignups(db, waitlist.id)
-  const withCounts = await Promise.all(
-    verified.map(async r => ({
-      id: r.id,
-      confirmedReferrals: await countConfirmedReferrals(db, r.id),
-      verifiedAt: new Date(r.verified_at as string),
-    })),
-  )
-  const position = computePositions(withCounts).get(signup.id) ?? verified.length + 1
-
+  const status = await getSignupStatus(db, waitlist, signup)
   return NextResponse.json({
     referralCode: signup.referral_code,
     verified: signup.verified,
-    position,
+    position: status.position,
+    referralLink: status.referralLink,
+    rewards: status.rewards,
   })
 }
