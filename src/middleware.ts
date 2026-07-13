@@ -1,6 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
-import { getSupabaseAnonKey } from '@/lib/config'
+import { getSupabaseAnonKey, sessionCookieOptions } from '@/lib/config'
 
 /**
  * Guards the maker area and refreshes auth tokens (the one place cookie
@@ -16,6 +16,7 @@ export async function middleware(request: NextRequest) {
   if (!url) throw new Error('SUPABASE_URL must be set')
 
   const supabase = createServerClient(url, getSupabaseAnonKey(), {
+    cookieOptions: sessionCookieOptions(),
     cookies: {
       getAll: () => request.cookies.getAll(),
       setAll: (cookiesToSet) => {

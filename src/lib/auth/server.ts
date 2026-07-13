@@ -1,7 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import type { SupabaseClient, User } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
-import { getSupabaseAnonKey } from '@/lib/config'
+import { getSupabaseAnonKey, sessionCookieOptions } from '@/lib/config'
 
 /**
  * Anon-key client bound to the request's cookies — Supabase Auth sessions ONLY.
@@ -14,6 +14,7 @@ export async function createAuthClient(): Promise<SupabaseClient> {
   if (!url) throw new Error('SUPABASE_URL must be set')
   const cookieStore = await cookies()
   return createServerClient(url, getSupabaseAnonKey(), {
+    cookieOptions: sessionCookieOptions(),
     cookies: {
       getAll: () => cookieStore.getAll(),
       setAll: (cookiesToSet) => {

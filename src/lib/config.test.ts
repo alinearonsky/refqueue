@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest'
-import { getMakerCredentials, getSupabaseAnonKey } from './config'
+import { getMakerCredentials, getSupabaseAnonKey, sessionCookieOptions } from './config'
 
 const savedEnv = { ...process.env }
 afterEach(() => {
@@ -33,5 +33,15 @@ describe('getMakerCredentials', () => {
     delete process.env.MAKER_EMAIL
     process.env.MAKER_PASSWORD = 'hunter22'
     expect(getMakerCredentials()).toBeNull()
+  })
+})
+
+describe('sessionCookieOptions', () => {
+  it('is always httpOnly, secure only on https deployments', () => {
+    process.env.APP_BASE_URL = 'https://waitlist.example.com'
+    expect(sessionCookieOptions()).toEqual({ httpOnly: true, secure: true })
+
+    process.env.APP_BASE_URL = 'http://localhost:3000'
+    expect(sessionCookieOptions()).toEqual({ httpOnly: true, secure: false })
   })
 })

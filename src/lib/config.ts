@@ -22,6 +22,16 @@ export function getSupabaseAnonKey(): string {
 }
 
 /**
+ * Session-cookie hardening for both @supabase/ssr call sites (auth/server.ts,
+ * middleware.ts). The library defaults to httpOnly: false to serve
+ * createBrowserClient, which this app never uses. `secure` follows the
+ * deployment's actual scheme so plain-HTTP LAN self-hosts still work.
+ */
+export function sessionCookieOptions(): { httpOnly: boolean; secure: boolean } {
+  return { httpOnly: true, secure: getAppBaseUrl().startsWith('https://') }
+}
+
+/**
  * The single maker account, provisioned from env (env is v1's only config surface).
  * null = dashboard disabled (login page explains which vars to set).
  */
