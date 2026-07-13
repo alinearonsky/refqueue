@@ -13,7 +13,7 @@ create table signups (
   waitlist_id   uuid not null references waitlists(id) on delete cascade,
   email         text not null,
   verified      boolean not null default false,
-  verify_token  text,                                     -- null once verified
+  verify_token  text,                                     -- kept after verification (idempotent verify; prefetch-safe)
   referral_code text not null,
   referred_by   uuid references signups(id) on delete set null,
   created_at    timestamptz not null default now(),
