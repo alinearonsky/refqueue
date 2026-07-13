@@ -1,0 +1,130 @@
+.main {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 24px;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  text-align: center;
+}
+
+.welcome {
+  background: #d1e7dd;
+  color: #0f5132;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.positionLabel,
+.referrals {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.position {
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.pendingTitle {
+  font-size: 1.8rem;
+}
+
+.pendingText {
+  color: #666;
+  max-width: 44ch;
+}
+
+.card {
+  width: 100%;
+  max-width: 480px;
+  border: 1px solid #e2e2e2;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+
+.card h2 {
+  font-size: 1.05rem;
+}
+
+.card p {
+  color: #666;
+  font-size: 0.92rem;
+}
+
+.linkRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.link {
+  flex: 1 1 240px;
+  padding: 8px 10px;
+  background: rgba(127, 127, 127, 0.12);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  overflow-wrap: anywhere;
+}
+
+.linkRow button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background: var(--foreground);
+  color: var(--background);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.shareRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.shareRow a {
+  font-size: 0.9rem;
+  color: inherit;
+  text-decoration: underline;
+}
+
+.tiers {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.unlocked {
+  color: #0f5132;
+}
+
+@media (prefers-color-scheme: dark) {
+  .welcome {
+    background: #0f3d2e;
+    color: #a3e9c9;
+  }
+  .positionLabel,
+  .referrals,
+  .pendingText,
+  .card p {
+    color: #999;
+  }
+  .card {
+    border-color: #333;
+  }
+  .unlocked {
+    color: #7bd8a8;
+  }
+}
