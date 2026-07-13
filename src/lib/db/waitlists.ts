@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
+import type { RewardTier } from '@/lib/referral/position'
 
 export interface WaitlistRecord {
   id: string
@@ -21,32 +22,44 @@ export async function getWaitlistById(db: SupabaseClient, id: string): Promise<W
   return (data as WaitlistRecord) ?? null
 }
 
+export interface WaitlistProvisionInput {
+  slug: string
+  name: string
+  rewardTiers: RewardTier[]
+  poweredBy: boolean
+}
+
 /**
  * Idempotent provisioning of the instance's single waitlist from env config
  * (env is v1's only config surface — no settings UI). Called on landing-page
- * render: creates the row on first deploy, keeps `name` in sync when the
- * maker changes WAITLIST_NAME. Tiers/theme stay untouched (Plan 5's config pass).
+ * render: creates the row on first deploy, then diff-syncs name, reward tiers,
+ * and the powered-by flag whenever the maker changes env. Unchanged config
+ * costs zero writes. `theme` stays untouched (presentation-only, read from env).
  */
-export async function ensureWaitlist(
-  db: SupabaseClient,
-  input: { slug: string; name: string },
-): Promise<WaitlistRecord> {
+export async function ensureWaitlist(db: SupabaseClient, input: WaitlistProvisionInput): Promise<WaitlistRecord> {
   const existing = await getWaitlistBySlug(db, input.slug)
   if (existing) {
-    if (existing.name === input.name) return existing
-    const { data, error } = await db
-      .from('waitlists')
-      .update({ name: input.name })
-      .eq('id', existing.id)
-      .select()
-      .single()
+    const patch: Record<string, unknown> = {}
+    if (existing.name !== input.name) patch.name = input.name
+    if (JSON.stringify(existing.reward_tiers) !== JSON.stringify(input.rewardTiers)) {
+      patch.reward_tiers = input.rewardTiers
+    }
+    if (existing.powered_by !== input.poweredBy) patch.powered_by = input.poweredBy
+    if (Object.keys(patch).length === 0) return existing
+
+    const { data, error } = await db.from('waitlists').update(patch).eq('id', existing.id).select().single()
     if (error) throw error
     return data as WaitlistRecord
   }
 
   const { data, error } = await db
     .from('waitlists')
-    .insert({ slug: input.slug, name: input.name })
+    .insert({
+      slug: input.slug,
+      name: input.name,
+      reward_tiers: input.rewardTiers,
+      powered_by: input.poweredBy,
+    })
     .select()
     .single()
   if (error) {

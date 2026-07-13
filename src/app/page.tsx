@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { createServiceClient } from '@/lib/db/client'
 import { ensureWaitlist } from '@/lib/db/waitlists'
-import { getWaitlistConfig } from '@/lib/config'
+import { getPoweredByConfig, getRewardTiersConfig, getWaitlistConfig } from '@/lib/config'
 import { isValidReferralCode } from '@/lib/referral/code'
 import { SignupForm } from './SignupForm'
 import styles from './page.module.css'
@@ -23,7 +23,11 @@ export default async function LandingPage({ searchParams }: Props) {
   const ref = typeof params.ref === 'string' && isValidReferralCode(params.ref) ? params.ref : undefined
   const verifyFailed = params.verify === 'invalid'
 
-  const waitlist = await ensureWaitlist(createServiceClient(), getWaitlistConfig())
+  const waitlist = await ensureWaitlist(createServiceClient(), {
+    ...getWaitlistConfig(),
+    rewardTiers: getRewardTiersConfig(),
+    poweredBy: getPoweredByConfig(),
+  })
 
   return (
     <main className={styles.main}>
