@@ -5,6 +5,7 @@ import { getPoweredByConfig, getRewardTiersConfig, getThemeConfig, getWaitlistCo
 import { isValidReferralCode } from '@/lib/referral/code'
 import { SignupForm } from './SignupForm'
 import { accentStyle } from './accent'
+import { PoweredBy } from './PoweredBy'
 import styles from './page.module.css'
 
 // DB read/provision per request — never prerender at build time.
@@ -45,6 +46,7 @@ export default async function LandingPage({ searchParams }: Props) {
       <h1 className={styles.title}>{theme.headline ?? waitlist.name}</h1>
       <p className={styles.subhead}>{theme.subhead ?? 'Join the waitlist — refer friends to move up the line.'}</p>
       <SignupForm waitlistSlug={waitlist.slug} referralCode={ref} ctaLabel={theme.ctaLabel} />
+      <PoweredBy enabled={waitlist.powered_by} />
     </main>
   )
 }

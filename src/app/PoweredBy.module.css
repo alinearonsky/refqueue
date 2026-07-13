@@ -1,0 +1,17 @@
+.credit {
+  position: fixed;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.8rem;
+  color: #999;
+  white-space: nowrap;
+}
+
+.credit strong {
+  font-weight: 600;
+}
+
+.credit:hover {
+  text-decoration: underline;
+}
