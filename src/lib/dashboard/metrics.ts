@@ -74,7 +74,10 @@ export function buildDashboardData(rows: DashboardSignupRow[], now: Date): Dashb
 
   const entries = [
     ...verified.map(toEntry).sort((a, b) => (a.position as number) - (b.position as number)),
-    ...rows.filter((r) => !r.verified).map(toEntry),
+    ...rows
+      .filter((r) => !r.verified)
+      .sort((a, b) => a.created_at.localeCompare(b.created_at) || a.id.localeCompare(b.id))
+      .map(toEntry),
   ]
 
   const byId = new Map(rows.map((r) => [r.id, r]))

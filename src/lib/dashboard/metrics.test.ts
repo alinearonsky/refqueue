@@ -78,6 +78,19 @@ describe('buildDashboardData', () => {
     expect(topReferrers[4]).toEqual({ email: 'ref-2@x.com', confirmedReferrals: 3 })
   })
 
+  it('sorts pending entries oldest-first regardless of input order', () => {
+    const rows = [
+      row({ id: 'p3', email: 'p3@x.com', created_at: '2026-07-12T10:00:00Z' }),
+      row({ id: 'v1', email: 'v1@x.com', verified: true, verified_at: '2026-07-09T10:00:00Z' }),
+      row({ id: 'p1', email: 'p1@x.com', created_at: '2026-07-10T10:00:00Z' }),
+      row({ id: 'p2', email: 'p2@x.com', created_at: '2026-07-11T10:00:00Z' }),
+    ]
+
+    const { entries } = buildDashboardData(rows, NOW)
+
+    expect(entries.map((e) => e.email)).toEqual(['v1@x.com', 'p1@x.com', 'p2@x.com', 'p3@x.com'])
+  })
+
   it('buckets signups per day over the last 30 days, dropping older rows', () => {
     const rows = [
       row({ id: 'old', email: 'old@x.com', created_at: '2026-05-01T10:00:00Z' }),
