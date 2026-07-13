@@ -29,6 +29,12 @@ export interface WaitlistProvisionInput {
   poweredBy: boolean
 }
 
+// Structural diff: jsonb reorders object keys on round-trip, so a JSON.stringify
+// comparison would perpetually false-diff and issue a write per landing render.
+function sameTiers(a: RewardTier[], b: RewardTier[]): boolean {
+  return a.length === b.length && a.every((t, i) => t.referrals === b[i].referrals && t.label === b[i].label)
+}
+
 /**
  * Idempotent provisioning of the instance's single waitlist from env config
  * (env is v1's only config surface — no settings UI). Called on landing-page
@@ -41,9 +47,7 @@ export async function ensureWaitlist(db: SupabaseClient, input: WaitlistProvisio
   if (existing) {
     const patch: Record<string, unknown> = {}
     if (existing.name !== input.name) patch.name = input.name
-    if (JSON.stringify(existing.reward_tiers) !== JSON.stringify(input.rewardTiers)) {
-      patch.reward_tiers = input.rewardTiers
-    }
+    if (!sameTiers(existing.reward_tiers, input.rewardTiers)) patch.reward_tiers = input.rewardTiers
     if (existing.powered_by !== input.poweredBy) patch.powered_by = input.poweredBy
     if (Object.keys(patch).length === 0) return existing
 

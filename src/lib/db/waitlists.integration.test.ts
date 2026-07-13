@@ -57,4 +57,32 @@ describe('ensureWaitlist (integration)', () => {
     })
     expect(same).toEqual(changed)
   })
+
+  test('unchanged config issues zero writes even with non-empty tiers (jsonb reorders object keys)', async () => {
+    const tiers = [{ referrals: 5, label: 'Beta invite' }]
+    await ensureWaitlist(db, { slug: 'w-noop', name: 'Noop', rewardTiers: tiers, poweredBy: true })
+
+    // Spy on the query builder: flag any access to .update on the second, identical call.
+    let updateCalled = false
+    const spyDb = new Proxy(db, {
+      get(target, prop) {
+        if (prop === 'from') {
+          return (table: string) =>
+            new Proxy(target.from(table), {
+              get(builder, builderProp) {
+                if (builderProp === 'update') updateCalled = true
+                const value = Reflect.get(builder, builderProp)
+                return typeof value === 'function' ? value.bind(builder) : value
+              },
+            })
+        }
+        const value = Reflect.get(target, prop)
+        return typeof value === 'function' ? value.bind(target) : value
+      },
+    }) as typeof db
+
+    const same = await ensureWaitlist(spyDb, { slug: 'w-noop', name: 'Noop', rewardTiers: tiers, poweredBy: true })
+    expect(updateCalled).toBe(false)
+    expect(same.reward_tiers).toEqual(tiers)
+  })
 })
