@@ -23,6 +23,8 @@ export async function GET() {
     headers: {
       'Content-Type': 'text/csv; charset=utf-8',
       'Content-Disposition': 'attachment; filename="signups.csv"',
+      // Bulk PII download — never let a browser or intermediary cache it.
+      'Cache-Control': 'no-store',
     },
   })
 }
