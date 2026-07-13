@@ -1,6 +1,6 @@
 import { test, expect, describe, beforeEach } from 'vitest'
 import { createServiceClient } from './client'
-import { createWaitlistForTest, createSignup, verifySignup, countConfirmedReferrals, getSignupByCode } from './signups'
+import { createWaitlistForTest, createSignup, verifySignup, countConfirmedReferrals } from './signups'
 
 const db = createServiceClient()
 
@@ -54,17 +54,20 @@ describe('signups repository (integration)', () => {
     expect(await countConfirmedReferrals(db, referrer.id)).toBe(1)
   })
 
-  test('verifySignup is idempotent and clears the token', async () => {
-    const wl = await createWaitlistForTest(db, 'app-f')
+  test('verifySignup verifies once, keeps the token, and re-verifies as a no-op', async () => {
+    const wl = await createWaitlistForTest(db, 'w-verify')
     const s = await createSignup(db, { waitlistId: wl.id, email: 'v@example.com' })
     const token = s.verify_token!
+
     const first = await verifySignup(db, token)
-    expect(first?.verified).toBe(true)
-    expect(first?.verify_token).toBeNull()
-    const again = await verifySignup(db, token) // token already cleared
-    expect(again).toBeNull()
-    // The signup stays verified.
-    const still = await getSignupByCode(db, wl.id, s.referral_code)
-    expect(still?.verified).toBe(true)
+    expect(first!.alreadyVerified).toBe(false)
+    expect(first!.signup.verified).toBe(true)
+    expect(first!.signup.verify_token).toBe(token) // kept: scanner prefetch must not burn the link
+
+    const again = await verifySignup(db, token)
+    expect(again!.alreadyVerified).toBe(true)
+    expect(again!.signup.verified_at).toBe(first!.signup.verified_at) // no re-stamp
+
+    expect(await verifySignup(db, 'not-a-real-token-not-a-real-token')).toBeNull()
   })
 })

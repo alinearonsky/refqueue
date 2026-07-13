@@ -9,8 +9,9 @@ export async function GET(req: Request) {
   if (!token) return NextResponse.json({ error: 'missing_token' }, { status: 400 })
 
   const db = createServiceClient()
-  const signup = await verifySignup(db, token)
-  if (!signup) return NextResponse.json({ error: 'invalid_or_used_token' }, { status: 410 })
+  const result = await verifySignup(db, token)
+  if (!result) return NextResponse.json({ error: 'invalid_or_used_token' }, { status: 410 })
+  const signup = result.signup
 
   // Best-effort milestone notification to the referrer (never fail verification on it).
   try {

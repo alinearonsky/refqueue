@@ -106,15 +106,39 @@ export async function createSignup(
   throw new Error('createSignup: exhausted referral_code attempts')
 }
 
-export async function verifySignup(db: SupabaseClient, token: string): Promise<SignupRecord | null> {
-  const { data, error } = await db
+export interface VerifyResult {
+  signup: SignupRecord
+  alreadyVerified: boolean
+}
+
+/**
+ * Idempotent: the token is KEPT after verification so email-scanner prefetch
+ * (e.g. Outlook Safe Links) consuming the link first doesn't lock the real user
+ * out — prefetch and real click both land on the same status redirect. A scanner
+ * hit still proves the inbox is real (the token only travels through that inbox),
+ * so double-opt-in's anti-gaming property holds. `alreadyVerified` tells the
+ * caller whether THIS call did the verifying — milestone emails fire only then.
+ */
+export async function verifySignup(db: SupabaseClient, token: string): Promise<VerifyResult | null> {
+  const { data, error } = await db.from('signups').select('*').eq('verify_token', token).maybeSingle()
+  if (error) throw error
+  if (!data) return null
+  const existing = data as SignupRecord
+  if (existing.verified) return { signup: existing, alreadyVerified: true }
+
+  const { data: updated, error: updateError } = await db
     .from('signups')
-    .update({ verified: true, verified_at: new Date().toISOString(), verify_token: null })
-    .eq('verify_token', token)
+    .update({ verified: true, verified_at: new Date().toISOString() })
+    .eq('id', existing.id)
+    .eq('verified', false) // concurrent prefetch + click: exactly one caller wins this update
     .select()
     .maybeSingle()
-  if (error) throw error
-  return (data as SignupRecord) ?? null // null when token already used/cleared
+  if (updateError) throw updateError
+  if (updated) return { signup: updated as SignupRecord, alreadyVerified: false }
+
+  // Lost the race — the row verified between our read and update. Report as already-verified.
+  const raced = await getSignupById(db, existing.id)
+  return raced ? { signup: raced, alreadyVerified: true } : null
 }
 
 export async function countConfirmedReferrals(db: SupabaseClient, signupId: string): Promise<number> {
