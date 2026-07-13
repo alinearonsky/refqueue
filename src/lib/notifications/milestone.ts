@@ -24,7 +24,7 @@ export async function notifyReferrerMilestone(
   const waitlist = await getWaitlistById(db, referrer.waitlist_id)
   if (!waitlist) return
 
-  const tiers = waitlist.reward_tiers ?? []
+  const tiers = waitlist.reward_tiers
   const count = await countConfirmedReferrals(db, referrer.id)
   const newlyUnlocked = tiers.filter(t => t.referrals === count)
 

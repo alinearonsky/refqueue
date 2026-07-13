@@ -41,7 +41,7 @@ describe('POST /api/signup (integration)', () => {
   })
 
   test('valid signup returns 200 with a referral code and position', async () => {
-    const wl = await createWaitlistForTest(db, 'launch')
+    await createWaitlistForTest(db, 'launch')
     const res = await POST(req({ waitlistSlug: 'launch', email: 'a@example.com' }))
     expect(res.status).toBe(200)
     const json = await res.json()
@@ -50,13 +50,13 @@ describe('POST /api/signup (integration)', () => {
   })
 
   test('malformed email returns 400', async () => {
-    const wl = await createWaitlistForTest(db, 'launch2')
+    await createWaitlistForTest(db, 'launch2')
     const res = await POST(req({ waitlistSlug: 'launch2', email: 'nope' }))
     expect(res.status).toBe(400)
   })
 
   test('disposable email returns 422', async () => {
-    const wl = await createWaitlistForTest(db, 'launch3')
+    await createWaitlistForTest(db, 'launch3')
     const res = await POST(req({ waitlistSlug: 'launch3', email: 'x@mailinator.com' }))
     expect(res.status).toBe(422)
   })
