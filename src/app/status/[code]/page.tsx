@@ -4,9 +4,11 @@ import { createServiceClient } from '@/lib/db/client'
 import { getWaitlistBySlug } from '@/lib/db/waitlists'
 import { getSignupByCode } from '@/lib/db/signups'
 import { getSignupStatus } from '@/lib/status/status'
-import { getWaitlistConfig } from '@/lib/config'
+import { getThemeConfig, getWaitlistConfig } from '@/lib/config'
 import { isValidReferralCode } from '@/lib/referral/code'
 import { buildShareLinks } from '@/lib/referral/share'
+import { accentStyle } from '../../accent'
+import { PoweredBy } from '../../PoweredBy'
 import { CopyButton } from './CopyButton'
 import styles from './page.module.css'
 
@@ -34,14 +36,17 @@ export default async function StatusPage({ params, searchParams }: Props) {
   const signup = await getSignupByCode(db, waitlist.id, code)
   if (!signup) notFound()
 
+  const theme = getThemeConfig()
+
   // Anyone holding the referral link can open this page — render no email address.
   if (!signup.verified) {
     return (
-      <main className={styles.main}>
+      <main className={styles.main} style={accentStyle(theme)}>
         <h1 className={styles.pendingTitle}>Almost there</h1>
         <p className={styles.pendingText}>
           Check your inbox and click the confirmation link to lock in your spot on {waitlist.name}.
         </p>
+        <PoweredBy enabled={waitlist.powered_by} />
       </main>
     )
   }
@@ -52,7 +57,7 @@ export default async function StatusPage({ params, searchParams }: Props) {
   const { unlocked, next, toNext } = status.rewards
 
   return (
-    <main className={styles.main}>
+    <main className={styles.main} style={accentStyle(theme)}>
       {welcome && <p className={styles.welcome}>You’re in — your spot is confirmed.</p>}
 
       <p className={styles.positionLabel}>Your position on {waitlist.name}</p>
@@ -95,6 +100,7 @@ export default async function StatusPage({ params, searchParams }: Props) {
           </ul>
         </section>
       )}
+      <PoweredBy enabled={waitlist.powered_by} />
     </main>
   )
 }
