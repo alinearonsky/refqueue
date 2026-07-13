@@ -1,6 +1,6 @@
 import { test, expect, describe, beforeEach } from 'vitest'
 import { createServiceClient } from './client'
-import { createWaitlistForTest, createSignup, verifySignup, countConfirmedReferrals } from './signups'
+import { createWaitlistForTest, createSignup, verifySignup, countConfirmedReferrals, listAllSignups } from './signups'
 
 const db = createServiceClient()
 
@@ -69,5 +69,22 @@ describe('signups repository (integration)', () => {
     expect(again!.signup.verified_at).toBe(first!.signup.verified_at) // no re-stamp
 
     expect(await verifySignup(db, 'not-a-real-token-not-a-real-token')).toBeNull()
+  })
+})
+
+describe('listAllSignups', () => {
+  test('returns every signup for the waitlist (verified and not), oldest first', async () => {
+    const wl = await createWaitlistForTest(db, 'w-listall')
+    const first = await createSignup(db, { waitlistId: wl.id, email: 'all-1@example.com' })
+    const second = await createSignup(db, { waitlistId: wl.id, email: 'all-2@example.com' })
+    await verifySignup(db, second.verify_token!)
+
+    const rows = await listAllSignups(db, wl.id)
+
+    expect(rows.map((r) => r.email)).toEqual(['all-1@example.com', 'all-2@example.com'])
+    expect(rows[0].verified).toBe(false)
+    expect(rows[1].verified).toBe(true)
+    expect(rows[0].id).toBe(first.id)
+    expect(rows[1].referral_code).toBe(second.referral_code)
   })
 })

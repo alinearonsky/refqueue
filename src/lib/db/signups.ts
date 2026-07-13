@@ -167,3 +167,19 @@ export async function listVerifiedSignups(db: SupabaseClient, waitlistId: string
   if (error) throw error
   return (data ?? []) as VerifiedSignupRow[]
 }
+
+/**
+ * Every signup for the waitlist, oldest first — the dashboard's single query.
+ * All metrics (positions, referral counts, top referrers, day buckets, CSV)
+ * derive from this one result in pure code; never add per-row queries here.
+ */
+export async function listAllSignups(db: SupabaseClient, waitlistId: string): Promise<SignupRecord[]> {
+  const { data, error } = await db
+    .from('signups')
+    .select('*')
+    .eq('waitlist_id', waitlistId)
+    .order('created_at', { ascending: true })
+    .order('id', { ascending: true })
+  if (error) throw error
+  return (data ?? []) as SignupRecord[]
+}
