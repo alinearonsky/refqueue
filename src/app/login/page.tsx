@@ -43,7 +43,11 @@ export default async function LoginPage({
         </p>
       )}
 
-      {error && <p className={styles.error}>Invalid email or password.</p>}
+      {error && (
+        <p role="alert" className={styles.error}>
+          Invalid email or password.
+        </p>
+      )}
 
       <form className={styles.form} action="/api/auth/login" method="post">
         <label className={styles.label} htmlFor="email">

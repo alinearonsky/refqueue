@@ -50,12 +50,14 @@
   border-radius: 0.5rem;
   padding: 0.6rem 0.75rem;
   font-size: 1rem;
+  background: var(--background);
+  color: var(--foreground);
 }
 
 .button {
   margin-top: 1.25rem;
-  background: #18181b;
-  color: #fff;
+  background: var(--foreground);
+  color: var(--background);
   border: none;
   border-radius: 0.5rem;
   padding: 0.7rem 1rem;
@@ -67,4 +69,22 @@
 .button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+@media (prefers-color-scheme: dark) {
+  .notice {
+    background: #3a2f00;
+    border-color: #665500;
+    color: #ffe69c;
+  }
+
+  .error {
+    background: #4a1212;
+    border-color: #7f1d1d;
+    color: #fecaca;
+  }
+
+  .input {
+    border-color: #444;
+  }
 }

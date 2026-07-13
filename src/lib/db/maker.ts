@@ -7,6 +7,12 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 // triggers a full sync, keeping env as the source of truth.
 let lastSyncedCreds: string | null = null
 
+// In-flight sync, keyed by email:password. /login is publicly reachable, so a
+// burst of anonymous hits on a cold process (memo empty) would otherwise fire
+// one listUsers/createUser/updateUserById admin round trip per request —
+// concurrent callers with the same key await the sync already running instead.
+let inFlightSync: { key: string; promise: Promise<void> } | null = null
+
 /**
  * Idempotent provisioning of the single maker account from env credentials
  * (mirrors ensureWaitlist). Called on /login render. The password is synced
@@ -22,6 +28,23 @@ export async function ensureMakerAccount(
   const memoKey = `${email}:${creds.password}`
   if (lastSyncedCreds === memoKey) return
 
+  if (inFlightSync?.key === memoKey) return inFlightSync.promise
+
+  const promise = syncMakerAccount(db, email, creds.password, memoKey)
+  inFlightSync = { key: memoKey, promise }
+  try {
+    await promise
+  } finally {
+    inFlightSync = null
+  }
+}
+
+async function syncMakerAccount(
+  db: SupabaseClient,
+  email: string,
+  password: string,
+  memoKey: string,
+): Promise<void> {
   // Only page 1 is read — fine for a single-maker instance, but this silently
   // stops finding the account if the project ever exceeds 1000 auth users.
   const { data, error } = await db.auth.admin.listUsers({ page: 1, perPage: 1000 })
@@ -31,7 +54,7 @@ export async function ensureMakerAccount(
   if (!existing) {
     const { error: createError } = await db.auth.admin.createUser({
       email,
-      password: creds.password,
+      password,
       email_confirm: true,
     })
     // email_exists = created concurrently; password syncs on the next render.
@@ -41,7 +64,7 @@ export async function ensureMakerAccount(
   }
 
   const { error: updateError } = await db.auth.admin.updateUserById(existing.id, {
-    password: creds.password,
+    password,
   })
   if (updateError) throw updateError
   lastSyncedCreds = memoKey
