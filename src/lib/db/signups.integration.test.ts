@@ -73,6 +73,8 @@ describe('signups repository (integration)', () => {
 })
 
 describe('listAllSignups', () => {
+  beforeEach(reset)
+
   test('returns every signup for the waitlist (verified and not), oldest first', async () => {
     const wl = await createWaitlistForTest(db, 'w-listall')
     const first = await createSignup(db, { waitlistId: wl.id, email: 'all-1@example.com' })
