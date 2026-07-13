@@ -51,6 +51,7 @@ const DAY_MS = 86_400_000
 
 export function buildDashboardData(rows: DashboardSignupRow[], now: Date): DashboardData {
   const verified = rows.filter((r) => r.verified && r.verified_at !== null)
+  const verifiedIds = new Set(verified.map((r) => r.id))
 
   // Confirmed = the referred signup itself verified (the anti-gaming spine).
   const tally = tallyConfirmedReferrals(verified)
@@ -74,8 +75,10 @@ export function buildDashboardData(rows: DashboardSignupRow[], now: Date): Dashb
 
   const entries = [
     ...verified.map(toEntry).sort((a, b) => (a.position as number) - (b.position as number)),
+    // Pending = complement of verified (not `!r.verified`), so a malformed row
+    // (verified but verified_at null) still appears rather than silently vanishing.
     ...rows
-      .filter((r) => !r.verified)
+      .filter((r) => !verifiedIds.has(r.id))
       .sort((a, b) => a.created_at.localeCompare(b.created_at) || a.id.localeCompare(b.id))
       .map(toEntry),
   ]
@@ -95,7 +98,9 @@ export function buildDashboardData(rows: DashboardSignupRow[], now: Date): Dashb
   }
   const bucketByDay = new Map(signupsPerDay.map((b) => [b.day, b]))
   for (const r of rows) {
-    const bucket = bucketByDay.get(r.created_at.slice(0, 10))
+    // Normalize through Date: a self-hosted Postgres with a non-UTC timezone
+    // serializes created_at with an offset, so a raw slice would bucket by local day.
+    const bucket = bucketByDay.get(new Date(r.created_at).toISOString().slice(0, 10))
     if (bucket) bucket.count += 1
   }
 
