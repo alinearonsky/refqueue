@@ -35,7 +35,8 @@ export async function ensureMakerAccount(
   try {
     await promise
   } finally {
-    inFlightSync = null
+    // Only clear our own generation — a different-key sync may have replaced it.
+    if (inFlightSync?.promise === promise) inFlightSync = null
   }
 }
 
