@@ -1,6 +1,7 @@
 import { test, expect, describe } from 'vitest'
 import { computePositions, type SignupRow } from './position'
 import { resolveRewards, type RewardTier } from './position'
+import { tallyConfirmedReferrals } from './position'
 
 function s(id: string, referrals: number, verifiedAtIso: string): SignupRow {
   return { id, confirmedReferrals: referrals, verifiedAt: new Date(verifiedAtIso) }
@@ -71,5 +72,25 @@ describe('resolveRewards', () => {
     const r = resolveRewards(4, [{ referrals: 10, label: 'B' }, { referrals: 3, label: 'A' }])
     expect(r.unlocked.map(t => t.label)).toEqual(['A'])
     expect(r.next?.label).toBe('B')
+  })
+})
+
+describe('tallyConfirmedReferrals', () => {
+  test('counts verified rows per referrer id', () => {
+    const rows = [
+      { id: 'a', referred_by: null },
+      { id: 'b', referred_by: 'a' },
+      { id: 'c', referred_by: 'a' },
+      { id: 'd', referred_by: 'b' },
+    ]
+    const tally = tallyConfirmedReferrals(rows)
+    expect(tally.get('a')).toBe(2)
+    expect(tally.get('b')).toBe(1)
+    expect(tally.get('c')).toBeUndefined()
+    expect(tally.get('d')).toBeUndefined()
+  })
+
+  test('empty input yields an empty tally', () => {
+    expect(tallyConfirmedReferrals([]).size).toBe(0)
   })
 })

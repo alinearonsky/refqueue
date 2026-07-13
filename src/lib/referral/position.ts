@@ -44,3 +44,22 @@ export function resolveRewards(confirmedReferrals: number, tiers: RewardTier[]):
     toNext: next ? next.referrals - confirmedReferrals : 0,
   }
 }
+
+export interface ReferredRow {
+  id: string
+  referred_by: string | null
+}
+
+/**
+ * Derives every signup's confirmed-referral count from an already-fetched list of
+ * *verified* signups: a signup's count is the number of verified rows whose
+ * referred_by points at it. One pass over one query result — replaces the
+ * one-count-query-per-signup pattern (Plan 1 hardening item 4).
+ */
+export function tallyConfirmedReferrals(rows: ReferredRow[]): Map<string, number> {
+  const tally = new Map<string, number>()
+  for (const row of rows) {
+    if (row.referred_by) tally.set(row.referred_by, (tally.get(row.referred_by) ?? 0) + 1)
+  }
+  return tally
+}

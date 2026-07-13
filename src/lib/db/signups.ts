@@ -130,13 +130,14 @@ export async function countConfirmedReferrals(db: SupabaseClient, signupId: stri
 export interface VerifiedSignupRow {
   id: string
   verified_at: string | null
+  referred_by: string | null
 }
 
-/** Verified signups on a waitlist, in the shape the position engine needs. */
+/** Verified signups on a waitlist, in the shape the position engine + tally need. */
 export async function listVerifiedSignups(db: SupabaseClient, waitlistId: string): Promise<VerifiedSignupRow[]> {
   const { data, error } = await db
     .from('signups')
-    .select('id, verified_at')
+    .select('id, verified_at, referred_by')
     .eq('waitlist_id', waitlistId)
     .eq('verified', true)
   if (error) throw error
