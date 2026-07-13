@@ -1,5 +1,5 @@
 import type { EmailSender } from './types'
-import { FakeEmailSender } from './fake'
+import { LoggingEmailSender } from './logging'
 import { makeResendSender } from './resend'
 import { makeSmtpSender } from './smtp'
 
@@ -7,7 +7,7 @@ import { makeSmtpSender } from './smtp'
  * Selects the email provider from environment:
  *   RESEND_API_KEY  -> Resend (default provider)
  *   SMTP_HOST       -> SMTP fallback (bring-your-own server)
- *   neither         -> FakeEmailSender (local dev / tests; records, never sends)
+ *   neither         -> LoggingEmailSender (local dev; records + logs, never sends)
  * EMAIL_FROM is required for any real provider.
  */
 export function createEmailSender(env: NodeJS.ProcessEnv = process.env): EmailSender {
@@ -30,5 +30,5 @@ export function createEmailSender(env: NodeJS.ProcessEnv = process.env): EmailSe
     })
   }
 
-  return new FakeEmailSender()
+  return new LoggingEmailSender()
 }
