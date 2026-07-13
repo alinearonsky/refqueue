@@ -94,7 +94,7 @@ export function getThemeConfig(): ThemeConfig {
 
   const logo = process.env.THEME_LOGO_URL
   if (logo) {
-    if (/^https?:\/\//.test(logo)) theme.logoUrl = logo
+    if (/^https?:\/\//i.test(logo)) theme.logoUrl = logo
     else console.warn('THEME_LOGO_URL must be an http(s) URL — ignoring it.')
   }
 

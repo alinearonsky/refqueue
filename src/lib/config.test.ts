@@ -126,5 +126,8 @@ describe('getThemeConfig', () => {
 
     process.env.THEME_LOGO_URL = 'javascript:alert(1)'
     expect(getThemeConfig().logoUrl).toBeUndefined()
+
+    process.env.THEME_LOGO_URL = 'HTTPS://example.com/logo.png'
+    expect(getThemeConfig().logoUrl).toBe('HTTPS://example.com/logo.png')
   })
 })
