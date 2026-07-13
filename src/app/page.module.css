@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-  padding: 24px;
+  padding: 24px 24px 64px; /* bottom reserve for the fixed powered-by credit */
   font-family: var(--font-geist-sans), system-ui, sans-serif;
   text-align: center;
 }
