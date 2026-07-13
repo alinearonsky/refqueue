@@ -4,7 +4,10 @@ import { getSupabaseAnonKey } from '@/lib/config'
 
 /**
  * Guards the maker area and refreshes auth tokens (the one place cookie
- * writes are always allowed). Everything else stays public.
+ * writes are always allowed). /login is matched too — not to guard it, but so
+ * token refresh happens here instead of in a server component (where refreshed
+ * cookies can't be written and a rotated refresh token would be lost).
+ * Everything else stays public.
  */
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({ request })
@@ -27,6 +30,12 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
+  // /login is public — it's matched only so getUser() above refreshes tokens
+  // here, where cookie writes are allowed. The page handles auth'd users itself.
+  if (request.nextUrl.pathname === '/login') {
+    return response
+  }
+
   if (!user) {
     const loginUrl = request.nextUrl.clone()
     loginUrl.pathname = '/login'
@@ -38,5 +47,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/api/dashboard/:path*'],
+  matcher: ['/dashboard/:path*', '/api/dashboard/:path*', '/login'],
 }
