@@ -6,43 +6,44 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 28px;
-  padding: 72px 24px 96px; /* bottom reserve for the fixed powered-by credit */
+  gap: 30px;
+  padding: 88px 24px 96px; /* bottom reserve for the fixed powered-by credit */
   text-align: center;
-  overflow: hidden;
+  overflow-x: hidden;
+}
+
+/* Golden-hour wash across the paper — same light as the landing. */
+.main::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(90% 55% at 50% 6%, var(--ember) 0%, transparent 55%),
+    radial-gradient(80% 50% at 88% 0%, var(--ember-faint) 0%, transparent 50%);
 }
 
 .welcome {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   background: var(--status-success-bg);
   color: var(--status-success-fg);
-  border: 1px solid color-mix(in srgb, var(--status-success-fg) 30%, transparent);
-  padding: 9px 16px;
+  border: 1px solid color-mix(in srgb, var(--status-success-fg) 28%, transparent);
+  padding: 8px 16px;
   border-radius: 999px;
   font-size: 0.9rem;
   font-weight: 500;
 }
 
-/* THE signature moment — the position number, lit from behind by an accent glow. */
+/* THE signature moment — the position number as an oversized serif folio. */
 .hero {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-}
-
-/* Radial accent glow anchored behind the number. Decorative, GPU-cheap. */
-.hero::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(680px, 120vw);
-  height: 420px;
-  background: radial-gradient(50% 50% at 50% 50%, var(--accent-glow) 0%, transparent 70%);
-  z-index: -1;
-  pointer-events: none;
+  gap: 8px;
 }
 
 .overline {
@@ -50,28 +51,30 @@
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--text-secondary);
+  color: var(--ink-secondary);
 }
 
 .position {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-variant-numeric: tabular-nums;
-  font-size: clamp(4rem, 16vw, 9rem);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  color: var(--text-primary);
-  text-shadow: 0 0 40px var(--accent-glow);
+  font-family: var(--font-fraunces), Georgia, 'Times New Roman', serif;
+  font-size: clamp(5rem, 18vw, 11rem);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  color: var(--ink);
 }
 
 .hash {
-  color: var(--accent);
-  margin-right: 0.02em;
+  font-size: 0.5em;
+  font-style: italic;
+  color: var(--ink-secondary);
+  margin-right: 0.04em;
+  vertical-align: 0.28em;
 }
 
 .referrals {
-  color: var(--text-secondary);
+  color: var(--ink-secondary);
   font-size: 0.98rem;
+  margin-top: 4px;
 }
 
 /* Pending (unverified) state */
@@ -80,29 +83,30 @@
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  max-width: 44ch;
+  max-width: 46ch;
 }
 
 .pendingTitle {
-  font-size: clamp(1.8rem, 5vw, 2.4rem);
-  font-weight: 700;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  font-weight: 500;
   letter-spacing: -0.02em;
-  color: var(--text-primary);
+  color: var(--ink);
 }
 
 .pendingText {
-  color: var(--text-secondary);
+  color: var(--ink-secondary);
   line-height: 1.6;
 }
 
 /* Cards */
 .card {
   width: 100%;
-  max-width: 520px;
-  border: 1px solid var(--border-subtle);
-  border-radius: 16px;
-  padding: 24px;
-  background: linear-gradient(180deg, var(--surface-raised), var(--surface-base));
+  max-width: 540px;
+  border: 1px solid var(--hairline);
+  border-radius: 14px;
+  padding: 26px;
+  background: var(--paper-raised);
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -110,14 +114,15 @@
 }
 
 .card h2 {
-  font-size: 1.375rem;
-  font-weight: 600;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 1.75rem;
+  font-weight: 500;
   letter-spacing: -0.01em;
-  color: var(--text-primary);
+  color: var(--ink);
 }
 
 .card p {
-  color: var(--text-secondary);
+  color: var(--ink-secondary);
   font-size: 0.95rem;
   line-height: 1.55;
 }
@@ -133,12 +138,12 @@
 .link {
   flex: 1 1 240px;
   padding: 11px 14px;
-  background: var(--surface-elevated);
-  border: 1px solid var(--border-default);
-  border-radius: 10px;
+  background: var(--paper-sunken);
+  border: 1px solid var(--hairline);
+  border-radius: 9px;
   font-family: var(--font-geist-mono), ui-monospace, monospace;
   font-size: 0.85rem;
-  color: var(--text-primary);
+  color: var(--ink);
   overflow-wrap: anywhere;
 }
 
@@ -146,7 +151,7 @@
   flex: 0 0 auto;
   padding: 11px 18px;
   border: none;
-  border-radius: 10px;
+  border-radius: 9px;
   background: var(--accent);
   color: var(--accent-text);
   font-size: 0.9rem;
@@ -157,8 +162,8 @@
 }
 
 .linkRow button:hover {
-  box-shadow: 0 6px 24px var(--accent-glow);
-  filter: brightness(1.06);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--accent) 22%, transparent);
+  filter: brightness(1.08);
 }
 
 .shareRow {
@@ -171,7 +176,9 @@
 .shareRow a {
   font-size: 0.9rem;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: var(--ink-secondary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
   transition: color 120ms ease-out;
 }
 
@@ -193,9 +200,9 @@
   align-items: center;
   gap: 10px;
   padding: 10px 14px;
-  border-radius: 10px;
-  background: var(--accent-faint);
-  color: var(--text-primary);
+  border-radius: 9px;
+  background: var(--accent-soft);
+  color: var(--ink);
   font-size: 0.95rem;
   font-weight: 500;
 }
@@ -207,19 +214,19 @@
 
 .nextTier {
   padding: 10px 14px;
-  color: var(--text-secondary);
+  color: var(--ink-secondary);
   font-size: 0.95rem;
 }
 
 .nextTier strong {
-  color: var(--text-primary);
+  color: var(--ink);
   font-weight: 600;
 }
 
 @media (max-width: 560px) {
   .main {
-    gap: 22px;
-    padding: 56px 20px 88px;
+    gap: 24px;
+    padding: 64px 20px 88px;
   }
   .card {
     padding: 20px;

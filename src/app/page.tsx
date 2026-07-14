@@ -52,23 +52,25 @@ export default async function LandingPage({ searchParams }: Props) {
         <SignupForm waitlistSlug={waitlist.slug} referralCode={ref} ctaLabel={theme.ctaLabel} />
       </div>
 
-      <ol className={styles.steps} aria-label="How it works">
-        <li className={styles.step}>
-          <span className={styles.stepNum}>01</span>
-          <span className={styles.stepTitle}>Join</span>
-          <span className={styles.stepText}>Drop your email and claim your spot in line.</span>
-        </li>
-        <li className={styles.step}>
-          <span className={styles.stepNum}>02</span>
-          <span className={styles.stepTitle}>Share your link</span>
-          <span className={styles.stepText}>Every friend who joins through it is a spot closer to the front.</span>
-        </li>
-        <li className={styles.step}>
-          <span className={styles.stepNum}>03</span>
-          <span className={styles.stepTitle}>Move up</span>
-          <span className={styles.stepText}>Confirmed referrals climb your number. Watch it drop.</span>
-        </li>
-      </ol>
+      <section className={`${styles.stepsBand} rq-onDark`} aria-label="How it works">
+        <ol className={styles.steps}>
+          <li className={styles.step}>
+            <span className={styles.stepNum}>01</span>
+            <span className={styles.stepTitle}>Join</span>
+            <span className={styles.stepText}>Drop your email and claim your spot in line.</span>
+          </li>
+          <li className={styles.step}>
+            <span className={styles.stepNum}>02</span>
+            <span className={styles.stepTitle}>Share your link</span>
+            <span className={styles.stepText}>Every friend who joins through it is a spot closer to the front.</span>
+          </li>
+          <li className={styles.step}>
+            <span className={styles.stepNum}>03</span>
+            <span className={styles.stepTitle}>Move up</span>
+            <span className={styles.stepText}>Confirmed referrals climb your number. Watch it drop.</span>
+          </li>
+        </ol>
+      </section>
 
       <PoweredBy enabled={waitlist.powered_by} />
     </main>

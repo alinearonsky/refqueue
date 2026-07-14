@@ -43,33 +43,46 @@ a {
 
 /*
  * Public-page surface (landing + status) — see DESIGN.md.
- * Always dark: this is the marketing/brand surface, so every deploy's screenshots
- * match the demo (the premium dev-tool convention — Linear/Vercel/Resend do the same).
- * Scoped to .rq-surface so the maker-internal dashboard/login are untouched.
- * `--accent` is a DEFAULT — a themed inline `--accent` on the same <main> wins,
- * and the glow/faint tokens re-tint from it automatically via color-mix.
+ * "New Genre": a cinematic editorial broadsheet on warm paper. Always LIGHT — this is
+ * the marketing/brand surface, so every deploy's screenshots match the demo. Scoped to
+ * .rq-surface so the maker-internal dashboard/login are untouched.
+ * `--accent` is a DEFAULT (warm near-black — the classic editorial black-on-paper). A
+ * themed inline `--accent` on the same <main> wins, and the soft tint re-derives via color-mix.
  */
 .rq-surface {
-  --surface-base: #08080b;
-  --surface-raised: #111116;
-  --surface-elevated: #17171d;
-  --text-primary: #f4f4f6;
-  --text-secondary: #a1a1ad;
-  --text-tertiary: #6b6b78;
-  --border-default: #26262e;
-  --border-subtle: #1b1b21;
-  --accent: #6d5efc;
-  --accent-text: #ffffff;
-  --accent-glow: color-mix(in srgb, var(--accent) 42%, transparent);
-  --accent-faint: color-mix(in srgb, var(--accent) 12%, transparent);
-  --status-success-bg: color-mix(in srgb, #3ddc97 16%, transparent);
-  --status-success-fg: #3ddc97;
-  --status-warning-bg: color-mix(in srgb, #f5b544 16%, transparent);
-  --status-warning-fg: #f5b544;
+  --paper: #fbfaf7;          /* warm paper canvas (page background) */
+  --paper-raised: #ffffff;   /* cards, input wells */
+  --paper-sunken: #f4f1ea;   /* subtle sunken bands */
+  --band-dark: #1e1310;      /* charred umber — the one dark contrast band */
+  --ink: #14100c;            /* warm near-black — primary text & headlines */
+  --ink-secondary: #63615c;  /* slate veil — subheads, captions */
+  --ink-tertiary: #9a978f;   /* ash mist — meta, credit */
+  --hairline: #e7e2d8;       /* warm hairline dividers/borders */
+  --hairline-strong: #d8d2c5;
+  --accent: #14100c;         /* DEFAULT accent = warm near-black (themeable) */
+  --accent-text: #fbfaf7;    /* paper-colored text on an accent fill */
+  --accent-soft: color-mix(in srgb, var(--accent) 7%, transparent);
+  /* golden-hour light — a warm wash across the paper, never a neon blob (replaces the old glow) */
+  --ember: rgba(255, 209, 128, 0.5);
+  --ember-faint: rgba(255, 221, 158, 0.24);
+  --status-success-fg: #3f6212;
+  --status-success-bg: color-mix(in srgb, #3f6212 12%, transparent);
+  --status-warning-fg: #92400e;
+  --status-warning-bg: color-mix(in srgb, #92400e 12%, transparent);
 
-  color-scheme: dark;
-  background-color: var(--surface-base);
-  color: var(--text-primary);
+  color-scheme: light;
+  background-color: var(--paper);
+  color: var(--ink);
+}
+
+/* On the charred-umber band, text/hairlines invert to paper tones. */
+.rq-surface .rq-onDark {
+  --ink: #f3ede2;
+  --ink-secondary: #b9b1a2;
+  --ink-tertiary: #8a8377;
+  --hairline: #3a2c25;
+  --hairline-strong: #4a382f;
+  color: var(--ink);
 }
 
 @media (prefers-reduced-motion: no-preference) {
