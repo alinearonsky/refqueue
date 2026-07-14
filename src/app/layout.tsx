@@ -36,9 +36,34 @@ const zillaSlab = Zilla_Slab({
   style: ["normal", "italic"],
 });
 
+const OG_DESCRIPTION =
+  "The waitlist that moves — refer friends to skip the line. The free, open-source, self-hosted alternative to GetWaitlist & Viral Loops.";
+
 export const metadata: Metadata = {
+  // Absolute-URL base for OG/Twitter image resolution — makers set APP_BASE_URL to their
+  // public URL; relative image paths below resolve against it.
+  metadataBase: new URL(process.env.APP_BASE_URL ?? "http://localhost:3000"),
   title: "RefQueue",
   description: "Open-source waitlist with referral — refer friends, move up the line.",
+  openGraph: {
+    type: "website",
+    title: "RefQueue — the waitlist that moves",
+    description: OG_DESCRIPTION,
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "RefQueue — the open-source waitlist that moves, with a vintage Admit One ticket",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "RefQueue — the waitlist that moves",
+    description: OG_DESCRIPTION,
+    images: ["/og.png"],
+  },
 };
 
 export default function RootLayout({
