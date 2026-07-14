@@ -81,6 +81,18 @@ npm test                    # unit
 npm run test:integration    # needs the local Supabase stack running
 ```
 
+To populate a demo instance with believable, already-confirmed signups (a live
+30-day curve, a top-referrers leaderboard, a real-looking queue position), point
+the script at your Supabase env and run:
+
+```bash
+npm run seed -- --dry-run                 # preview the generated data, write nothing
+npm run seed -- --env .env --count 250    # seed 250 verified signups
+```
+
+It writes directly with the service role, so it needs no email provider. By
+default it clears the waitlist's existing signups first; pass `--append` to keep them.
+
 ## Known limitations
 
 RefQueue v1 is deliberately small. Documented tradeoffs (tracked for v1.1):
