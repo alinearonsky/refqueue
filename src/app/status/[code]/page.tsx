@@ -83,7 +83,13 @@ export default async function StatusPage({ params, searchParams }: Props) {
           <Letterhead name={waitlist.name} />
           <hr className={`${styles.ruleTop} rq-rule rq-rule--thick`} />
 
-          {welcome && <p className={styles.welcome}>You’re in — your spot is confirmed.</p>}
+          <h1 className="rq-srOnly">
+            Your position on {waitlist.name}: No. {status.position}
+          </h1>
+
+          {welcome && (
+            <p className={`${styles.welcome} rq-bannerStamp`}>You’re in — your spot is confirmed.</p>
+          )}
 
           {/* THE stub — the live position printed as a ticket serial */}
           <div className={styles.ticket}>
@@ -93,7 +99,7 @@ export default async function StatusPage({ params, searchParams }: Props) {
               Admit one — in line
               <span className={styles.admitRule} aria-hidden="true" />
             </div>
-            <p className={styles.serial}>
+            <p className={`${styles.serial} rq-stamp`}>
               <span className={styles.serialNo}>No.</span>
               {status.position}
             </p>

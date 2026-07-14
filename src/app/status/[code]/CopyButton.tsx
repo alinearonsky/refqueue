@@ -17,7 +17,12 @@ export function CopyButton({ text }: { text: string }) {
   }
 
   return (
-    <button type="button" onClick={copy}>
+    <button
+      type="button"
+      onClick={copy}
+      className={copied ? 'copied' : undefined}
+      aria-live="polite"
+    >
       {copied ? 'Copied ✓' : 'Copy link'}
     </button>
   )

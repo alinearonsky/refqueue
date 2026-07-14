@@ -72,10 +72,13 @@ export default async function LandingPage({ searchParams }: Props) {
             <div className={styles.ticketwrap}>
               {/* eslint-disable-next-line @next/next/no-img-element -- decorative local asset; plain img keeps the transparent cutout crisp */}
               <img
-                className={styles.ticket}
+                className={`${styles.ticket} rq-ticketDrop`}
                 src="/ticket-admit-one.webp"
                 width={760}
                 height={1018}
+                fetchPriority="high"
+                loading="eager"
+                decoding="async"
                 alt="A vintage RefQueue Admit One theatre ticket, serial No 00247"
               />
             </div>

@@ -198,6 +198,7 @@
 
 .linkRow button {
   flex: 0 0 auto;
+  min-height: 44px; /* tap target parity with the input well */
   padding: 11px 18px;
   border: none;
   background: var(--accent);
@@ -208,35 +209,50 @@
   font-weight: 600;
   font-size: 0.8rem;
   cursor: pointer;
-  transition: filter 120ms ease-out;
+  transition: filter 120ms ease-out, transform 120ms ease-out;
 }
 
 .linkRow button:hover {
   filter: brightness(1.07);
 }
 
+/* Delight: a quick pop when the link lands on the clipboard. */
+.linkRow button:active {
+  transform: translateY(1px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .linkRow button:global(.copied) {
+    animation: rq-pop 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
 .shareRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 16px;
+  gap: 4px 18px;
+  margin-top: 6px;
 }
 
 .shareRow a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px; /* comfortable tap target (WCAG 2.5.8) */
   font-family: var(--font-oswald), system-ui, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--ink-soft);
-  border-bottom: 1px solid var(--line-strong);
-  padding-bottom: 2px;
-  transition: color 120ms ease-out, border-color 120ms ease-out;
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 4px;
+  transition: color 120ms ease-out, text-decoration-color 120ms ease-out;
 }
 
 .shareRow a:hover {
   color: var(--accent);
-  border-color: var(--accent);
+  text-decoration-color: var(--accent);
 }
 
 /* Reward tiers */
