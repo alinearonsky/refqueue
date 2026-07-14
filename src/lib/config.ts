@@ -121,7 +121,8 @@ export function collectProductionConfigErrors(env: NodeJS.ProcessEnv = process.e
   if (!env.SUPABASE_ANON_KEY) errors.push('SUPABASE_ANON_KEY is required (maker auth sessions).')
 
   const base = env.APP_BASE_URL
-  if (!base || /localhost|127\.0\.0\.1/.test(base)) {
+  // Anchored so a legit domain that merely contains "localhost" (e.g. localhost-tools.com) isn't rejected.
+  if (!base || /^https?:\/\/(localhost|127\.0\.0\.1)([:/]|$)/.test(base)) {
     errors.push('APP_BASE_URL must be set to your public URL (not localhost) — verify links use it.')
   }
 

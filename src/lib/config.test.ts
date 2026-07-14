@@ -176,6 +176,13 @@ describe('collectProductionConfigErrors', () => {
 
     env.APP_BASE_URL = 'http://localhost:3000'
     expect(collectProductionConfigErrors(env).some((e) => e.includes('APP_BASE_URL'))).toBe(true)
+
+    env.APP_BASE_URL = 'http://127.0.0.1:3000'
+    expect(collectProductionConfigErrors(env).some((e) => e.includes('APP_BASE_URL'))).toBe(true)
+
+    // A legit domain that merely contains "localhost" as a substring must NOT be rejected.
+    env.APP_BASE_URL = 'https://localhost-tools.com'
+    expect(collectProductionConfigErrors(env).some((e) => e.includes('APP_BASE_URL'))).toBe(false)
   })
 
   it('flags missing Supabase config', () => {
