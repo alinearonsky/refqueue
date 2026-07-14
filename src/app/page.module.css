@@ -13,24 +13,6 @@
   padding: 40px clamp(28px, 5vw, 64px) 34px;
 }
 
-/* Letterhead */
-.head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  font-size: 12px;
-  color: var(--ink-soft);
-}
-
-.headMid {
-  letter-spacing: 0.24em;
-}
-
-.ruleTop {
-  margin-top: 14px;
-}
-
 /* Hero — copy left, ticket stub right */
 .hero {
   display: grid;
@@ -65,22 +47,12 @@
   margin-bottom: 16px;
 }
 
-.kicker {
-  font-family: var(--font-oswald), system-ui, sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.22em;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--accent);
-  margin-bottom: 14px;
-}
-
 .title {
   font-family: var(--font-rye), Georgia, 'Times New Roman', serif;
   font-weight: 400;
-  font-size: clamp(38px, 6vw, 74px);
-  line-height: 1;
-  letter-spacing: 0.01em;
+  font-size: clamp(56px, 10vw, 118px);
+  line-height: 0.98;
+  letter-spacing: 0.02em;
   color: var(--ink);
   text-shadow: 1px 1px 0 rgba(90, 60, 25, 0.12);
   text-wrap: balance;
@@ -134,25 +106,6 @@
   transform: rotate(4.5deg);
 }
 
-.annot {
-  position: absolute;
-  left: 0;
-  top: 30%;
-  font-family: var(--font-oswald), system-ui, sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--accent);
-  transform: rotate(-6deg);
-}
-
-.arrow {
-  display: block;
-  font-size: 20px;
-  line-height: 0.8;
-}
-
 .ruleActs {
   margin-bottom: 20px;
 }
@@ -204,13 +157,6 @@
   .sheet {
     padding: 28px 20px 26px;
   }
-  .head {
-    justify-content: center;
-  }
-  .head span:first-child,
-  .head span:last-child {
-    display: none;
-  }
   .hero {
     grid-template-columns: 1fr;
     gap: 10px;
@@ -229,9 +175,6 @@
   }
   .boxoffice {
     max-width: 100%;
-  }
-  .annot {
-    display: none;
   }
   .acts {
     grid-template-columns: 1fr;

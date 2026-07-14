@@ -21,14 +21,14 @@ flows through the whole piece and still reads on aged paper (pick a saturated mi
 ## 1. Atmosphere & Identity
 
 RefQueue reads like a **printed variety-show programme**: an aged paper sheet, a double-ruled
-frame, a letterhead masthead, a hand-set letterpress headline, and a torn ticket stub. The drama
+frame, a hand-set letterpress headline, and a torn ticket stub. The drama
 is **material** — grain, vignette, ink-on-paper contrast, and one saturated red. Type carries the
 period: an aged display face (Rye) for the headline and serials, a condensed grotesque (Oswald)
 for uppercase utility lettering, and a slab serif (Zilla Slab) for programme body copy.
 
-**Signature:** the **numbered ticket**. On the landing it is a real scanned *Admit One* stub
-(serial No 00247) with a hand-drawn "☞ your number" pointer. On the status page it becomes
-**your live position printed as a serial** — `No. 41` set huge in Rye red inside a bordered stub.
+**Signature:** the **numbered ticket**. On the landing it is a real scanned *REFQUEUE Admit One*
+stub (serial No 00247) beside a huge `No. 247` headline. On the status page it becomes **your live
+position printed as a serial** — `No. 41` set huge in Rye red inside a bordered stub.
 
 ---
 
@@ -127,20 +127,19 @@ Base unit **4px**. The public page is a centered **sheet** floating on the board
   + warm vignette (`::after`) + drop shadow. Inside, a `.rq-frame` double border wraps the content.
 - **States:** static; entrance = fade + rise (`.rq-enter`), reduced-motion safe.
 
-### Letterhead
-- **Structure:** an Oswald-caps masthead. Landing: three-part (`★ Est. MMXXVI` · `The {name}
-  Variety Co.` · `Booth No. 247 ★`) with the side flourishes hidden ≤760px. Status: a single
-  centered `★ The {name} Variety Co. ★`. Followed by a thick double rule.
+### Letterhead (status only)
+- **Structure:** an Oswald-caps masthead — a single centered `★ The {name} Variety Co. ★`
+  followed by a thick double rule. The landing has **no** letterhead; it opens straight on the hero.
 
 ### Hero headline (landing)
-- **Structure:** red Oswald kicker ("The waitlist that moves"), then the Rye `<h1>` — default
-  **"You're No. 247 in line."** with `247` in `--accent` — then a Zilla Slab lede. `theme.headline`
-  / `theme.subhead` override the defaults.
+- **Structure:** the Rye `<h1>` alone — default **"No. 247"** with `247` in `--accent`, set large
+  (`clamp(56px, 10vw, 118px)`) — then a Zilla Slab lede. No kicker. `theme.headline` /
+  `theme.subhead` override the defaults.
 
 ### Ticket stub — landing
-- **Structure:** the real scanned *Admit One* cutout (`/ticket-admit-one.webp`, transparent PNG
-  keyed from a generated ticket, ~92KB), rotated 4.5°, with a rotated Oswald "☞ your number"
-  pointer. Decorative; `aria-hidden` pointer; descriptive `alt` on the image.
+- **Structure:** the real scanned *REFQUEUE Admit One* cutout (`/ticket-admit-one.webp`,
+  transparent WebP keyed from a generated ticket, ~85KB), rotated 4.5°. Decorative; descriptive
+  `alt` on the image.
 
 ### Box office (SignupForm)
 - **Structure:** an Oswald-caps label ("Present your address at the window"), a hard-ruled field
@@ -194,7 +193,7 @@ Base unit **4px**. The public page is a centered **sheet** floating on the board
   legible. Digit alignment handled in the animation mini-plan.
 - **Light-only** — the public pages are always the aged-paper surface (the designed screenshot/video
   surface). No dark variant; grain + vignette + red supply the drama.
-- **Landing ticket is a fixed demo serial (No 00247)** — a scanned image, so it does not reflect a
-  visitor's real number (they have none yet). The *status* stub is the live, dynamic serial.
+- **Landing ticket is a fixed demo serial (REFQUEUE · No 00247)** — a scanned image, so it does not
+  reflect a visitor's real number (they have none yet). The *status* stub is the live, dynamic serial.
 - **Full Lighthouse-100 audit + react-scan tooling** — not run this pass (SSR, near-zero client JS,
   one ~92KB image, fast by architecture). Revisit if needed.

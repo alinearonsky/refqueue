@@ -36,14 +36,6 @@ export default async function LandingPage({ searchParams }: Props) {
     <main className={`rq-surface ${styles.main}`} style={accentStyle(theme)}>
       <div className={`${styles.sheet} rq-sheet rq-enter`}>
         <div className="rq-frame">
-          {/* Letterhead */}
-          <div className={`${styles.head} rq-caps`}>
-            <span>★ Est. MMXXVI</span>
-            <span className={styles.headMid}>The {waitlist.name} Variety Co.</span>
-            <span>Booth No. 247 ★</span>
-          </div>
-          <hr className={`${styles.ruleTop} rq-rule rq-rule--thick`} />
-
           {/* Hero — copy on the left, the ticket stub on the right */}
           <div className={styles.hero}>
             <div className={styles.copy}>
@@ -56,12 +48,11 @@ export default async function LandingPage({ searchParams }: Props) {
                 // eslint-disable-next-line @next/next/no-img-element -- arbitrary maker-hosted URL; next/image needs known hosts/dimensions
                 <img src={theme.logoUrl} alt={`${waitlist.name} logo`} className={styles.logo} />
               )}
-              <span className={styles.kicker}>The waitlist that moves</span>
               {theme.headline ? (
                 <h1 className={styles.title}>{theme.headline}</h1>
               ) : (
                 <h1 className={styles.title}>
-                  You’re No. <span className={styles.em}>247</span> in line.
+                  No. <span className={styles.em}>247</span>
                 </h1>
               )}
               <p className={styles.lede}>
@@ -85,11 +76,8 @@ export default async function LandingPage({ searchParams }: Props) {
                 src="/ticket-admit-one.webp"
                 width={760}
                 height={1018}
-                alt="A vintage Admit One theatre ticket, serial No 00247"
+                alt="A vintage RefQueue Admit One theatre ticket, serial No 00247"
               />
-              <div className={styles.annot} aria-hidden="true">
-                <span className={styles.arrow}>☞</span>your number
-              </div>
             </div>
           </div>
 
