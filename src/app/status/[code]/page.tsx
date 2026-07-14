@@ -41,11 +41,14 @@ export default async function StatusPage({ params, searchParams }: Props) {
   // Anyone holding the referral link can open this page — render no email address.
   if (!signup.verified) {
     return (
-      <main className={styles.main} style={accentStyle(theme)}>
-        <h1 className={styles.pendingTitle}>Almost there</h1>
-        <p className={styles.pendingText}>
-          Check your inbox and click the confirmation link to lock in your spot on {waitlist.name}.
-        </p>
+      <main className={`rq-surface ${styles.main}`} style={accentStyle(theme)}>
+        <div className={`${styles.pending} rq-enter`}>
+          <span className={styles.overline}>One step left</span>
+          <h1 className={styles.pendingTitle}>Almost there</h1>
+          <p className={styles.pendingText}>
+            Check your inbox and click the confirmation link to lock in your spot on {waitlist.name}.
+          </p>
+        </div>
         <PoweredBy enabled={waitlist.powered_by} />
       </main>
     )
@@ -57,16 +60,21 @@ export default async function StatusPage({ params, searchParams }: Props) {
   const { unlocked, next, toNext } = status.rewards
 
   return (
-    <main className={styles.main} style={accentStyle(theme)}>
+    <main className={`rq-surface ${styles.main}`} style={accentStyle(theme)}>
       {welcome && <p className={styles.welcome}>You’re in — your spot is confirmed.</p>}
 
-      <p className={styles.positionLabel}>Your position on {waitlist.name}</p>
-      <p className={styles.position}>#{status.position}</p>
-      <p className={styles.referrals}>
-        {status.confirmedReferrals === 1
-          ? '1 friend has joined through your link'
-          : `${status.confirmedReferrals} friends have joined through your link`}
-      </p>
+      <div className={`${styles.hero} rq-enter`}>
+        <span className={styles.overline}>Your position on {waitlist.name}</span>
+        <p className={styles.position}>
+          <span className={styles.hash}>#</span>
+          {status.position}
+        </p>
+        <p className={styles.referrals}>
+          {status.confirmedReferrals === 1
+            ? '1 friend has joined through your link'
+            : `${status.confirmedReferrals} friends have joined through your link`}
+        </p>
+      </div>
 
       <section className={styles.card}>
         <h2>Move up the line</h2>
@@ -89,11 +97,27 @@ export default async function StatusPage({ params, searchParams }: Props) {
           <ul className={styles.tiers}>
             {unlocked.map(t => (
               <li key={`${t.referrals}-${t.label}`} className={styles.unlocked}>
-                ✓ {t.label}
+                <svg
+                  className={styles.check}
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M13.5 4.5L6.5 11.5L2.5 7.5"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                <span>{t.label}</span>
               </li>
             ))}
             {next && (
-              <li>
+              <li className={styles.nextTier}>
                 Refer {toNext} more to unlock <strong>{next.label}</strong>
               </li>
             )}

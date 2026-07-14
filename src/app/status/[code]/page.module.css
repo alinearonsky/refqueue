@@ -1,65 +1,125 @@
 .main {
+  position: relative;
+  isolation: isolate;
   min-height: 100svh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 14px;
-  padding: 24px 24px 64px; /* bottom reserve for the fixed powered-by credit */
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  gap: 28px;
+  padding: 72px 24px 96px; /* bottom reserve for the fixed powered-by credit */
   text-align: center;
+  overflow: hidden;
 }
 
 .welcome {
-  background: #d1e7dd;
-  color: #0f5132;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-size: 0.95rem;
+  background: var(--status-success-bg);
+  color: var(--status-success-fg);
+  border: 1px solid color-mix(in srgb, var(--status-success-fg) 30%, transparent);
+  padding: 9px 16px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
-.positionLabel,
-.referrals {
-  color: #666;
-  font-size: 0.95rem;
+/* THE signature moment — the position number, lit from behind by an accent glow. */
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Radial accent glow anchored behind the number. Decorative, GPU-cheap. */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(680px, 120vw);
+  height: 420px;
+  background: radial-gradient(50% 50% at 50% 50%, var(--accent-glow) 0%, transparent 70%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.overline {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
 }
 
 .position {
-  font-size: 3.5rem;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(4rem, 16vw, 9rem);
   font-weight: 700;
-  letter-spacing: -0.03em;
   line-height: 1;
-  color: var(--accent, inherit);
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+  text-shadow: 0 0 40px var(--accent-glow);
 }
 
-.pendingTitle {
-  font-size: 1.8rem;
+.hash {
+  color: var(--accent);
+  margin-right: 0.02em;
 }
 
-.pendingText {
-  color: #666;
+.referrals {
+  color: var(--text-secondary);
+  font-size: 0.98rem;
+}
+
+/* Pending (unverified) state */
+.pending {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
   max-width: 44ch;
 }
 
+.pendingTitle {
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.pendingText {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Cards */
 .card {
   width: 100%;
-  max-width: 480px;
-  border: 1px solid #e2e2e2;
-  border-radius: 12px;
-  padding: 20px;
+  max-width: 520px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 24px;
+  background: linear-gradient(180deg, var(--surface-raised), var(--surface-base));
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   text-align: left;
 }
 
 .card h2 {
-  font-size: 1.05rem;
+  font-size: 1.375rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
 }
 
 .card p {
-  color: #666;
-  font-size: 0.92rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.55;
 }
 
 .linkRow {
@@ -67,65 +127,101 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
+  margin-top: 4px;
 }
 
 .link {
   flex: 1 1 240px;
-  padding: 8px 10px;
-  background: rgba(127, 127, 127, 0.12);
-  border-radius: 6px;
+  padding: 11px 14px;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: 10px;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
   font-size: 0.85rem;
+  color: var(--text-primary);
   overflow-wrap: anywhere;
 }
 
 .linkRow button {
-  padding: 8px 12px;
+  flex: 0 0 auto;
+  padding: 11px 18px;
   border: none;
-  border-radius: 6px;
-  background: var(--foreground);
-  color: var(--background);
-  font-size: 0.85rem;
+  border-radius: 10px;
+  background: var(--accent);
+  color: var(--accent-text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
+  transition: box-shadow 140ms ease-out, filter 120ms ease-out;
+}
+
+.linkRow button:hover {
+  box-shadow: 0 6px 24px var(--accent-glow);
+  filter: brightness(1.06);
 }
 
 .shareRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 18px;
+  margin-top: 2px;
 }
 
 .shareRow a {
   font-size: 0.9rem;
-  color: inherit;
-  text-decoration: underline;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: color 120ms ease-out;
 }
 
+.shareRow a:hover {
+  color: var(--accent);
+}
+
+/* Reward tiers */
 .tiers {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
+  margin-top: 2px;
 }
 
 .unlocked {
-  color: #0f5132;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--accent-faint);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-weight: 500;
 }
 
-@media (prefers-color-scheme: dark) {
-  .welcome {
-    background: #0f3d2e;
-    color: #a3e9c9;
-  }
-  .positionLabel,
-  .referrals,
-  .pendingText,
-  .card p {
-    color: #999;
+.check {
+  flex: 0 0 auto;
+  color: var(--status-success-fg);
+}
+
+.nextTier {
+  padding: 10px 14px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.nextTier strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+@media (max-width: 560px) {
+  .main {
+    gap: 22px;
+    padding: 56px 20px 88px;
   }
   .card {
-    border-color: #333;
-  }
-  .unlocked {
-    color: #7bd8a8;
+    padding: 20px;
   }
 }
