@@ -24,7 +24,7 @@ export default async function LoginPage({
 
   const creds = getMakerCredentials()
   if (creds) {
-    // Best-effort provisioning — a transient failure must not take the page down.
+    // Best-effort provisioning, a transient failure must not take the page down.
     try {
       await ensureMakerAccount(createServiceClient(), creds)
     } catch (err) {

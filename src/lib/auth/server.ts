@@ -4,7 +4,7 @@ import { cookies } from 'next/headers'
 import { getSupabaseAnonKey, sessionCookieOptions } from '@/lib/config'
 
 /**
- * Anon-key client bound to the request's cookies — Supabase Auth sessions ONLY.
+ * Anon-key client bound to the request's cookies, Supabase Auth sessions ONLY.
  * All table access stays on createServiceClient (RLS deny-all blocks this client
  * from data by design). Server components can't write cookies, hence the
  * try/catch in setAll; middleware (src/middleware.ts) owns token refresh.
@@ -21,7 +21,7 @@ export async function createAuthClient(): Promise<SupabaseClient> {
         try {
           cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options))
         } catch {
-          // Called from a server component — cookie writes are forbidden there.
+          // Called from a server component, cookie writes are forbidden there.
         }
       },
     },

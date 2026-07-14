@@ -20,7 +20,7 @@ describe('getSignupStatus (integration)', () => {
     ])
     const waitlist = (await getWaitlistById(db, wl.id))!
 
-    // "other" verifies FIRST — wins the time tiebreak until referrals say otherwise
+    // "other" verifies FIRST, wins the time tiebreak until referrals say otherwise
     const other = await createSignup(db, { waitlistId: wl.id, email: 'other@example.com' })
     await verifySignup(db, other.verify_token!)
     const referrer = await createSignup(db, { waitlistId: wl.id, email: 'ref@example.com' })

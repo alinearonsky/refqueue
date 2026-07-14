@@ -99,7 +99,7 @@ export async function createSignup(
         .maybeSingle()
       if (racedError) throw racedError
       if (raced) return raced as SignupRecord
-      continue // code collision — regenerate and retry
+      continue // code collision, regenerate and retry
     }
     throw error
   }
@@ -114,10 +114,10 @@ export interface VerifyResult {
 /**
  * Idempotent: the token is KEPT after verification so email-scanner prefetch
  * (e.g. Outlook Safe Links) consuming the link first doesn't lock the real user
- * out — prefetch and real click both land on the same status redirect. A scanner
+ * out, prefetch and real click both land on the same status redirect. A scanner
  * hit still proves the inbox is real (the token only travels through that inbox),
  * so double-opt-in's anti-gaming property holds. `alreadyVerified` tells the
- * caller whether THIS call did the verifying — milestone emails fire only then.
+ * caller whether THIS call did the verifying, milestone emails fire only then.
  */
 export async function verifySignup(db: SupabaseClient, token: string): Promise<VerifyResult | null> {
   const { data, error } = await db.from('signups').select('*').eq('verify_token', token).maybeSingle()
@@ -136,7 +136,7 @@ export async function verifySignup(db: SupabaseClient, token: string): Promise<V
   if (updateError) throw updateError
   if (updated) return { signup: updated as SignupRecord, alreadyVerified: false }
 
-  // Lost the race — the row verified between our read and update. Report as already-verified.
+  // Lost the race, the row verified between our read and update. Report as already-verified.
   const raced = await getSignupById(db, existing.id)
   return raced ? { signup: raced, alreadyVerified: true } : null
 }
@@ -169,7 +169,7 @@ export async function listVerifiedSignups(db: SupabaseClient, waitlistId: string
 }
 
 /**
- * Every signup for the waitlist, oldest first — the dashboard's single query.
+ * Every signup for the waitlist, oldest first, the dashboard's single query.
  * All metrics (positions, referral counts, top referrers, day buckets, CSV)
  * derive from this one result in pure code; never add per-row queries here.
  */

@@ -77,7 +77,7 @@
   font-size: 0.9rem;
 }
 
-/* Confirmation — reads like a torn-off stub receipt. */
+/* Confirmation, reads like a torn-off stub receipt. */
 .success {
   font-family: var(--font-zilla), Georgia, serif;
   font-size: 1.05rem;

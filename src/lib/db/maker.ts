@@ -2,21 +2,21 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 
 // Last successfully synced `email:password` pair. ensureMakerAccount runs on
 // every anonymous /login render, and we can't compare against GoTrue's stored
-// hash — so without this memo every request would force a bcrypt rehash via
+// hash, so without this memo every request would force a bcrypt rehash via
 // updateUserById. A changed MAKER_PASSWORD in env misses the memo and still
 // triggers a full sync, keeping env as the source of truth.
 let lastSyncedCreds: string | null = null
 
 // In-flight sync, keyed by email:password. /login is publicly reachable, so a
 // burst of anonymous hits on a cold process (memo empty) would otherwise fire
-// one listUsers/createUser/updateUserById admin round trip per request —
+// one listUsers/createUser/updateUserById admin round trip per request, 
 // concurrent callers with the same key await the sync already running instead.
 let inFlightSync: { key: string; promise: Promise<void> } | null = null
 
 /**
  * Idempotent provisioning of the single maker account from env credentials
  * (mirrors ensureWaitlist). Called on /login render. The password is synced
- * on every call so env stays the source of truth — password recovery for a
+ * on every call so env stays the source of truth, password recovery for a
  * self-hoster = change MAKER_PASSWORD and reload /login.
  */
 export async function ensureMakerAccount(
@@ -35,7 +35,7 @@ export async function ensureMakerAccount(
   try {
     await promise
   } finally {
-    // Only clear our own generation — a different-key sync may have replaced it.
+    // Only clear our own generation, a different-key sync may have replaced it.
     if (inFlightSync?.promise === promise) inFlightSync = null
   }
 }
@@ -46,7 +46,7 @@ async function syncMakerAccount(
   password: string,
   memoKey: string,
 ): Promise<void> {
-  // Only page 1 is read — fine for a single-maker instance, but this silently
+  // Only page 1 is read, fine for a single-maker instance, but this silently
   // stops finding the account if the project ever exceeds 1000 auth users.
   const { data, error } = await db.auth.admin.listUsers({ page: 1, perPage: 1000 })
   if (error) throw error

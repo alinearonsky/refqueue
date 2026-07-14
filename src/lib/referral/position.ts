@@ -53,7 +53,7 @@ export interface ReferredRow {
 /**
  * Derives every signup's confirmed-referral count from an already-fetched list of
  * *verified* signups: a signup's count is the number of verified rows whose
- * referred_by points at it. One pass over one query result — replaces the
+ * referred_by points at it. One pass over one query result, replaces the
  * one-count-query-per-signup pattern (Plan 1 hardening item 4).
  */
 export function tallyConfirmedReferrals(rows: ReferredRow[]): Map<string, number> {

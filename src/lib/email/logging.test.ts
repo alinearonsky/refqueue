@@ -17,5 +17,5 @@ test('records the message and prints it to the console', async () => {
 test('factory falls back to the logging sender when no provider is configured', () => {
   const sender = createEmailSender({} as NodeJS.ProcessEnv)
   expect(sender).toBeInstanceOf(LoggingEmailSender)
-  expect(sender).toBeInstanceOf(FakeEmailSender) // subclass — existing factory tests keep passing
+  expect(sender).toBeInstanceOf(FakeEmailSender) // subclass, existing factory tests keep passing
 })

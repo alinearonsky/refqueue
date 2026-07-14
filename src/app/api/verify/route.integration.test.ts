@@ -70,7 +70,7 @@ describe('GET /api/verify (integration)', () => {
         body: JSON.stringify({ waitlistSlug: 'e2e', email, ref }),
       })
 
-    // "other" signs up and confirms first — holds #1 on the time tiebreak
+    // "other" signs up and confirms first, holds #1 on the time tiebreak
     const other = await (await signupPOST(signupReq('other@example.com', '10.9.9.1'))).json()
     await GET(verifyReq((await getSignupByCode(db, wl.id, other.referralCode))!.verify_token!))
 

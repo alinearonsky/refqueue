@@ -42,8 +42,8 @@ a {
 }
 
 /*
- * Public-page surface (landing + status) — see DESIGN.md.
- * "Admit One": a vintage theatre-ticket playbill — an aged programme sheet pinned to a
+ * Public-page surface (landing + status), see DESIGN.md.
+ * "Admit One": a vintage theatre-ticket playbill, an aged programme sheet pinned to a
  * board, letterpress type, playbill vermilion, and a real scanned ticket stub. Always
  * LIGHT so every deploy's screenshots match the demo. Scoped to .rq-surface so the
  * maker-internal dashboard/login are untouched.
@@ -54,12 +54,12 @@ a {
   --board: #c9b790;          /* the board the playbill is pinned to (page backdrop) */
   --paper: #ece0c6;          /* aged programme paper */
   --paper-2: #e6d8ba;        /* deeper paper, at the foot of the sheet */
-  --paper-raised: #f1e7cf;   /* lighter paper — input wells, card tops */
+  --paper-raised: #f1e7cf;   /* lighter paper, input wells, card tops */
   --paper-sunken: #e2d3b0;   /* sunken wells (referral link) */
-  --ink: #241c14;            /* sepia-black letterpress ink — headlines & body */
-  --ink-soft: #5a4b38;       /* faded ink — subheads, captions */
-  --ink-faint: #6f5f42;      /* fine print, meta — darkened to clear WCAG AA (4.7:1 on paper) */
-  --red: #b5321f;            /* playbill vermilion — the DEFAULT accent */
+  --ink: #241c14;            /* sepia-black letterpress ink, headlines & body */
+  --ink-soft: #5a4b38;       /* faded ink, subheads, captions */
+  --ink-faint: #6f5f42;      /* fine print, meta, darkened to clear WCAG AA (4.7:1 on paper) */
+  --red: #b5321f;            /* playbill vermilion, the DEFAULT accent */
   --blue: #2f4d6b;           /* ink-blue, used sparingly */
   --line: #c3ad84;           /* aged hairline rule */
   --line-strong: #b49b6d;
@@ -78,7 +78,7 @@ a {
 }
 
 /*
- * The printed sheet — an aged programme with grain, a warm vignette, and a double-ruled
+ * The printed sheet, an aged programme with grain, a warm vignette, and a double-ruled
  * border frame. Shared by landing + status so the playbill chrome stays consistent.
  */
 .rq-surface .rq-sheet {
@@ -118,7 +118,7 @@ a {
   padding: clamp(22px, 3vw, 40px);
 }
 
-/* Aged rules — hairline and thick double. */
+/* Aged rules, hairline and thick double. */
 .rq-surface .rq-rule {
   height: 0;
   border: 0;
@@ -151,7 +151,7 @@ a {
 }
 
 /*
- * Motion — a small, deliberate set tied to handling a printed ticket. All entrance/emphasis
+ * Motion, a small, deliberate set tied to handling a printed ticket. All entrance/emphasis
  * animations are gated behind prefers-reduced-motion:no-preference and enhance an
  * already-visible default (the elements are fully visible with no animation applied).
  */

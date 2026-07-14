@@ -15,7 +15,7 @@ const limiter = new InMemoryRateLimiter({ max: 5, windowMs: 10 * 60_000 })
 
 // Rate-limit key is derived from x-forwarded-for. RefQueue must be deployed behind a
 // reverse proxy (Vercel, or nginx/Caddy for Docker self-hosters) that OVERWRITES this
-// header with the real client IP — otherwise the value is client-spoofable, and if the
+// header with the real client IP, otherwise the value is client-spoofable, and if the
 // header is absent all traffic collapses into a single 'unknown' bucket. Trusted-proxy
 // config and a shared/distributed limiter are handled in Plan 6 (deploy).
 function clientIp(req: Request): string {
@@ -41,7 +41,7 @@ export async function POST(req: Request) {
   const signup = await createSignup(db, { waitlistId: waitlist.id, email, referrerCode: ref })
 
   // Send the double-opt-in confirmation email (best-effort; a send failure must not
-  // fail the signup — the row exists and re-signing up re-sends). Awaited so it
+  // fail the signup, the row exists and re-signing up re-sends). Awaited so it
   // completes before the serverless function returns.
   if (!signup.verified && signup.verify_token) {
     const verifyUrl = `${getAppBaseUrl()}/api/verify?token=${signup.verify_token}`

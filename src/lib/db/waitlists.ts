@@ -37,7 +37,7 @@ function sameTiers(a: RewardTier[], b: RewardTier[]): boolean {
 
 /**
  * Idempotent provisioning of the instance's single waitlist from env config
- * (env is v1's only config surface — no settings UI). Called on landing-page
+ * (env is v1's only config surface, no settings UI). Called on landing-page
  * render: creates the row on first deploy, then diff-syncs name, reward tiers,
  * and the powered-by flag whenever the maker changes env. Unchanged config
  * costs zero writes. `theme` stays untouched (presentation-only, read from env).
@@ -67,7 +67,7 @@ export async function ensureWaitlist(db: SupabaseClient, input: WaitlistProvisio
     .select()
     .single()
   if (error) {
-    // 23505 = unique_violation: created concurrently — fetch and return it.
+    // 23505 = unique_violation: created concurrently, fetch and return it.
     if (error.code === '23505') {
       const raced = await getWaitlistBySlug(db, input.slug)
       if (raced) return raced

@@ -12,7 +12,7 @@
   padding: 36px clamp(24px, 5vw, 48px) 30px;
 }
 
-/* Letterhead — shared language with the landing */
+/* Letterhead, shared language with the landing */
 .head {
   display: flex;
   align-items: center;
@@ -69,7 +69,7 @@
   box-shadow: 0 10px 26px rgba(40, 28, 14, 0.18);
 }
 
-/* inner dashed rule — the printed ticket frame */
+/* inner dashed rule, the printed ticket frame */
 .ticket::before {
   content: '';
   position: absolute;
@@ -153,7 +153,7 @@
   line-height: 1.6;
 }
 
-/* Cards — aged paper panels */
+/* Cards, aged paper panels */
 .card {
   margin-top: 22px;
   border: 1px solid var(--line-strong);

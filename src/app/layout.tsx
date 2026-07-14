@@ -28,7 +28,7 @@ const oswald = Oswald({
   weight: ["400", "500", "600", "700"],
 });
 
-// Zilla Slab: the slab-serif body — reads like printed programme copy.
+// Zilla Slab: the slab-serif body. Reads like printed programme copy.
 const zillaSlab = Zilla_Slab({
   variable: "--font-zilla",
   subsets: ["latin"],
@@ -37,30 +37,30 @@ const zillaSlab = Zilla_Slab({
 });
 
 const OG_DESCRIPTION =
-  "The waitlist that moves — refer friends to skip the line. The free, open-source, self-hosted alternative to GetWaitlist & Viral Loops.";
+  "Refer friends to skip the line. The free, open-source, self-hosted alternative to GetWaitlist and Viral Loops.";
 
 export const metadata: Metadata = {
-  // Absolute-URL base for OG/Twitter image resolution — makers set APP_BASE_URL to their
+  // Absolute-URL base for OG/Twitter image resolution. Makers set APP_BASE_URL to their
   // public URL; relative image paths below resolve against it.
   metadataBase: new URL(process.env.APP_BASE_URL ?? "http://localhost:3000"),
   title: "RefQueue",
-  description: "Open-source waitlist with referral — refer friends, move up the line.",
+  description: "Open-source waitlist with referrals. Refer friends to move up the line.",
   openGraph: {
     type: "website",
-    title: "RefQueue — the waitlist that moves",
+    title: "RefQueue: refer friends to skip the line",
     description: OG_DESCRIPTION,
     images: [
       {
         url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "RefQueue — the open-source waitlist that moves, with a vintage Admit One ticket",
+        alt: "RefQueue, the open-source referral waitlist, shown as a vintage Admit One ticket",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "RefQueue — the waitlist that moves",
+    title: "RefQueue: refer friends to skip the line",
     description: OG_DESCRIPTION,
     images: ["/og.png"],
   },

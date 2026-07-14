@@ -15,7 +15,7 @@ export interface SignupStatus {
 /**
  * Everything the visitor-facing surfaces show about one signup, from a single
  * verified-signups query. Unverified signups fall back to back-of-line
- * (verified count + 1) — same behavior the signup route had in Plan 1.
+ * (verified count + 1), same behavior the signup route had in Plan 1.
  */
 export async function getSignupStatus(
   db: SupabaseClient,

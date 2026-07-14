@@ -13,7 +13,7 @@
   padding: 40px clamp(28px, 5vw, 64px) 34px;
 }
 
-/* Hero — copy left, ticket stub right */
+/* Hero, copy left, ticket stub right */
 .hero {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
@@ -107,7 +107,7 @@
   transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1), filter 280ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Delight: pick up the ticket — it straightens and lifts off the sheet. */
+/* Delight: pick up the ticket, it straightens and lifts off the sheet. */
 .ticket:hover {
   transform: rotate(1deg) translateY(-7px) scale(1.02);
   filter: drop-shadow(0 16px 22px rgba(40, 26, 10, 0.34));

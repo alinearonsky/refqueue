@@ -17,7 +17,7 @@ export function getAppBaseUrl(): string {
   return process.env.APP_BASE_URL ?? 'http://localhost:3000'
 }
 
-/** Anon (publishable) key — used ONLY for Supabase Auth sessions, never for data access. */
+/** Anon (publishable) key, used ONLY for Supabase Auth sessions, never for data access. */
 export function getSupabaseAnonKey(): string {
   const key = process.env.SUPABASE_ANON_KEY
   if (!key) throw new Error('SUPABASE_ANON_KEY must be set')
@@ -51,7 +51,7 @@ const rewardTiersSchema = z.array(
 
 /**
  * Reward tiers from env (JSON array), synced into the waitlist row by
- * ensureWaitlist. Fail-safe: a malformed value warns and falls back to [] —
+ * ensureWaitlist. Fail-safe: a malformed value warns and falls back to [], 
  * the landing page must never 500 on a config typo.
  */
 export function getRewardTiersConfig(): RewardTier[] {
@@ -61,12 +61,12 @@ export function getRewardTiersConfig(): RewardTier[] {
     const tiers = rewardTiersSchema.parse(JSON.parse(raw))
     return [...tiers].sort((a, b) => a.referrals - b.referrals)
   } catch {
-    console.warn('REWARD_TIERS is not a valid JSON tier array — ignoring it.')
+    console.warn('REWARD_TIERS is not a valid JSON tier array, ignoring it.')
     return []
   }
 }
 
-/** "Powered by RefQueue" credit — on unless the maker explicitly sets "false" (PRODUCT.md default-on). */
+/** "Powered by RefQueue" credit, on unless the maker explicitly sets "false" (PRODUCT.md default-on). */
 export function getPoweredByConfig(): boolean {
   return process.env.POWERED_BY !== 'false'
 }
@@ -89,13 +89,13 @@ export function getThemeConfig(): ThemeConfig {
   const accent = process.env.THEME_ACCENT_COLOR
   if (accent) {
     if (HEX_COLOR.test(accent)) theme.accentColor = accent
-    else console.warn('THEME_ACCENT_COLOR must be a #rgb or #rrggbb hex color — ignoring it.')
+    else console.warn('THEME_ACCENT_COLOR must be a #rgb or #rrggbb hex color, ignoring it.')
   }
 
   const logo = process.env.THEME_LOGO_URL
   if (logo) {
     if (/^https?:\/\//i.test(logo)) theme.logoUrl = logo
-    else console.warn('THEME_LOGO_URL must be an http(s) URL — ignoring it.')
+    else console.warn('THEME_LOGO_URL must be an http(s) URL, ignoring it.')
   }
 
   if (process.env.THEME_HEADLINE) theme.headline = process.env.THEME_HEADLINE
@@ -108,7 +108,7 @@ export function getThemeConfig(): ThemeConfig {
 /**
  * Production readiness check (env is v1's only config surface). Returns a list
  * of human-readable problems that must be fixed before the app can safely serve
- * traffic. Called at boot by src/instrumentation.ts — a non-empty list crashes
+ * traffic. Called at boot by src/instrumentation.ts, a non-empty list crashes
  * startup loudly, so a misconfigured deploy fails visibly instead of silently
  * swallowing verification emails. Maker credentials are intentionally optional
  * (no dashboard is a valid deployment).
@@ -123,7 +123,7 @@ export function collectProductionConfigErrors(env: NodeJS.ProcessEnv = process.e
   const base = env.APP_BASE_URL
   // Anchored so a legit domain that merely contains "localhost" (e.g. localhost-tools.com) isn't rejected.
   if (!base || /^https?:\/\/(localhost|127\.0\.0\.1)([:/]|$)/.test(base)) {
-    errors.push('APP_BASE_URL must be set to your public URL (not localhost) — verify links use it.')
+    errors.push('APP_BASE_URL must be set to your public URL (not localhost), verify links use it.')
   }
 
   const hasProvider = Boolean(env.RESEND_API_KEY || env.SMTP_HOST)

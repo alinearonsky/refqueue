@@ -68,7 +68,7 @@ export default async function DashboardPage() {
       </section>
 
       <section className={styles.panel}>
-        <h2 className={styles.panelTitle}>Signups — last 30 days</h2>
+        <h2 className={styles.panelTitle}>Signups (last 30 days)</h2>
         <SignupsChart buckets={data.signupsPerDay} />
       </section>
 
@@ -107,7 +107,7 @@ export default async function DashboardPage() {
               <tbody>
                 {data.entries.map((e) => (
                   <tr key={e.referralCode}>
-                    <td>{e.position ?? '—'}</td>
+                    <td>{e.position ?? 'n/a'}</td>
                     <td>{e.email}</td>
                     <td>
                       <span className={e.verified ? styles.badgeVerified : styles.badgePending}>

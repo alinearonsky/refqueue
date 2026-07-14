@@ -11,7 +11,7 @@ export function CopyButton({ text }: { text: string }) {
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch {
-      // Clipboard unavailable (plain http, old browser) — the link is rendered beside
+      // Clipboard unavailable (plain http, old browser), the link is rendered beside
       // this button, so manual copy still works.
     }
   }

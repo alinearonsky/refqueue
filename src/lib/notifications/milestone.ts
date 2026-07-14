@@ -9,7 +9,7 @@ import { buildMilestoneEmail } from '@/lib/email/templates'
  * Called right after a signup verifies. If that signup was referred, its referrer's
  * confirmed-referral count just increased by exactly one (the verify route gates this call
  * on `alreadyVerified`, so it runs only on the first successful verify). A reward tier is *newly* unlocked precisely
- * when its threshold equals the new count — email the referrer once per such tier.
+ * when its threshold equals the new count, email the referrer once per such tier.
  */
 export async function notifyReferrerMilestone(
   db: SupabaseClient,

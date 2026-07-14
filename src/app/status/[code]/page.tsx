@@ -16,7 +16,7 @@ export const dynamic = 'force-dynamic'
 
 export function generateMetadata(): Metadata {
   return {
-    title: `Your spot — ${getWaitlistConfig().name}`,
+    title: `Your spot · ${getWaitlistConfig().name}`,
     robots: { index: false }, // per-signup pages don't belong in search indexes
   }
 }
@@ -46,7 +46,7 @@ export default async function StatusPage({ params, searchParams }: Props) {
 
   const theme = getThemeConfig()
 
-  // Anyone holding the referral link can open this page — render no email address.
+  // Anyone holding the referral link can open this page, render no email address.
   if (!signup.verified) {
     return (
       <main className={`rq-surface ${styles.main}`} style={accentStyle(theme)}>
@@ -88,15 +88,15 @@ export default async function StatusPage({ params, searchParams }: Props) {
           </h1>
 
           {welcome && (
-            <p className={`${styles.welcome} rq-bannerStamp`}>You’re in — your spot is confirmed.</p>
+            <p className={`${styles.welcome} rq-bannerStamp`}>You’re in. Your spot is confirmed.</p>
           )}
 
-          {/* THE stub — the live position printed as a ticket serial */}
+          {/* THE stub, the live position printed as a ticket serial */}
           <div className={styles.ticket}>
             <span className={`${styles.overline} rq-caps`}>Your position on {waitlist.name}</span>
             <div className={`${styles.admit} rq-caps`}>
               <span className={styles.admitRule} aria-hidden="true" />
-              Admit one — in line
+              Admit one · in line
               <span className={styles.admitRule} aria-hidden="true" />
             </div>
             <p className={`${styles.serial} rq-stamp`}>

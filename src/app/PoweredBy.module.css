@@ -1,4 +1,4 @@
-/* Sits inside the sheet footer on public pages — the printed credit line. */
+/* Sits inside the sheet footer on public pages, the printed credit line. */
 .credit {
   font-family: var(--font-oswald), system-ui, sans-serif;
   text-transform: uppercase;

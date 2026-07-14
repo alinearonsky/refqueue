@@ -34,7 +34,7 @@ export function buildMilestoneEmail(input: MilestoneEmailInput): { subject: stri
   const people = input.confirmedReferrals === 1 ? 'person' : 'people'
   const subject = `You unlocked ${input.unlockedLabel} on ${input.waitlistName}`
   const html = [
-    `<p>Nice work — you've referred ${input.confirmedReferrals} ${people} to ${name}.</p>`,
+    `<p>Nice work! You've referred ${input.confirmedReferrals} ${people} to ${name}.</p>`,
     `<p>You just unlocked: <strong>${label}</strong>.</p>`,
   ].join('\n')
   return { subject, html }

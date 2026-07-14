@@ -1,8 +1,8 @@
 import type { CSSProperties } from 'react'
 import type { ThemeConfig } from '@/lib/config'
 
-const CREAM = '#f7ecd2' // brand cream — text on a dark accent
-const DARK = '#241c14' // sepia ink — text on a light accent
+const CREAM = '#f7ecd2' // brand cream, text on a dark accent
+const DARK = '#241c14' // sepia ink, text on a light accent
 
 function parseHex(color: string): [number, number, number] | null {
   const m = color.trim().replace(/^#/, '')
@@ -33,7 +33,7 @@ function contrast(a: number, b: number): number {
  * Inline CSS custom properties carrying the maker's accent. Consumed via
  * var(--accent) / var(--accent-text), so an unset accent renders the default
  * playbill red. `--accent-text` is chosen for contrast: whichever of cream /
- * sepia-ink reads better on the accent fill — so a maker's light OR dark brand
+ * sepia-ink reads better on the accent fill, so a maker's light OR dark brand
  * color keeps a legible CTA (a light accent no longer forces unreadable white).
  */
 export function accentStyle(theme: ThemeConfig): CSSProperties | undefined {

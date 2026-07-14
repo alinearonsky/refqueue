@@ -1,6 +1,6 @@
 # Contributing to RefQueue
 
-Thanks for helping — issues and PRs are welcome.
+Thanks for helping, issues and PRs are welcome.
 
 ## Development setup
 

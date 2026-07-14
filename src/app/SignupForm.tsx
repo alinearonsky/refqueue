@@ -11,7 +11,7 @@ interface SignupResult {
 
 const ERROR_MESSAGES: Record<string, string> = {
   invalid_input: 'That doesn’t look like a valid email address.',
-  disposable_email: 'Disposable email addresses aren’t accepted — please use your real one.',
+  disposable_email: 'Disposable email addresses aren’t accepted. Please use your real one.',
   rate_limited: 'Too many signups from your network right now. Try again in a few minutes.',
   waitlist_not_found: 'This waitlist isn’t set up yet. Try again shortly.',
 }
@@ -64,7 +64,7 @@ export function SignupForm({
     ) : (
       <p className={styles.success}>
         You’re <strong className={styles.pos}>#{result.position}</strong> in line. Check your inbox and confirm your
-        email to lock in your spot — that’s where your referral link lives.
+        email to lock in your spot. That’s where your referral link lives.
       </p>
     )
   }

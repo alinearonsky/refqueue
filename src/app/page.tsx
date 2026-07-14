@@ -8,12 +8,12 @@ import { accentStyle } from './accent'
 import { PoweredBy } from './PoweredBy'
 import styles from './page.module.css'
 
-// DB read/provision per request — never prerender at build time.
+// DB read/provision per request, never prerender at build time.
 export const dynamic = 'force-dynamic'
 
 export function generateMetadata(): Metadata {
   const { name } = getWaitlistConfig()
-  return { title: name, description: `Join the ${name} waitlist — refer friends to move up the line.` }
+  return { title: name, description: `Join the ${name} waitlist and refer friends to move up the line.` }
 }
 
 interface Props {
@@ -36,7 +36,7 @@ export default async function LandingPage({ searchParams }: Props) {
     <main className={`rq-surface ${styles.main}`} style={accentStyle(theme)}>
       <div className={`${styles.sheet} rq-sheet rq-enter`}>
         <div className="rq-frame">
-          {/* Hero — copy on the left, the ticket stub on the right */}
+          {/* Hero, copy on the left, the ticket stub on the right */}
           <div className={styles.hero}>
             <div className={styles.copy}>
               {verifyFailed && (
@@ -92,7 +92,7 @@ export default async function LandingPage({ searchParams }: Props) {
               <span className={styles.actNo}>I.</span>
               <h2 className={styles.actTitle}>Join the line</h2>
               <p className={styles.actText}>
-                Leave your address and receive a numbered stub — your place in line, on the spot.
+                Leave your address and receive a numbered stub: your place in line, on the spot.
               </p>
             </li>
             <li className={styles.act}>
