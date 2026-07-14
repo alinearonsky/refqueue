@@ -1,0 +1,10 @@
+services:
+  refqueue:
+    build: .
+    # Or use the published image once you have one:
+    # image: ghcr.io/alinearonsky/refqueue:latest
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env.docker
+    restart: unless-stopped
