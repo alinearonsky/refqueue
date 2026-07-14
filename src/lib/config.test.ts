@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import {
+  collectProductionConfigErrors,
   getMakerCredentials,
   getPoweredByConfig,
   getRewardTiersConfig,
@@ -129,5 +130,67 @@ describe('getThemeConfig', () => {
 
     process.env.THEME_LOGO_URL = 'HTTPS://example.com/logo.png'
     expect(getThemeConfig().logoUrl).toBe('HTTPS://example.com/logo.png')
+  })
+})
+
+describe('collectProductionConfigErrors', () => {
+  function validProdEnv(): NodeJS.ProcessEnv {
+    return {
+      SUPABASE_URL: 'https://xyz.supabase.co',
+      SUPABASE_SERVICE_ROLE_KEY: 'service-key',
+      SUPABASE_ANON_KEY: 'anon-key',
+      APP_BASE_URL: 'https://waitlist.example.com',
+      EMAIL_FROM: 'RefQueue <no-reply@example.com>',
+      RESEND_API_KEY: 're_123',
+    } as unknown as NodeJS.ProcessEnv
+  }
+
+  it('returns no errors for a fully configured production env', () => {
+    expect(collectProductionConfigErrors(validProdEnv())).toEqual([])
+  })
+
+  it('accepts SMTP as the provider instead of Resend', () => {
+    const env = validProdEnv()
+    delete env.RESEND_API_KEY
+    env.SMTP_HOST = 'smtp.example.com'
+    expect(collectProductionConfigErrors(env)).toEqual([])
+  })
+
+  it('flags a missing email provider (double-opt-in cannot function)', () => {
+    const env = validProdEnv()
+    delete env.RESEND_API_KEY
+    const errors = collectProductionConfigErrors(env)
+    expect(errors.some((e) => e.includes('RESEND_API_KEY') && e.includes('SMTP_HOST'))).toBe(true)
+  })
+
+  it('flags EMAIL_FROM missing when a provider is set', () => {
+    const env = validProdEnv()
+    delete env.EMAIL_FROM
+    expect(collectProductionConfigErrors(env).some((e) => e.includes('EMAIL_FROM'))).toBe(true)
+  })
+
+  it('flags a missing or localhost APP_BASE_URL (verify links would point at localhost)', () => {
+    const env = validProdEnv()
+    delete env.APP_BASE_URL
+    expect(collectProductionConfigErrors(env).some((e) => e.includes('APP_BASE_URL'))).toBe(true)
+
+    env.APP_BASE_URL = 'http://localhost:3000'
+    expect(collectProductionConfigErrors(env).some((e) => e.includes('APP_BASE_URL'))).toBe(true)
+  })
+
+  it('flags missing Supabase config', () => {
+    const env = validProdEnv()
+    delete env.SUPABASE_SERVICE_ROLE_KEY
+    delete env.SUPABASE_ANON_KEY
+    const errors = collectProductionConfigErrors(env)
+    expect(errors.some((e) => e.includes('SUPABASE_SERVICE_ROLE_KEY'))).toBe(true)
+    expect(errors.some((e) => e.includes('SUPABASE_ANON_KEY'))).toBe(true)
+  })
+
+  it('does NOT error on missing maker credentials (dashboard is optional)', () => {
+    const env = validProdEnv()
+    delete env.MAKER_EMAIL
+    delete env.MAKER_PASSWORD
+    expect(collectProductionConfigErrors(env)).toEqual([])
   })
 })

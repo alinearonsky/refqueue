@@ -104,3 +104,35 @@ export function getThemeConfig(): ThemeConfig {
 
   return theme
 }
+
+/**
+ * Production readiness check (env is v1's only config surface). Returns a list
+ * of human-readable problems that must be fixed before the app can safely serve
+ * traffic. Called at boot by src/instrumentation.ts — a non-empty list crashes
+ * startup loudly, so a misconfigured deploy fails visibly instead of silently
+ * swallowing verification emails. Maker credentials are intentionally optional
+ * (no dashboard is a valid deployment).
+ */
+export function collectProductionConfigErrors(env: NodeJS.ProcessEnv = process.env): string[] {
+  const errors: string[] = []
+
+  if (!env.SUPABASE_URL) errors.push('SUPABASE_URL is required.')
+  if (!env.SUPABASE_SERVICE_ROLE_KEY) errors.push('SUPABASE_SERVICE_ROLE_KEY is required.')
+  if (!env.SUPABASE_ANON_KEY) errors.push('SUPABASE_ANON_KEY is required (maker auth sessions).')
+
+  const base = env.APP_BASE_URL
+  if (!base || /localhost|127\.0\.0\.1/.test(base)) {
+    errors.push('APP_BASE_URL must be set to your public URL (not localhost) — verify links use it.')
+  }
+
+  const hasProvider = Boolean(env.RESEND_API_KEY || env.SMTP_HOST)
+  if (!hasProvider) {
+    errors.push(
+      'An email provider is required: set RESEND_API_KEY or SMTP_HOST. ' +
+        'Without one, double-opt-in confirmation emails are never sent and referrals cannot be confirmed.',
+    )
+  }
+  if (hasProvider && !env.EMAIL_FROM) errors.push('EMAIL_FROM is required when an email provider is configured.')
+
+  return errors
+}
