@@ -33,19 +33,43 @@ export default async function LandingPage({ searchParams }: Props) {
   const theme = getThemeConfig()
 
   return (
-    <main className={styles.main} style={accentStyle(theme)}>
-      {verifyFailed && (
-        <p role="alert" className={styles.notice}>
-          That confirmation link isn’t valid. Enter your email below to get a fresh one.
+    <main className={`rq-surface ${styles.main}`} style={accentStyle(theme)}>
+      <div className={`${styles.hero} rq-enter`}>
+        {verifyFailed && (
+          <p role="alert" className={styles.notice}>
+            That confirmation link isn’t valid. Enter your email below to get a fresh one.
+          </p>
+        )}
+        {theme.logoUrl && (
+          // eslint-disable-next-line @next/next/no-img-element -- arbitrary maker-hosted URL; next/image needs known hosts/dimensions
+          <img src={theme.logoUrl} alt={`${waitlist.name} logo`} className={styles.logo} />
+        )}
+        <span className={styles.kicker}>The waitlist that moves</span>
+        <h1 className={styles.title}>{theme.headline ?? waitlist.name}</h1>
+        <p className={styles.subhead}>
+          {theme.subhead ?? 'Join the waitlist — then refer friends to move up the line.'}
         </p>
-      )}
-      {theme.logoUrl && (
-        // eslint-disable-next-line @next/next/no-img-element -- arbitrary maker-hosted URL; next/image needs known hosts/dimensions
-        <img src={theme.logoUrl} alt={`${waitlist.name} logo`} className={styles.logo} />
-      )}
-      <h1 className={styles.title}>{theme.headline ?? waitlist.name}</h1>
-      <p className={styles.subhead}>{theme.subhead ?? 'Join the waitlist — refer friends to move up the line.'}</p>
-      <SignupForm waitlistSlug={waitlist.slug} referralCode={ref} ctaLabel={theme.ctaLabel} />
+        <SignupForm waitlistSlug={waitlist.slug} referralCode={ref} ctaLabel={theme.ctaLabel} />
+      </div>
+
+      <ol className={styles.steps} aria-label="How it works">
+        <li className={styles.step}>
+          <span className={styles.stepNum}>01</span>
+          <span className={styles.stepTitle}>Join</span>
+          <span className={styles.stepText}>Drop your email and claim your spot in line.</span>
+        </li>
+        <li className={styles.step}>
+          <span className={styles.stepNum}>02</span>
+          <span className={styles.stepTitle}>Share your link</span>
+          <span className={styles.stepText}>Every friend who joins through it is a spot closer to the front.</span>
+        </li>
+        <li className={styles.step}>
+          <span className={styles.stepNum}>03</span>
+          <span className={styles.stepTitle}>Move up</span>
+          <span className={styles.stepText}>Confirmed referrals climb your number. Watch it drop.</span>
+        </li>
+      </ol>
+
       <PoweredBy enabled={waitlist.powered_by} />
     </main>
   )

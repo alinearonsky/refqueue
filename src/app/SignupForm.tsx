@@ -56,31 +56,36 @@ export function SignupForm({
   if (result) {
     return result.verified ? (
       <p className={styles.success}>
-        You’re already on the list at <strong>#{result.position}</strong>.{' '}
-        <a href={`/status/${result.referralCode}`}>View your status</a>
+        You’re already on the list at <strong className={styles.pos}>#{result.position}</strong>.{' '}
+        <a className={styles.statusLink} href={`/status/${result.referralCode}`}>
+          View your status →
+        </a>
       </p>
     ) : (
       <p className={styles.success}>
-        You’re <strong>#{result.position}</strong> in line. Check your inbox and confirm your email to lock in your
-        spot — that’s also where your referral link lives.
+        You’re <strong className={styles.pos}>#{result.position}</strong> in line. Check your inbox and confirm your
+        email to lock in your spot — that’s where your referral link lives.
       </p>
     )
   }
 
   return (
     <form onSubmit={submit} className={styles.form}>
-      <input
-        type="email"
-        required
-        placeholder="you@example.com"
-        aria-label="Email address"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        disabled={pending}
-      />
-      <button type="submit" disabled={pending}>
-        {pending ? 'Joining…' : ctaLabel}
-      </button>
+      <div className={styles.field}>
+        <input
+          className={styles.input}
+          type="email"
+          required
+          placeholder="you@example.com"
+          aria-label="Email address"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          disabled={pending}
+        />
+        <button className={styles.button} type="submit" disabled={pending}>
+          {pending ? 'Joining…' : ctaLabel}
+        </button>
+      </div>
       {error && (
         <p role="alert" className={styles.error}>
           {error}

@@ -1,55 +1,126 @@
 .form {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
   width: 100%;
-  max-width: 440px;
-  margin-top: 8px;
+  max-width: 480px;
+  margin-top: 6px;
 }
 
-.form input {
-  flex: 1 1 220px;
-  padding: 10px 14px;
-  border: 1px solid #d0d0d0;
-  border-radius: 8px;
-  font-size: 1rem;
-  background: var(--background);
-  color: var(--foreground);
+/* The field-well: input + inset accent button, one rounded surface. */
+.field {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 6px;
+  border: 1px solid var(--border-default);
+  border-radius: 14px;
+  background: var(--surface-raised);
+  transition: border-color 120ms ease-out, box-shadow 120ms ease-out;
 }
 
-.form button {
-  padding: 10px 18px;
+.field:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-faint);
+}
+
+.input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 11px 14px;
   border: none;
-  border-radius: 8px;
-  background: var(--accent, var(--foreground));
-  color: var(--accent-text, var(--background));
+  background: transparent;
+  color: var(--text-primary);
   font-size: 1rem;
-  cursor: pointer;
+  font-family: inherit;
 }
 
-.form button:disabled {
+.input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.input:focus {
+  outline: none;
+}
+
+.button {
+  flex: 0 0 auto;
+  padding: 11px 20px;
+  border: none;
+  border-radius: 9px;
+  background: var(--accent);
+  color: var(--accent-text);
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: box-shadow 140ms ease-out, transform 120ms ease-out, filter 120ms ease-out;
+}
+
+.button:hover:not(:disabled) {
+  box-shadow: 0 6px 26px var(--accent-glow);
+  filter: brightness(1.06);
+}
+
+.button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 2px;
+}
+
+.button:disabled {
   opacity: 0.6;
   cursor: default;
 }
 
 .error {
-  flex-basis: 100%;
-  color: #b3261e;
+  align-self: flex-start;
+  color: #ff8a80;
   font-size: 0.9rem;
+  padding-left: 4px;
 }
 
 .success {
-  font-size: 1.05rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
   max-width: 46ch;
   margin-top: 8px;
+  color: var(--text-primary);
 }
 
-@media (prefers-color-scheme: dark) {
-  .form input {
-    border-color: #444;
+.pos {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.statusLink {
+  color: var(--accent);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.statusLink:hover {
+  text-decoration: underline;
+}
+
+/* Mobile: stack the button under the input so neither is cramped. */
+@media (max-width: 460px) {
+  .field {
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px;
   }
-  .error {
-    color: #ff8a80;
+  .input {
+    width: 100%;
+    text-align: center;
+  }
+  .button {
+    width: 100%;
   }
 }

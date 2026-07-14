@@ -1,31 +1,39 @@
 .main {
+  position: relative;
+  isolation: isolate;
   min-height: 100svh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 24px 24px 64px; /* bottom reserve for the fixed powered-by credit */
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  gap: 56px;
+  padding: 80px 24px 96px;
   text-align: center;
+  overflow: hidden;
 }
 
-.title {
-  font-size: 2.1rem;
-  letter-spacing: -0.02em;
+/* Atmospheric field — a soft accent glow top-center, plus a faint grid wash. Not a flat fill. */
+.main::before {
+  content: '';
+  position: absolute;
+  top: -22%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1100px, 140vw);
+  height: 760px;
+  background: radial-gradient(50% 50% at 50% 50%, var(--accent-glow) 0%, transparent 72%);
+  opacity: 0.9;
+  z-index: -1;
+  pointer-events: none;
 }
 
-.subhead {
-  color: #666;
-  max-width: 42ch;
-}
-
-.notice {
-  background: #fff3cd;
-  color: #664d03;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-size: 0.9rem;
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  max-width: 560px;
+  width: 100%;
 }
 
 .logo {
@@ -35,12 +43,96 @@
   object-fit: contain;
 }
 
-@media (prefers-color-scheme: dark) {
-  .subhead {
-    color: #999;
+.kicker {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  padding: 5px 12px;
+  border: 1px solid var(--border-default);
+  border-radius: 999px;
+  background: var(--surface-raised);
+}
+
+.title {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  text-wrap: balance;
+}
+
+.subhead {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 44ch;
+  text-wrap: balance;
+}
+
+.notice {
+  background: var(--status-warning-bg);
+  color: var(--status-warning-fg);
+  border: 1px solid color-mix(in srgb, var(--status-warning-fg) 30%, transparent);
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+/* How it works — three steps, gives the page body and explains the mechanic. */
+.steps {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  width: 100%;
+  max-width: 720px;
+  text-align: left;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  background: linear-gradient(180deg, var(--surface-raised), var(--surface-base));
+}
+
+.stepNum {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+
+.stepTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.stepText {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 640px) {
+  .main {
+    gap: 44px;
+    padding: 56px 20px 88px;
   }
-  .notice {
-    background: #3a2f00;
-    color: #ffe69c;
+  .steps {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    gap: 12px;
+  }
+  .step {
+    padding: 16px;
   }
 }
