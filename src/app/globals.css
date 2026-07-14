@@ -43,46 +43,98 @@ a {
 
 /*
  * Public-page surface (landing + status) — see DESIGN.md.
- * "New Genre": a cinematic editorial broadsheet on warm paper. Always LIGHT — this is
- * the marketing/brand surface, so every deploy's screenshots match the demo. Scoped to
- * .rq-surface so the maker-internal dashboard/login are untouched.
- * `--accent` is a DEFAULT (warm near-black — the classic editorial black-on-paper). A
- * themed inline `--accent` on the same <main> wins, and the soft tint re-derives via color-mix.
+ * "Admit One": a vintage theatre-ticket playbill — an aged programme sheet pinned to a
+ * board, letterpress type, playbill vermilion, and a real scanned ticket stub. Always
+ * LIGHT so every deploy's screenshots match the demo. Scoped to .rq-surface so the
+ * maker-internal dashboard/login are untouched.
+ * `--accent` is a DEFAULT (playbill red). A themed inline `--accent` on the same <main>
+ * wins, and the soft tint re-derives via color-mix.
  */
 .rq-surface {
-  --paper: #fbfaf7;          /* warm paper canvas (page background) */
-  --paper-raised: #ffffff;   /* cards, input wells */
-  --paper-sunken: #f4f1ea;   /* subtle sunken bands */
-  --band-dark: #1e1310;      /* charred umber — the one dark contrast band */
-  --ink: #14100c;            /* warm near-black — primary text & headlines */
-  --ink-secondary: #63615c;  /* slate veil — subheads, captions */
-  --ink-tertiary: #9a978f;   /* ash mist — meta, credit */
-  --hairline: #e7e2d8;       /* warm hairline dividers/borders */
-  --hairline-strong: #d8d2c5;
-  --accent: #14100c;         /* DEFAULT accent = warm near-black (themeable) */
-  --accent-text: #fbfaf7;    /* paper-colored text on an accent fill */
-  --accent-soft: color-mix(in srgb, var(--accent) 7%, transparent);
-  /* golden-hour light — a warm wash across the paper, never a neon blob (replaces the old glow) */
-  --ember: rgba(255, 209, 128, 0.5);
-  --ember-faint: rgba(255, 221, 158, 0.24);
-  --status-success-fg: #3f6212;
-  --status-success-bg: color-mix(in srgb, #3f6212 12%, transparent);
-  --status-warning-fg: #92400e;
-  --status-warning-bg: color-mix(in srgb, #92400e 12%, transparent);
+  --board: #c9b790;          /* the board the playbill is pinned to (page backdrop) */
+  --paper: #ece0c6;          /* aged programme paper */
+  --paper-2: #e6d8ba;        /* deeper paper, at the foot of the sheet */
+  --paper-raised: #f1e7cf;   /* lighter paper — input wells, card tops */
+  --paper-sunken: #e2d3b0;   /* sunken wells (referral link) */
+  --ink: #241c14;            /* sepia-black letterpress ink — headlines & body */
+  --ink-soft: #5a4b38;       /* faded ink — subheads, captions */
+  --ink-faint: #8a7a5c;      /* fine print, meta */
+  --red: #b5321f;            /* playbill vermilion — the DEFAULT accent */
+  --blue: #2f4d6b;           /* ink-blue, used sparingly */
+  --line: #c3ad84;           /* aged hairline rule */
+  --line-strong: #b49b6d;
+  --accent: var(--red);      /* DEFAULT accent = playbill red (themeable per maker) */
+  --accent-text: #f7ecd2;    /* cream ink on an accent fill */
+  --accent-soft: color-mix(in srgb, var(--accent) 12%, transparent);
+  --status-success-fg: #4a5d23;
+  --status-success-bg: color-mix(in srgb, #4a5d23 14%, transparent);
+  --status-warning-fg: #8a3b1e;
+  --status-warning-bg: color-mix(in srgb, #8a3b1e 12%, transparent);
 
   color-scheme: light;
-  background-color: var(--paper);
+  background-color: var(--board);
   color: var(--ink);
+  font-family: var(--font-zilla), Georgia, 'Times New Roman', serif;
 }
 
-/* On the charred-umber band, text/hairlines invert to paper tones. */
-.rq-surface .rq-onDark {
-  --ink: #f3ede2;
-  --ink-secondary: #b9b1a2;
-  --ink-tertiary: #8a8377;
-  --hairline: #3a2c25;
-  --hairline-strong: #4a382f;
-  color: var(--ink);
+/*
+ * The printed sheet — an aged programme with grain, a warm vignette, and a double-ruled
+ * border frame. Shared by landing + status so the playbill chrome stays consistent.
+ */
+.rq-surface .rq-sheet {
+  position: relative;
+  width: 100%;
+  background:
+    radial-gradient(120% 90% at 80% 0%, #f1e7cf 0%, var(--paper) 46%, var(--paper-2) 100%);
+  box-shadow: 0 26px 60px rgba(40, 28, 14, 0.4), 0 2px 0 rgba(255, 255, 255, 0.3) inset;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.rq-surface .rq-sheet::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
+}
+
+.rq-surface .rq-sheet::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 120% at 50% 40%, transparent 55%, rgba(90, 60, 25, 0.22) 100%);
+}
+
+.rq-surface .rq-frame {
+  position: relative;
+  z-index: 1;
+  border: 2px double var(--ink);
+  padding: clamp(22px, 3vw, 40px);
+}
+
+/* Aged rules — hairline and thick double. */
+.rq-surface .rq-rule {
+  height: 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+.rq-surface .rq-rule--thick {
+  border-top: 3px double var(--ink);
+}
+
+/* The letterhead / footer utility caps. */
+.rq-surface .rq-caps {
+  font-family: var(--font-oswald), system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 600;
 }
 
 @media (prefers-reduced-motion: no-preference) {

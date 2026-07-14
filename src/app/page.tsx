@@ -34,45 +34,98 @@ export default async function LandingPage({ searchParams }: Props) {
 
   return (
     <main className={`rq-surface ${styles.main}`} style={accentStyle(theme)}>
-      <div className={`${styles.hero} rq-enter`}>
-        {verifyFailed && (
-          <p role="alert" className={styles.notice}>
-            That confirmation link isn’t valid. Enter your email below to get a fresh one.
-          </p>
-        )}
-        {theme.logoUrl && (
-          // eslint-disable-next-line @next/next/no-img-element -- arbitrary maker-hosted URL; next/image needs known hosts/dimensions
-          <img src={theme.logoUrl} alt={`${waitlist.name} logo`} className={styles.logo} />
-        )}
-        <span className={styles.kicker}>The waitlist that moves</span>
-        <h1 className={styles.title}>{theme.headline ?? waitlist.name}</h1>
-        <p className={styles.subhead}>
-          {theme.subhead ?? 'Join the waitlist — then refer friends to move up the line.'}
-        </p>
-        <SignupForm waitlistSlug={waitlist.slug} referralCode={ref} ctaLabel={theme.ctaLabel} />
+      <div className={`${styles.sheet} rq-sheet rq-enter`}>
+        <div className="rq-frame">
+          {/* Letterhead */}
+          <div className={`${styles.head} rq-caps`}>
+            <span>★ Est. MMXXVI</span>
+            <span className={styles.headMid}>The {waitlist.name} Variety Co.</span>
+            <span>Booth No. 247 ★</span>
+          </div>
+          <hr className={`${styles.ruleTop} rq-rule rq-rule--thick`} />
+
+          {/* Hero — copy on the left, the ticket stub on the right */}
+          <div className={styles.hero}>
+            <div className={styles.copy}>
+              {verifyFailed && (
+                <p role="alert" className={styles.notice}>
+                  That confirmation link isn’t valid. Enter your email below to get a fresh one.
+                </p>
+              )}
+              {theme.logoUrl && (
+                // eslint-disable-next-line @next/next/no-img-element -- arbitrary maker-hosted URL; next/image needs known hosts/dimensions
+                <img src={theme.logoUrl} alt={`${waitlist.name} logo`} className={styles.logo} />
+              )}
+              <span className={styles.kicker}>The waitlist that moves</span>
+              {theme.headline ? (
+                <h1 className={styles.title}>{theme.headline}</h1>
+              ) : (
+                <h1 className={styles.title}>
+                  You’re No. <span className={styles.em}>247</span> in line.
+                </h1>
+              )}
+              <p className={styles.lede}>
+                {theme.subhead ?? 'Join the waitlist, then refer friends to move up the line.'}
+              </p>
+              <div className={styles.boxoffice}>
+                <span className={`${styles.cap} rq-caps`}>Present your address at the window</span>
+                <SignupForm
+                  waitlistSlug={waitlist.slug}
+                  referralCode={ref}
+                  ctaLabel={theme.ctaLabel ?? 'Claim your seat'}
+                />
+                <span className={`${styles.fine} rq-caps`}>Admit one · No fee · Keep this stub</span>
+              </div>
+            </div>
+
+            <div className={styles.ticketwrap}>
+              {/* eslint-disable-next-line @next/next/no-img-element -- decorative local asset; plain img keeps the transparent cutout crisp */}
+              <img
+                className={styles.ticket}
+                src="/ticket-admit-one.webp"
+                width={760}
+                height={1018}
+                alt="A vintage Admit One theatre ticket, serial No 00247"
+              />
+              <div className={styles.annot} aria-hidden="true">
+                <span className={styles.arrow}>☞</span>your number
+              </div>
+            </div>
+          </div>
+
+          <hr className={`${styles.ruleActs} rq-rule`} />
+
+          {/* The three acts */}
+          <ol className={styles.acts} aria-label="How it works">
+            <li className={styles.act}>
+              <span className={styles.actNo}>I.</span>
+              <h2 className={styles.actTitle}>Join the line</h2>
+              <p className={styles.actText}>
+                Leave your address and receive a numbered stub — your place in line, on the spot.
+              </p>
+            </li>
+            <li className={styles.act}>
+              <span className={styles.actNo}>II.</span>
+              <h2 className={styles.actTitle}>Send your friends</h2>
+              <p className={styles.actText}>
+                Share your ticket. Every guest who joins through it is one seat closer to the front.
+              </p>
+            </li>
+            <li className={styles.act}>
+              <span className={styles.actNo}>III.</span>
+              <h2 className={styles.actTitle}>Move up the line</h2>
+              <p className={styles.actText}>
+                Each confirmed referral advances your number. Watch the stub tick toward No. 1.
+              </p>
+            </li>
+          </ol>
+
+          <hr className={`${styles.ruleFoot} rq-rule rq-rule--thick`} />
+          <div className={styles.foot}>
+            <PoweredBy enabled={waitlist.powered_by} />
+          </div>
+        </div>
       </div>
-
-      <section className={`${styles.stepsBand} rq-onDark`} aria-label="How it works">
-        <ol className={styles.steps}>
-          <li className={styles.step}>
-            <span className={styles.stepNum}>01</span>
-            <span className={styles.stepTitle}>Join</span>
-            <span className={styles.stepText}>Drop your email and claim your spot in line.</span>
-          </li>
-          <li className={styles.step}>
-            <span className={styles.stepNum}>02</span>
-            <span className={styles.stepTitle}>Share your link</span>
-            <span className={styles.stepText}>Every friend who joins through it is a spot closer to the front.</span>
-          </li>
-          <li className={styles.step}>
-            <span className={styles.stepNum}>03</span>
-            <span className={styles.stepTitle}>Move up</span>
-            <span className={styles.stepText}>Confirmed referrals climb your number. Watch it drop.</span>
-          </li>
-        </ol>
-      </section>
-
-      <PoweredBy enabled={waitlist.powered_by} />
     </main>
   )
 }

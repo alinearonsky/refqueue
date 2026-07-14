@@ -1,44 +1,37 @@
 .form {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 10px;
   width: 100%;
-  max-width: 480px;
-  margin-top: 6px;
 }
 
-/* The field-well: input + inset accent button, one rounded surface on paper. */
+/* The box-office window: input + inset accent button in a hard-ruled frame. */
 .field {
   display: flex;
-  align-items: center;
-  gap: 6px;
+  align-items: stretch;
   width: 100%;
-  padding: 6px;
-  border: 1px solid var(--hairline-strong);
-  border-radius: 12px;
-  background: var(--paper-raised);
-  transition: border-color 120ms ease-out, box-shadow 120ms ease-out;
+  border: 2px solid var(--ink);
+  background: color-mix(in srgb, var(--paper-raised) 70%, white);
+  transition: box-shadow 120ms ease-out;
 }
 
 .field:focus-within {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 4px var(--accent-soft);
+  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
 .input {
   flex: 1 1 auto;
   min-width: 0;
-  padding: 11px 14px;
+  padding: 13px 15px;
   border: none;
   background: transparent;
   color: var(--ink);
+  font-family: var(--font-zilla), Georgia, serif;
   font-size: 1rem;
-  font-family: inherit;
 }
 
 .input::placeholder {
-  color: var(--ink-tertiary);
+  color: var(--ink-faint);
 }
 
 .input:focus {
@@ -47,21 +40,22 @@
 
 .button {
   flex: 0 0 auto;
-  padding: 11px 20px;
   border: none;
-  border-radius: 8px;
+  border-left: 2px solid var(--ink);
   background: var(--accent);
   color: var(--accent-text);
-  font-size: 0.95rem;
+  font-family: var(--font-oswald), system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
   font-weight: 600;
-  font-family: inherit;
+  font-size: 0.875rem;
+  padding: 0 22px;
   cursor: pointer;
-  transition: box-shadow 140ms ease-out, transform 120ms ease-out, filter 120ms ease-out;
+  transition: filter 120ms ease-out, transform 120ms ease-out;
 }
 
 .button:hover:not(:disabled) {
-  box-shadow: 0 8px 22px color-mix(in srgb, var(--accent) 24%, transparent);
-  filter: brightness(1.08);
+  filter: brightness(1.07);
 }
 
 .button:active:not(:disabled) {
@@ -79,25 +73,23 @@
 }
 
 .error {
-  align-self: flex-start;
-  color: #a1301a;
+  color: var(--red);
   font-size: 0.9rem;
-  padding-left: 4px;
 }
 
+/* Confirmation — reads like a torn-off stub receipt. */
 .success {
-  font-size: 1.12rem;
+  font-family: var(--font-zilla), Georgia, serif;
+  font-size: 1.05rem;
   line-height: 1.6;
-  max-width: 46ch;
-  margin-top: 8px;
+  max-width: 44ch;
   color: var(--ink);
 }
 
-/* Echo the hero: the position reads as a small serif accent numeral. */
 .pos {
-  font-family: var(--font-fraunces), Georgia, serif;
-  font-weight: 600;
-  font-size: 1.15em;
+  font-family: var(--font-rye), Georgia, serif;
+  font-weight: 400;
+  font-size: 1.1em;
   color: var(--accent);
 }
 
@@ -106,25 +98,21 @@
   font-weight: 600;
   white-space: nowrap;
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-underline-offset: 3px;
 }
 
 .statusLink:hover {
   text-decoration-thickness: 2px;
 }
 
-/* Mobile: stack the button under the input. */
+/* Narrow: stack the button under the input. */
 @media (max-width: 460px) {
   .field {
     flex-direction: column;
-    gap: 8px;
-    padding: 8px;
-  }
-  .input {
-    width: 100%;
-    text-align: center;
   }
   .button {
-    width: 100%;
+    border-left: none;
+    border-top: 2px solid var(--ink);
+    padding: 12px 22px;
   }
 }

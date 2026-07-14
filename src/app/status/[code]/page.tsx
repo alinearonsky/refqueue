@@ -26,6 +26,14 @@ interface Props {
   searchParams: Promise<Record<string, string | string[] | undefined>>
 }
 
+function Letterhead({ name }: { name: string }) {
+  return (
+    <div className={`${styles.head} rq-caps`}>
+      <span className={styles.headMid}>★ The {name} Variety Co. ★</span>
+    </div>
+  )
+}
+
 export default async function StatusPage({ params, searchParams }: Props) {
   const { code } = await params
   if (!isValidReferralCode(code)) notFound()
@@ -42,14 +50,23 @@ export default async function StatusPage({ params, searchParams }: Props) {
   if (!signup.verified) {
     return (
       <main className={`rq-surface ${styles.main}`} style={accentStyle(theme)}>
-        <div className={`${styles.pending} rq-enter`}>
-          <span className={styles.overline}>One step left</span>
-          <h1 className={styles.pendingTitle}>Almost there</h1>
-          <p className={styles.pendingText}>
-            Check your inbox and click the confirmation link to lock in your spot on {waitlist.name}.
-          </p>
+        <div className={`${styles.sheet} rq-sheet rq-enter`}>
+          <div className="rq-frame">
+            <Letterhead name={waitlist.name} />
+            <hr className={`${styles.ruleTop} rq-rule rq-rule--thick`} />
+            <div className={styles.pending}>
+              <span className={`${styles.overline} rq-caps`}>One step left</span>
+              <h1 className={styles.pendingTitle}>Almost there</h1>
+              <p className={styles.pendingText}>
+                Check your inbox and click the confirmation link to lock in your spot on {waitlist.name}.
+              </p>
+            </div>
+            <hr className={`${styles.ruleFoot} rq-rule rq-rule--thick`} />
+            <div className={styles.foot}>
+              <PoweredBy enabled={waitlist.powered_by} />
+            </div>
+          </div>
         </div>
-        <PoweredBy enabled={waitlist.powered_by} />
       </main>
     )
   }
@@ -61,70 +78,89 @@ export default async function StatusPage({ params, searchParams }: Props) {
 
   return (
     <main className={`rq-surface ${styles.main}`} style={accentStyle(theme)}>
-      {welcome && <p className={styles.welcome}>You’re in — your spot is confirmed.</p>}
+      <div className={`${styles.sheet} rq-sheet rq-enter`}>
+        <div className="rq-frame">
+          <Letterhead name={waitlist.name} />
+          <hr className={`${styles.ruleTop} rq-rule rq-rule--thick`} />
 
-      <div className={`${styles.hero} rq-enter`}>
-        <span className={styles.overline}>Your position on {waitlist.name}</span>
-        <p className={styles.position}>
-          <span className={styles.hash}>#</span>
-          {status.position}
-        </p>
-        <p className={styles.referrals}>
-          {status.confirmedReferrals === 1
-            ? '1 friend has joined through your link'
-            : `${status.confirmedReferrals} friends have joined through your link`}
-        </p>
+          {welcome && <p className={styles.welcome}>You’re in — your spot is confirmed.</p>}
+
+          {/* THE stub — the live position printed as a ticket serial */}
+          <div className={styles.ticket}>
+            <span className={`${styles.overline} rq-caps`}>Your position on {waitlist.name}</span>
+            <div className={`${styles.admit} rq-caps`}>
+              <span className={styles.admitRule} aria-hidden="true" />
+              Admit one — in line
+              <span className={styles.admitRule} aria-hidden="true" />
+            </div>
+            <p className={styles.serial}>
+              <span className={styles.serialNo}>No.</span>
+              {status.position}
+            </p>
+            <p className={styles.referrals}>
+              {status.confirmedReferrals === 1
+                ? '1 friend has joined through your link'
+                : `${status.confirmedReferrals} friends have joined through your link`}
+            </p>
+          </div>
+
+          <section className={styles.card}>
+            <h2 className={styles.cardTitle}>Move up the line</h2>
+            <p className={styles.cardText}>
+              Every friend who joins through your link and confirms their email moves you up.
+            </p>
+            <div className={styles.linkRow}>
+              <code className={styles.link}>{status.referralLink}</code>
+              <CopyButton text={status.referralLink} />
+            </div>
+            <div className={styles.shareRow}>
+              <a href={share.x} target="_blank" rel="noopener noreferrer">Share on X</a>
+              <a href={share.whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+              <a href={share.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+              <a href={share.email}>Email</a>
+            </div>
+          </section>
+
+          {(unlocked.length > 0 || next) && (
+            <section className={styles.card}>
+              <h2 className={styles.cardTitle}>Rewards</h2>
+              <ul className={styles.tiers}>
+                {unlocked.map(t => (
+                  <li key={`${t.referrals}-${t.label}`} className={styles.unlocked}>
+                    <svg
+                      className={styles.check}
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M13.5 4.5L6.5 11.5L2.5 7.5"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    <span>{t.label}</span>
+                  </li>
+                ))}
+                {next && (
+                  <li className={styles.nextTier}>
+                    Refer {toNext} more to unlock <strong>{next.label}</strong>
+                  </li>
+                )}
+              </ul>
+            </section>
+          )}
+
+          <hr className={`${styles.ruleFoot} rq-rule rq-rule--thick`} />
+          <div className={styles.foot}>
+            <PoweredBy enabled={waitlist.powered_by} />
+          </div>
+        </div>
       </div>
-
-      <section className={styles.card}>
-        <h2>Move up the line</h2>
-        <p>Every friend who joins through your link and confirms their email moves you up.</p>
-        <div className={styles.linkRow}>
-          <code className={styles.link}>{status.referralLink}</code>
-          <CopyButton text={status.referralLink} />
-        </div>
-        <div className={styles.shareRow}>
-          <a href={share.x} target="_blank" rel="noopener noreferrer">Share on X</a>
-          <a href={share.whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp</a>
-          <a href={share.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          <a href={share.email}>Email</a>
-        </div>
-      </section>
-
-      {(unlocked.length > 0 || next) && (
-        <section className={styles.card}>
-          <h2>Rewards</h2>
-          <ul className={styles.tiers}>
-            {unlocked.map(t => (
-              <li key={`${t.referrals}-${t.label}`} className={styles.unlocked}>
-                <svg
-                  className={styles.check}
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M13.5 4.5L6.5 11.5L2.5 7.5"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                <span>{t.label}</span>
-              </li>
-            ))}
-            {next && (
-              <li className={styles.nextTier}>
-                Refer {toNext} more to unlock <strong>{next.label}</strong>
-              </li>
-            )}
-          </ul>
-        </section>
-      )}
-      <PoweredBy enabled={waitlist.powered_by} />
     </main>
   )
 }

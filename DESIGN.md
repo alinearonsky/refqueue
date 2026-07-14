@@ -1,158 +1,175 @@
 # RefQueue Design System
 
 The single source of truth for RefQueue's public pages (landing + status). Maker-internal
-screens (dashboard, login) stay neutral and are out of scope. Every color, size, and spacing
-value on the public pages traces to a token here.
+screens (dashboard, login) stay neutral (Geist) and are out of scope. Every color, size, and
+spacing value on the public pages traces to a token here.
 
-**Direction — "New Genre":** a cinematic editorial broadsheet on warm paper (adapted from the
-Refero "New Genre" style). Near-black serif display on a warm paper canvas, one charred-umber
-dark contrast band for drama, and a soft golden-hour light instead of any saturated glow. The
-look is intentional and human — deliberately *not* the dark-neon-gradient AI default.
+**Direction — "Admit One":** a **vintage theatre-ticket playbill**. An aged programme sheet
+pinned to a board — letterpress type, playbill vermilion, double-ruled borders, film-grain and a
+warm vignette — with a **real scanned Admit One ticket stub** as the hero object. The number is
+the star: a numbered ticket you hold, then move toward the front of the house. Committed,
+nostalgic, and tactile — deliberately *not* the warm-cream editorial or dark-neon AI defaults.
 
-**Scope note — theming:** the accent is a *default* (a warm near-black — the classic
-editorial black-on-paper). Makers override it with `THEME_ACCENT_COLOR` (Plan 5), which sets
-`--accent`/`--accent-text` inline on `<main>` and wins over the defaults below. The accent lives
-in the **interactive layer** — CTA fill, links, the success numeral, small marks — so a maker's
-brand color flows through and still looks right on paper. The giant hero position number stays
-near-black `--ink` (a neutral folio that harmonizes with the warm wash *and* any brand accent —
-a cool accent on the golden light would clash).
+**Scope note — theming:** the accent is a *default* (playbill red `--red`). Makers override it
+with `THEME_ACCENT_COLOR`, which sets `--accent`/`--accent-text` inline on `<main>` and wins over
+the defaults below. The accent lives in the **interactive + emphasis layer** — CTA fill, the
+kicker, the ticket border, the position numeral, links, small marks — so a maker's brand color
+flows through the whole piece and still reads on aged paper (pick a saturated mid-tone).
 
 ---
 
 ## 1. Atmosphere & Identity
 
-RefQueue reads like the **front page of a well-set broadsheet**: warm paper, confident serif
-headlines, generous rag-right space, and one column of quiet authority. The drama is not a glow —
-it's **contrast and light**: a single charred-umber band cutting across the paper, and a soft
-golden-hour wash that falls across the hero like late-afternoon sun on a page. Type does the
-heavy lifting: a high-contrast display serif (Fraunces) for statements, a clean grotesque (Geist)
-for everything functional.
+RefQueue reads like a **printed variety-show programme**: an aged paper sheet, a double-ruled
+frame, a letterhead masthead, a hand-set letterpress headline, and a torn ticket stub. The drama
+is **material** — grain, vignette, ink-on-paper contrast, and one saturated red. Type carries the
+period: an aged display face (Rye) for the headline and serials, a condensed grotesque (Oswald)
+for uppercase utility lettering, and a slab serif (Zilla Slab) for programme body copy.
 
-**Signature:** the **position number as an oversized serif numeral** — set like a magazine folio
-or a drop-cap, lit by the golden-hour wash, on warm paper. Editorial, not neon.
+**Signature:** the **numbered ticket**. On the landing it is a real scanned *Admit One* stub
+(serial No 00247) with a hand-drawn "☞ your number" pointer. On the status page it becomes
+**your live position printed as a serial** — `No. 41` set huge in Rye red inside a bordered stub.
 
 ---
 
 ## 2. Color
 
-Warm paper is the canvas; near-black ink is the voice; one dark band and one warm light are the
-only drama. The accent is used sparingly — CTA, links, the number — never as decoration.
+Aged programme paper is the canvas; sepia-black is the ink; playbill red is the one saturated
+voice. The board behind the sheet is a deeper tan. The accent (red by default) carries CTA, the
+ticket border, and the numeral — never scattered as decoration.
 
 | Role | Token | Value | Usage |
 |---|---|---|---|
-| Paper canvas | `--paper` | `#fbfaf7` | Page background (warm off-white) |
-| Paper raised | `--paper-raised` | `#ffffff` | Cards, input wells |
-| Paper sunken | `--paper-sunken` | `#f4f1ea` | Subtle sunken bands |
-| Band (dark) | `--band-dark` | `#1e1310` | The one charred-umber contrast band |
-| Ink | `--ink` | `#14100c` | Primary text & headlines (warm near-black) |
-| Ink secondary | `--ink-secondary` | `#63615c` | Subheads, captions |
-| Ink tertiary | `--ink-tertiary` | `#9a978f` | Meta, credit |
-| Hairline | `--hairline` | `#e7e2d8` | Dividers, field borders |
-| Hairline strong | `--hairline-strong` | `#d8d2c5` | Emphasized borders |
-| Accent (default) | `--accent` | `#14100c` | CTA fill, links, success numeral (themeable) |
-| Accent text | `--accent-text` | `#fbfaf7` | Text on an accent fill |
-| Accent soft | `--accent-soft` | `color-mix(accent 7%)` | Tinted wells, unlocked-tier bg |
-| Ember (light) | `--ember` | `rgba(255,209,128,.5)` | Golden-hour wash behind hero/number |
-| Ember faint | `--ember-faint` | `rgba(255,221,158,.24)` | Softer secondary wash |
-| Status success | `--status-success-fg` | `#3f6212` | Confirmed / verified (olive on paper) |
-| Status warning | `--status-warning-fg` | `#92400e` | Pending / notices (sienna on paper) |
-
-### On the dark band
-Inside `.rq-onDark` (the charred-umber section) the ink/hairline tokens invert to paper tones
-(`--ink: #f3ede2`, `--ink-secondary: #b9b1a2`, `--hairline: #3a2c25`) so the same components read
-correctly on dark.
+| Board | `--board` | `#c9b790` | Page backdrop the sheet is pinned to |
+| Paper | `--paper` | `#ece0c6` | Aged programme paper (sheet body) |
+| Paper (foot) | `--paper-2` | `#e6d8ba` | Deeper paper at the foot of the sheet gradient |
+| Paper raised | `--paper-raised` | `#f1e7cf` | Input wells, card / ticket tops |
+| Paper sunken | `--paper-sunken` | `#e2d3b0` | Sunken wells (referral link) |
+| Ink | `--ink` | `#241c14` | Sepia-black letterpress — headlines, body, frame |
+| Ink soft | `--ink-soft` | `#5a4b38` | Faded ink — subheads, captions |
+| Ink faint | `--ink-faint` | `#8a7a5c` | Fine print, meta |
+| Red (accent default) | `--red` | `#b5321f` | Playbill vermilion — CTA, kicker, ticket, numeral |
+| Blue | `--blue` | `#2f4d6b` | Ink-blue, used sparingly |
+| Line | `--line` | `#c3ad84` | Aged hairline rules |
+| Line strong | `--line-strong` | `#b49b6d` | Card / well borders |
+| Accent | `--accent` | `var(--red)` | Interactive + emphasis (themeable) |
+| Accent text | `--accent-text` | `#f7ecd2` | Cream ink on an accent fill |
+| Accent soft | `--accent-soft` | `color-mix(accent 12%)` | Unlocked-tier bg, focus ring |
+| Status success | `--status-success-fg` | `#4a5d23` | Confirmed / verified (olive stamp) |
+| Status warning | `--status-warning-fg` | `#8a3b1e` | Pending / notices (burnt sienna) |
 
 ### Rules
-- The golden-hour ember is a **soft directional wash**, never a centered radial blob. Low opacity.
-- `--accent` is interactive only (CTA / link / number). Default is warm near-black; a maker's
-  `THEME_ACCENT_COLOR` overrides it and must stay legible on paper (pick a mid-to-dark color).
-- Exactly **one** dark band per page — overusing it kills the paper feel.
+- The sheet always carries **grain + a warm vignette** (`.rq-sheet::before/::after`). That texture
+  is the anti-AI signal — do not flatten it to a solid fill.
+- `--accent` is interactive/emphasis only (CTA, ticket border, kicker, numeral, links). Default is
+  playbill red; a maker's `THEME_ACCENT_COLOR` overrides it and must stay saturated enough to read
+  as ink on aged paper.
+- Body text is `--ink` / `--ink-soft` on paper — both clear ≥4.5:1. Fine print (`--ink-faint`) is
+  reserved for genuinely secondary lines (letterhead flourish, stub fine print).
 
 ---
 
 ## 3. Typography
 
-Three families, all via `next/font` in `layout.tsx`.
+Five families via `next/font` in `layout.tsx` — three for the public surface, Geist Sans/Mono
+retained for the maker dashboard.
 
-| Level | Family | Size (clamp) | Weight | Line | Tracking | Usage |
-|---|---|---|---|---|---|---|
-| Display / hero | Fraunces (serif) | `clamp(2.75rem, 6vw, 4.75rem)` | 500 | 1.03 | -0.02em | Landing headline |
-| Position number | Fraunces (serif) | `clamp(5rem, 18vw, 11rem)` | 500 | 0.9 | -0.03em | Status hero (folio numeral) |
-| Section head | Fraunces (serif) | `1.75rem` | 500 | 1.15 | -0.01em | Card / section titles |
-| Body / lg | Geist Sans | `1.15rem` | 400 | 1.6 | 0 | Subhead / lead |
-| Body | Geist Sans | `1rem` | 400 | 1.6 | 0 | Default |
-| Body / sm | Geist Sans | `0.9rem` | 400 | 1.5 | 0 | Secondary |
-| Overline | Geist Sans | `0.72rem` | 600 | 1.3 | 0.14em | Uppercase kickers/labels |
-| Mono | Geist Mono | `0.85rem` | 400 | 1.4 | 0 | Referral link / code |
+| Level | Family | Size (clamp) | Weight | Tracking | Usage |
+|---|---|---|---|---|---|
+| Display / hero | Rye | `clamp(38px, 6vw, 74px)` | 400 | 0.01em | Landing headline |
+| Serial / numeral | Rye | `clamp(60px, 15vw, 100px)` | 400 | 0.09em | Status position number |
+| Section head | Rye | `1.3–1.35rem` | 400 | 0 | Card / act titles |
+| Utility caps | Oswald | `10.5–14px` | 600 | 0.12–0.22em | Letterhead, kicker, labels, CTA, share |
+| Body / lead | Zilla Slab | `clamp(16px, 1.5vw, 19px)` | 400 | 0 | Lede, card copy |
+| Body / sm | Zilla Slab | `13.5px` | 400 | 0 | Act copy, referral count |
+| Mono | Geist Mono | `0.82rem` | 400 | 0 | Referral link |
 
 ### Font stack
-- Display (serif): `var(--font-fraunces), Georgia, 'Times New Roman', serif`
-- Body / UI: `var(--font-geist-sans), system-ui, sans-serif`
+- Display: `var(--font-rye), Georgia, 'Times New Roman', serif`
+- Utility caps: `var(--font-oswald), system-ui, sans-serif`
+- Body: `var(--font-zilla), Georgia, serif`
 - Mono: `var(--font-geist-mono), ui-monospace, monospace`
 
 ### Rules
-- Serif is for **statements only** (hero, section heads, the number). Never for UI/body/labels.
-- The hero and number use `clamp()` for fluid sizing; never a fixed px that overflows mobile.
-- Accepted debt: the serif position number is **not** tabular — fine for a static number; the
-  wave-two position-jump animation will handle digit alignment in its own mini-plan.
+- **Rye is for statements only** (headline, serials, section heads). Its numerals are chunky —
+  always give multi-digit numbers ≥0.06em tracking so digits don't kiss (serial uses 0.09em).
+- Oswald caps carry all uppercase utility lettering (letterhead, kicker, CTA, labels). Never set
+  Rye in a running label.
+- Headline/serial use `clamp()`; a `text-shadow: 1px 1px 0 rgba(90,60,25,.12)` gives the letterpress
+  bite. Never a fixed px that overflows mobile.
 
 ---
 
 ## 4. Spacing & Layout
 
-Base unit **4px**. Tokens as needed: 4,8,12,16,20,24,32,40,48,64,80,96 px.
+Base unit **4px**. The public page is a centered **sheet** floating on the board.
 
-- Public page max content width: **600px** (landing column) / **660px** (status). Left-leaning or
-  centered per component; generous vertical rhythm (editorial whitespace is the point).
-- The hero sits high with air above; the dark band runs edge-to-edge (full-bleed width, padded
-  content). `min-height: 100svh`, bottom reserve for the fixed credit.
-- Breakpoints: sm 640, md 768. Mobile-first; no horizontal scroll at 375px.
+- Landing sheet max-width **1080px** (two-column hero: copy left, ticket right). Status sheet
+  max-width **600px** (single column: stub → cards). Both wrapped in a `.rq-frame` double border.
+- Shared chrome lives in `globals.css`: `.rq-sheet` (paper + grain + vignette + shadow),
+  `.rq-frame` (2px double border), `.rq-rule` / `.rq-rule--thick` (aged rules), `.rq-caps` (Oswald
+  utility caps). Page modules own their own layout only.
+- `min-height: 100svh`; the sheet is vertically centered on the board.
+- Mobile (`≤760` landing / `≤560` status): hero collapses to one column with the ticket on top;
+  acts stack; the box-office button drops under the input; letterhead simplifies. No horizontal
+  scroll at 375px (`.rq-sheet` is `overflow: hidden`, `main` is `overflow-x: hidden`).
 
 ### Rules
 - Every spacing value maps to a token. No magic numbers.
-- Whitespace is a feature — do not crowd to fill.
+- The frame + rules are structural, not decoration — they set the programme rhythm.
 
 ---
 
 ## 5. Components (public pages)
 
-### Golden-hour wash (background)
-- **Structure:** the `<main>` carries the warm paper plus a soft directional golden-hour wash
-  (a large, low-opacity radial/linear using `--ember`, offset to a corner — light *across* the
-  page, not a glow *behind* a blob).
-- **States:** static; decorative; text contrast preserved above it.
+### The sheet (shared chrome)
+- **Structure:** `.rq-sheet` = warm paper gradient + film-grain (`::before`, `mix-blend multiply`)
+  + warm vignette (`::after`) + drop shadow. Inside, a `.rq-frame` double border wraps the content.
+- **States:** static; entrance = fade + rise (`.rq-enter`), reduced-motion safe.
+
+### Letterhead
+- **Structure:** an Oswald-caps masthead. Landing: three-part (`★ Est. MMXXVI` · `The {name}
+  Variety Co.` · `Booth No. 247 ★`) with the side flourishes hidden ≤760px. Status: a single
+  centered `★ The {name} Variety Co. ★`. Followed by a thick double rule.
 
 ### Hero headline (landing)
-- **Structure:** small overline kicker, then the Fraunces serif `<h1>` at Display scale, then a
-  Geist-Sans subhead in `--ink-secondary`. Optional themed logo above.
-- **States:** static. Entrance = fade + rise (`.rq-enter`), reduced-motion safe.
+- **Structure:** red Oswald kicker ("The waitlist that moves"), then the Rye `<h1>` — default
+  **"You're No. 247 in line."** with `247` in `--accent` — then a Zilla Slab lede. `theme.headline`
+  / `theme.subhead` override the defaults.
 
-### Email capture (SignupForm)
-- **Structure:** a single rounded field-well (`--paper-raised`, `--hairline` border) with the
-  email input and the accent CTA button inline on desktop, stacked on mobile.
-- **States:** default / focus (accent hairline + soft ring on the well) / pending ("Joining…") /
-  error (sienna message below) / success (result message replaces the form).
-- **Accessibility:** input has `aria-label`; real submit button; visible focus.
+### Ticket stub — landing
+- **Structure:** the real scanned *Admit One* cutout (`/ticket-admit-one.webp`, transparent PNG
+  keyed from a generated ticket, ~92KB), rotated 4.5°, with a rotated Oswald "☞ your number"
+  pointer. Decorative; `aria-hidden` pointer; descriptive `alt` on the image.
 
-### How-it-works band (landing)
-- **Structure:** the **one dark moment** — a full-bleed charred-umber band (`.rq-onDark`) holding
-  three steps (Join → Share your link → Move up), each a serif index numeral + label + line.
-  Provides cinematic contrast against the paper.
-- **States:** static.
+### Box office (SignupForm)
+- **Structure:** an Oswald-caps label ("Present your address at the window"), a hard-ruled field
+  (2px `--ink` border) with the email input and the accent **"Claim your seat"** button inline
+  (stacked ≤460px), then Oswald fine print ("Admit one · No fee · Keep this stub").
+- **States:** default / focus (accent soft ring) / pending ("Joining…") / error (red line) /
+  success (a stub-style confirmation with the position in Rye red replaces the form).
+- **Accessibility:** `aria-label` on the input; real submit button; visible focus.
 
-### Position hero (status)
-- **Structure:** overline label ("Your position"), then the giant **Fraunces serif numeral** with
-  the golden-hour wash behind it, then the referral-count line. THE signature moment.
-- **States:** static now; the wash + numeral are the anchor for the wave-two position-jump animation.
-- **Accessibility:** the number is real text; the wash is decorative.
+### Acts (landing "how it works")
+- **Structure:** three columns — Rye red numerals `I. / II. / III.`, an Oswald caps title, Zilla
+  Slab copy (Join the line → Send your friends → Move up the line). Stacks ≤760px.
 
-### Card (status: "Move up the line", "Rewards")
-- **Structure:** `--paper-raised` panel, `--hairline` border, generous padding, serif section title.
-- **Sub-parts:** referral link row (mono code in a sunken well + CopyButton), share row (text
-  links, hover → accent), reward tiers (unlocked = `--accent-soft` bg + olive check; next = plain).
+### Ticket stub — status (signature)
+- **Structure:** a bordered stub (`--accent` border + inner dashed rule) holding: an Oswald overline
+  ("Your position on {name}"), "ADMIT ONE — IN LINE" with flanking rules (rules hidden on mobile),
+  the **live position as a Rye red serial** (`No. 41`), and the referral-count line.
+- **States:** static now; the stub is the anchor for the wave-two position-jump animation.
+- **Accessibility:** the number is real text; the frame/pointer are decorative.
+
+### Cards (status: "Move up the line", "Rewards")
+- **Structure:** aged-paper panel (`--line-strong` border), Rye section title, Zilla Slab copy.
+- **Sub-parts:** referral link row (Geist Mono in a sunken well + Oswald-caps CopyButton), share row
+  (Oswald-caps links with an underline that goes accent on hover), reward tiers (unlocked =
+  `--accent-soft` bg + olive check; next = plain).
 
 ### Credit (PoweredBy)
-- Fixed bottom-center, `--ink-tertiary`, hover underline. Reads on paper.
+- Oswald caps, `--ink-soft`, centered **inside** the sheet footer (below the closing thick rule).
+  `RefQueue` goes `--ink` → `--accent` on hover. On by default; `POWERED_BY=false` removes it.
 
 ---
 
@@ -160,22 +177,24 @@ Base unit **4px**. Tokens as needed: 4,8,12,16,20,24,32,40,48,64,80,96 px.
 
 | Type | Duration | Easing | Usage |
 |---|---|---|---|
-| Micro | 120ms | ease-out | Button/link hover, focus ring |
-| Standard | 320ms | cubic-bezier(0.16,1,0.3,1) | Hero/number entrance (fade + rise) |
+| Micro | 120ms | ease-out | Button/link hover, focus ring, active press |
+| Standard | 480ms | cubic-bezier(0.16,1,0.3,1) | Sheet entrance (fade + rise) |
 
 ### Rules
 - **GPU-composited only** — `transform`, `opacity`, `filter`, `box-shadow`. Never animate layout.
 - Respect `prefers-reduced-motion`: entrance becomes instant.
-- Hover on the CTA deepens the ink / lifts a subtle shadow — no glow.
+- Hover on the CTA brightens the ink slightly and presses on active — no glow.
 
 ---
 
 ## 7. Accepted debt / deferred
 
-- **Position-jump animation** → wave two (its own mini-plan). The serif numeral + wash are its anchor.
-- **Serif number isn't tabular** — acceptable for a static number; digit alignment handled in the
-  animation mini-plan.
-- **Light-only** — the public pages are always the warm-paper surface (the designed screenshot/video
-  surface). No dark variant; the charred-umber band supplies contrast.
+- **Position-jump animation** → wave two (its own mini-plan). The status ticket stub is its anchor.
+- **Rye serial isn't tabular** — acceptable for a static number; the ≥0.09em tracking keeps digits
+  legible. Digit alignment handled in the animation mini-plan.
+- **Light-only** — the public pages are always the aged-paper surface (the designed screenshot/video
+  surface). No dark variant; grain + vignette + red supply the drama.
+- **Landing ticket is a fixed demo serial (No 00247)** — a scanned image, so it does not reflect a
+  visitor's real number (they have none yet). The *status* stub is the live, dynamic serial.
 - **Full Lighthouse-100 audit + react-scan tooling** — not run this pass (SSR, near-zero client JS,
-  fast by architecture). Revisit if needed.
+  one ~92KB image, fast by architecture). Revisit if needed.

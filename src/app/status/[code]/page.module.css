@@ -1,148 +1,197 @@
 .main {
-  position: relative;
-  isolation: isolate;
   min-height: 100svh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 30px;
-  padding: 88px 24px 96px; /* bottom reserve for the fixed powered-by credit */
-  text-align: center;
+  padding: 40px 22px;
   overflow-x: hidden;
 }
 
-/* Golden-hour wash across the paper — same light as the landing. */
-.main::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    radial-gradient(90% 55% at 50% 6%, var(--ember) 0%, transparent 55%),
-    radial-gradient(80% 50% at 88% 0%, var(--ember-faint) 0%, transparent 50%);
+.sheet {
+  max-width: 600px;
+  padding: 36px clamp(24px, 5vw, 48px) 30px;
+}
+
+/* Letterhead — shared language with the landing */
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.headMid {
+  letter-spacing: 0.2em;
+  text-align: center;
+}
+
+.ruleTop {
+  margin-top: 14px;
+}
+
+.ruleFoot {
+  margin-top: 24px;
+}
+
+.foot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 18px;
 }
 
 .welcome {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  margin: 18px auto 0;
   background: var(--status-success-bg);
   color: var(--status-success-fg);
-  border: 1px solid color-mix(in srgb, var(--status-success-fg) 28%, transparent);
+  border: 1px solid color-mix(in srgb, var(--status-success-fg) 30%, transparent);
   padding: 8px 16px;
-  border-radius: 999px;
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-family: var(--font-oswald), system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  font-weight: 600;
 }
 
-/* THE signature moment — the position number as an oversized serif folio. */
-.hero {
+/* THE stub */
+.ticket {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
+  margin: 26px auto 8px;
+  max-width: 440px;
+  padding: 28px 30px 30px;
+  text-align: center;
+  background: color-mix(in srgb, var(--paper-raised) 75%, white);
+  border: 2px solid var(--accent);
+  box-shadow: 0 10px 26px rgba(40, 28, 14, 0.18);
+}
+
+/* inner dashed rule — the printed ticket frame */
+.ticket::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border: 1px dashed color-mix(in srgb, var(--accent) 45%, transparent);
+  pointer-events: none;
 }
 
 .overline {
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--ink-soft);
+}
+
+.admit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+}
+
+.admitRule {
+  height: 1px;
+  width: 26px;
+  background: color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.serial {
+  font-family: var(--font-rye), Georgia, 'Times New Roman', serif;
+  font-size: clamp(60px, 15vw, 100px);
+  line-height: 0.95;
+  letter-spacing: 0.09em;
+  color: var(--accent);
+  margin: 4px 0 2px;
+  text-shadow: 1px 1px 0 rgba(90, 60, 25, 0.14);
+}
+
+.serialNo {
+  font-family: var(--font-oswald), system-ui, sans-serif;
+  font-size: 0.24em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--ink-secondary);
-}
-
-.position {
-  font-family: var(--font-fraunces), Georgia, 'Times New Roman', serif;
-  font-size: clamp(5rem, 18vw, 11rem);
-  font-weight: 500;
-  line-height: 0.9;
-  letter-spacing: -0.03em;
-  color: var(--ink);
-}
-
-.hash {
-  font-size: 0.5em;
-  font-style: italic;
-  color: var(--ink-secondary);
-  margin-right: 0.04em;
-  vertical-align: 0.28em;
+  vertical-align: 0.95em;
+  margin-right: 0.14em;
+  color: var(--ink-soft);
 }
 
 .referrals {
-  color: var(--ink-secondary);
-  font-size: 0.98rem;
-  margin-top: 4px;
+  font-family: var(--font-zilla), Georgia, serif;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  margin-top: 6px;
 }
 
-/* Pending (unverified) state */
+/* Pending (unverified) */
 .pending {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
+  text-align: center;
+  padding: 34px 0 30px;
   max-width: 46ch;
+  margin: 0 auto;
 }
 
 .pendingTitle {
-  font-family: var(--font-fraunces), Georgia, serif;
-  font-size: clamp(2rem, 5vw, 2.75rem);
-  font-weight: 500;
-  letter-spacing: -0.02em;
+  font-family: var(--font-rye), Georgia, serif;
+  font-size: clamp(30px, 7vw, 48px);
+  line-height: 1.05;
   color: var(--ink);
+  margin: 12px 0 12px;
+  text-wrap: balance;
+  text-shadow: 1px 1px 0 rgba(90, 60, 25, 0.12);
 }
 
 .pendingText {
-  color: var(--ink-secondary);
+  font-family: var(--font-zilla), Georgia, serif;
+  color: var(--ink-soft);
   line-height: 1.6;
 }
 
-/* Cards */
+/* Cards — aged paper panels */
 .card {
-  width: 100%;
-  max-width: 540px;
-  border: 1px solid var(--hairline);
-  border-radius: 14px;
-  padding: 26px;
-  background: var(--paper-raised);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  margin-top: 22px;
+  border: 1px solid var(--line-strong);
+  background: color-mix(in srgb, var(--paper-raised) 60%, white);
+  padding: 22px 24px;
   text-align: left;
 }
 
-.card h2 {
-  font-family: var(--font-fraunces), Georgia, serif;
-  font-size: 1.75rem;
-  font-weight: 500;
-  letter-spacing: -0.01em;
+.cardTitle {
+  font-family: var(--font-rye), Georgia, serif;
+  font-size: 1.3rem;
+  line-height: 1.15;
   color: var(--ink);
+  margin-bottom: 8px;
 }
 
-.card p {
-  color: var(--ink-secondary);
+.cardText {
+  font-family: var(--font-zilla), Georgia, serif;
+  color: var(--ink-soft);
   font-size: 0.95rem;
   line-height: 1.55;
 }
 
 .linkRow {
   display: flex;
-  align-items: center;
   flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
-  margin-top: 4px;
+  margin-top: 14px;
 }
 
 .link {
   flex: 1 1 240px;
   padding: 11px 14px;
   background: var(--paper-sunken);
-  border: 1px solid var(--hairline);
-  border-radius: 9px;
+  border: 1px solid var(--line-strong);
   font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--ink);
   overflow-wrap: anywhere;
 }
@@ -151,39 +200,43 @@
   flex: 0 0 auto;
   padding: 11px 18px;
   border: none;
-  border-radius: 9px;
   background: var(--accent);
   color: var(--accent-text);
-  font-size: 0.9rem;
+  font-family: var(--font-oswald), system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   font-weight: 600;
-  font-family: inherit;
+  font-size: 0.8rem;
   cursor: pointer;
-  transition: box-shadow 140ms ease-out, filter 120ms ease-out;
+  transition: filter 120ms ease-out;
 }
 
 .linkRow button:hover {
-  box-shadow: 0 8px 20px color-mix(in srgb, var(--accent) 22%, transparent);
-  filter: brightness(1.08);
+  filter: brightness(1.07);
 }
 
 .shareRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 18px;
-  margin-top: 2px;
+  gap: 16px;
+  margin-top: 16px;
 }
 
 .shareRow a {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--ink-secondary);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  transition: color 120ms ease-out;
+  font-family: var(--font-oswald), system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--line-strong);
+  padding-bottom: 2px;
+  transition: color 120ms ease-out, border-color 120ms ease-out;
 }
 
 .shareRow a:hover {
   color: var(--accent);
+  border-color: var(--accent);
 }
 
 /* Reward tiers */
@@ -192,7 +245,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-top: 2px;
+  margin-top: 14px;
 }
 
 .unlocked {
@@ -200,11 +253,10 @@
   align-items: center;
   gap: 10px;
   padding: 10px 14px;
-  border-radius: 9px;
   background: var(--accent-soft);
   color: var(--ink);
+  font-family: var(--font-zilla), Georgia, serif;
   font-size: 0.95rem;
-  font-weight: 500;
 }
 
 .check {
@@ -214,7 +266,8 @@
 
 .nextTier {
   padding: 10px 14px;
-  color: var(--ink-secondary);
+  color: var(--ink-soft);
+  font-family: var(--font-zilla), Georgia, serif;
   font-size: 0.95rem;
 }
 
@@ -224,11 +277,13 @@
 }
 
 @media (max-width: 560px) {
-  .main {
-    gap: 24px;
-    padding: 64px 20px 88px;
+  .sheet {
+    padding: 26px 18px 24px;
+  }
+  .admitRule {
+    display: none;
   }
   .card {
-    padding: 20px;
+    padding: 18px 18px;
   }
 }

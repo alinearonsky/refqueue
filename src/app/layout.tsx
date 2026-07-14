@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Fraunces } from "next/font/google";
+import { Geist, Geist_Mono, Rye, Oswald, Zilla_Slab } from "next/font/google";
 import "./globals.css";
 
+// Geist stays for the maker-internal surface (dashboard, login).
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -12,11 +13,24 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// Editorial display serif for the public pages (hero + position number).
-// Refero's "New Genre" style names Fraunces as the substitute for its condensed
-// display serif; the optical-size axis keeps large headlines high-contrast.
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+// Public surface = a vintage theatre-ticket playbill (see DESIGN.md).
+// Rye: the aged letterpress display face (headline + serial numerals).
+const rye = Rye({
+  variable: "--font-rye",
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
+// Oswald: the condensed grotesque for uppercase utility labels & ticket lettering.
+const oswald = Oswald({
+  variable: "--font-oswald",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+// Zilla Slab: the slab-serif body — reads like printed programme copy.
+const zillaSlab = Zilla_Slab({
+  variable: "--font-zilla",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   style: ["normal", "italic"],
@@ -34,7 +48,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable}`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} ${rye.variable} ${oswald.variable} ${zillaSlab.variable}`}
+      >
         {children}
       </body>
     </html>

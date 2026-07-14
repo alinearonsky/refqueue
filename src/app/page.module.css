@@ -1,153 +1,240 @@
+/* The board backdrop; the playbill sheet floats centered on it. */
 .main {
-  position: relative;
-  isolation: isolate;
   min-height: 100svh;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 72px;
-  padding: 104px 24px 96px;
-  text-align: center;
+  justify-content: center;
+  padding: 40px 22px;
   overflow-x: hidden;
 }
 
-/* Golden-hour light — warm sun falling from the top-right across the paper.
-   A soft directional wash, deliberately NOT a centered neon glow. */
-.main::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    radial-gradient(115% 75% at 88% -12%, var(--ember) 0%, transparent 55%),
-    radial-gradient(90% 55% at 6% -8%, var(--ember-faint) 0%, transparent 50%);
+.sheet {
+  max-width: 1080px;
+  padding: 40px clamp(28px, 5vw, 64px) 34px;
 }
 
+/* Letterhead */
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.headMid {
+  letter-spacing: 0.24em;
+}
+
+.ruleTop {
+  margin-top: 14px;
+}
+
+/* Hero — copy left, ticket stub right */
 .hero {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(24px, 4vw, 52px);
+  align-items: center;
+  padding: 30px 0 26px;
+}
+
+.copy {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 22px;
-  max-width: 600px;
-  width: 100%;
-  padding-top: 32px;
-}
-
-.logo {
-  height: 40px;
-  width: auto;
-  max-width: 220px;
-  object-fit: contain;
-}
-
-/* Editorial kicker: a hairline rule, then small-caps grotesque. */
-.kicker {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-secondary);
-}
-
-.kicker::before {
-  content: '';
-  width: 28px;
-  height: 1px;
-  background: var(--hairline-strong);
-}
-
-.title {
-  font-family: var(--font-fraunces), Georgia, 'Times New Roman', serif;
-  font-size: clamp(2.75rem, 6vw, 4.75rem);
-  font-weight: 500;
-  line-height: 1.03;
-  letter-spacing: -0.02em;
-  color: var(--ink);
-  text-wrap: balance;
-}
-
-.subhead {
-  font-size: 1.15rem;
-  line-height: 1.6;
-  color: var(--ink-secondary);
-  max-width: 46ch;
-  text-wrap: balance;
-}
-
-.notice {
-  background: var(--status-warning-bg);
-  color: var(--status-warning-fg);
-  border: 1px solid color-mix(in srgb, var(--status-warning-fg) 28%, transparent);
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-size: 0.9rem;
-}
-
-/* How it works — the ONE dark moment: a full-bleed charred-umber band. */
-.stepsBand {
-  width: 100vw;
-  margin-inline: calc(50% - 50vw);
-  background: var(--band-dark);
-  padding: 60px 24px;
-  display: flex;
-  justify-content: center;
-}
-
-.steps {
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 44px;
-  width: 100%;
-  max-width: 780px;
+  align-items: flex-start;
   text-align: left;
 }
 
-.step {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding-top: 20px;
-  border-top: 1px solid var(--hairline);
+.notice {
+  align-self: stretch;
+  background: var(--status-warning-bg);
+  color: var(--status-warning-fg);
+  border: 1px solid color-mix(in srgb, var(--status-warning-fg) 30%, transparent);
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  margin-bottom: 16px;
 }
 
-.stepNum {
-  font-family: var(--font-fraunces), Georgia, serif;
-  font-size: 1.65rem;
-  font-weight: 500;
-  font-style: italic;
-  color: var(--ink);
-  line-height: 1;
+.logo {
+  height: 38px;
+  width: auto;
+  max-width: 200px;
+  object-fit: contain;
+  margin-bottom: 16px;
 }
 
-.stepTitle {
-  font-size: 1rem;
+.kicker {
+  font-family: var(--font-oswald), system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 13px;
   font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+
+.title {
+  font-family: var(--font-rye), Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+  font-size: clamp(38px, 6vw, 74px);
+  line-height: 1;
+  letter-spacing: 0.01em;
   color: var(--ink);
-  margin-top: 2px;
+  text-shadow: 1px 1px 0 rgba(90, 60, 25, 0.12);
+  text-wrap: balance;
 }
 
-.stepText {
-  font-size: 0.92rem;
-  line-height: 1.55;
-  color: var(--ink-secondary);
+.em {
+  color: var(--accent);
 }
 
-@media (max-width: 640px) {
-  .main {
-    gap: 52px;
-    padding: 72px 20px 88px;
+.lede {
+  font-family: var(--font-zilla), Georgia, serif;
+  font-size: clamp(16px, 1.5vw, 19px);
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 42ch;
+  margin: 20px 0 24px;
+}
+
+.boxoffice {
+  width: 100%;
+  max-width: 460px;
+}
+
+.cap {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+
+.fine {
+  display: block;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+  margin-top: 12px;
+}
+
+/* The ticket stub */
+.ticketwrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ticket {
+  width: min(320px, 82%);
+  height: auto;
+  transform: rotate(4.5deg);
+}
+
+.annot {
+  position: absolute;
+  left: 0;
+  top: 30%;
+  font-family: var(--font-oswald), system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
+  transform: rotate(-6deg);
+}
+
+.arrow {
+  display: block;
+  font-size: 20px;
+  line-height: 0.8;
+}
+
+.ruleActs {
+  margin-bottom: 20px;
+}
+
+/* Acts */
+.acts {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  padding-top: 22px;
+}
+
+.actNo {
+  font-family: var(--font-rye), Georgia, serif;
+  color: var(--accent);
+  font-size: 20px;
+}
+
+.actTitle {
+  font-family: var(--font-oswald), system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 6px 0 5px;
+  color: var(--ink);
+}
+
+.actText {
+  font-family: var(--font-zilla), Georgia, serif;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.ruleFoot {
+  margin-top: 22px;
+}
+
+.foot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 18px;
+}
+
+@media (max-width: 760px) {
+  .sheet {
+    padding: 28px 20px 26px;
   }
-  .stepsBand {
-    padding: 44px 20px;
+  .head {
+    justify-content: center;
   }
-  .steps {
+  .head span:first-child,
+  .head span:last-child {
+    display: none;
+  }
+  .hero {
     grid-template-columns: 1fr;
-    max-width: 420px;
-    gap: 26px;
+    gap: 10px;
+    padding: 22px 0 20px;
+  }
+  .ticketwrap {
+    order: -1;
+    margin-bottom: 6px;
+  }
+  .ticket {
+    width: min(240px, 62%);
+  }
+  .copy {
+    align-items: center;
+    text-align: center;
+  }
+  .boxoffice {
+    max-width: 100%;
+  }
+  .annot {
+    display: none;
+  }
+  .acts {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 }
