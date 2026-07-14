@@ -1,7 +1,8 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+  // Self-contained server bundle for Docker (copies only needed node_modules).
+  output: 'standalone',
+}
 
-export default nextConfig;
+export default nextConfig
