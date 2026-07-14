@@ -4,22 +4,28 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 22px;
+  padding: clamp(12px, 3vw, 40px);
   overflow-x: hidden;
 }
 
 .sheet {
-  max-width: 1080px;
-  padding: 40px clamp(28px, 5vw, 64px) 34px;
+  width: 100%;
+  max-width: 1340px;
+  /* flex item: without this it grows to its widest descendant's min-content and overflows the phone */
+  min-width: 0;
 }
 
-/* Hero, copy left, ticket stub right */
+/* Reserve room at the foot of the sheet for the flanking engravings + footer. */
+.frame {
+  padding-bottom: clamp(120px, 22vw, 300px);
+}
+
+/* ---- hero: copy left, ticket right ---- */
 .hero {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: clamp(24px, 4vw, 52px);
-  align-items: center;
-  padding: 30px 0 26px;
+  grid-template-columns: 1.12fr 0.88fr;
+  gap: clamp(16px, 3vw, 40px);
+  align-items: start;
 }
 
 .copy {
@@ -27,6 +33,7 @@
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
+  min-width: 0;
 }
 
 .notice {
@@ -47,153 +54,278 @@
   margin-bottom: 16px;
 }
 
+.noline {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1.4vw, 16px);
+  margin-bottom: 4px;
+}
+.no {
+  height: clamp(48px, 6vw, 82px);
+  width: auto;
+}
+.hand {
+  height: clamp(24px, 3vw, 40px);
+  width: auto;
+  margin-top: 6px;
+}
+
+/* the big serial; .rq-num + .rq-fade (globals) carry colour, keyline, letterpress */
+.num {
+  font-size: clamp(88px, 15vw, 200px);
+  margin-top: clamp(6px, 1vw, 14px);
+}
+/* used when a maker overrides the headline text */
 .title {
-  font-family: var(--font-rye), Georgia, 'Times New Roman', serif;
-  font-weight: 400;
-  font-size: clamp(56px, 10vw, 118px);
-  line-height: 0.98;
-  letter-spacing: 0.02em;
-  color: var(--ink);
-  text-shadow: 1px 1px 0 rgba(90, 60, 25, 0.12);
+  font-size: clamp(52px, 9vw, 118px);
+}
+
+.sub {
+  font-family: var(--font-bitter), Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(17px, 2vw, 24px);
+  line-height: 1.3;
+  color: var(--navy);
+  margin: clamp(18px, 2.6vw, 32px) 0 clamp(20px, 2.8vw, 38px);
+  max-width: 32ch;
   text-wrap: balance;
 }
 
-.em {
-  color: var(--accent);
+.present {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
 }
-
-.lede {
-  font-family: var(--font-zilla), Georgia, serif;
-  font-size: clamp(16px, 1.5vw, 19px);
-  line-height: 1.6;
-  color: var(--ink-soft);
-  max-width: 42ch;
-  margin: 20px 0 24px;
+.flr {
+  height: 15px;
+  width: auto;
+  flex: 0 0 auto;
 }
-
-.boxoffice {
-  width: 100%;
-  max-width: 460px;
+.flrL {
+  transform: scaleX(-1);
 }
-
-.cap {
-  display: block;
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  color: var(--ink-soft);
-  margin-bottom: 8px;
+.presentLab {
+  font-size: clamp(13px, 1.5vw, 18px);
+  color: var(--navy);
 }
 
 .fine {
-  display: block;
-  font-size: 10.5px;
-  letter-spacing: 0.14em;
-  color: var(--ink-faint);
-  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  color: var(--red);
+}
+.fine span {
+  font-family: var(--font-patua), serif;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  font-size: clamp(11px, 1.2vw, 14px);
+}
+.fineHand {
+  height: 14px;
+  width: auto;
+  flex: 0 0 auto;
 }
 
-/* The ticket stub */
 .ticketwrap {
-  position: relative;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  padding-top: 6px;
 }
-
 .ticket {
-  width: min(320px, 82%);
-  height: auto;
+  height: clamp(260px, 32vw, 440px);
+  width: auto;
   transform: rotate(4.5deg);
-  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1), filter 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  filter: drop-shadow(0 14px 18px rgba(30, 18, 6, 0.28));
+  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
 }
-
-/* Delight: pick up the ticket, it straightens and lifts off the sheet. */
 .ticket:hover {
-  transform: rotate(1deg) translateY(-7px) scale(1.02);
-  filter: drop-shadow(0 16px 22px rgba(40, 26, 10, 0.34));
+  transform: rotate(1.5deg) translateY(-6px) scale(1.02);
 }
-
 @media (prefers-reduced-motion: reduce) {
   .ticket,
   .ticket:hover {
     transition: none;
     transform: rotate(4.5deg);
-    filter: none;
   }
 }
 
-.ruleActs {
-  margin-bottom: 20px;
+/* ---- thin flourish separator ---- */
+.sep {
+  position: relative;
+  height: 0;
+  border-top: 1px solid var(--line);
+  margin: clamp(30px, 5vw, 56px) 0 clamp(24px, 3.4vw, 40px);
+}
+.sepFlr {
+  position: absolute;
+  top: 50%;
+  height: 22px;
+  width: auto;
+}
+.sepL {
+  right: calc(50% - 3px);
+  transform: translateY(-50%);
+}
+.sepR {
+  left: calc(50% - 3px);
+  transform: translateY(-50%) scaleX(-1);
 }
 
-/* Acts */
+/* ---- three acts ---- */
 .acts {
-  list-style: none;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 26px;
-  padding-top: 22px;
+  list-style: none;
+  padding: 0 clamp(16px, 14vw, 205px) 0 clamp(12px, 8vw, 116px);
 }
-
+.act {
+  padding: 0 clamp(12px, 1.6vw, 24px);
+  position: relative;
+}
+.act + .act::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 12px;
+  border-left: 1px dotted #8a7350;
+}
+.act + .act::after {
+  content: '';
+  position: absolute;
+  left: -3px;
+  top: 46%;
+  width: 7px;
+  height: 7px;
+  background: var(--red);
+  transform: translateY(-50%) rotate(45deg);
+}
+.actTop {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 6px;
+}
 .actNo {
-  font-family: var(--font-rye), Georgia, serif;
-  color: var(--accent);
-  font-size: 20px;
+  font-family: var(--font-rye), serif;
+  color: var(--red);
+  font-size: clamp(20px, 2.2vw, 25px);
+  line-height: 1;
 }
-
+.actHand {
+  height: 18px;
+  width: auto;
+}
 .actTitle {
-  font-family: var(--font-oswald), system-ui, sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 14px;
-  font-weight: 600;
-  margin: 6px 0 5px;
-  color: var(--ink);
+  font-size: clamp(17px, 1.85vw, 21px);
+  color: var(--navy);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  border-bottom: 2px solid var(--red);
 }
-
 .actText {
-  font-family: var(--font-zilla), Georgia, serif;
-  font-size: 13.5px;
-  line-height: 1.5;
-  color: var(--ink-soft);
+  font-family: var(--font-bitter), Georgia, serif;
+  font-size: clamp(14px, 1.5vw, 17px);
+  line-height: 1.45;
+  color: var(--navy-2);
 }
 
-.ruleFoot {
-  margin-top: 22px;
+/* ---- flanking engravings + footer ---- */
+.strongman {
+  position: absolute;
+  left: -6px;
+  bottom: clamp(56px, 8vw, 78px);
+  height: clamp(190px, 26vw, 400px);
+  width: auto;
+  pointer-events: none;
 }
-
-.foot {
+.horse {
+  position: absolute;
+  right: -4px;
+  bottom: clamp(56px, 8vw, 80px);
+  height: clamp(160px, 21vw, 320px);
+  width: auto;
+  pointer-events: none;
+}
+.footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(26px, 3.4vw, 44px);
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 18px;
+  gap: 14px;
+}
+.footerFlr {
+  height: 14px;
+  width: auto;
+}
+.footerTxt {
+  color: var(--red);
+  letter-spacing: 0.14em;
+  font-size: clamp(13px, 1.4vw, 16px);
 }
 
-@media (max-width: 760px) {
-  .sheet {
-    padding: 28px 20px 26px;
+/* ---- mobile: stack the poster ---- */
+@media (max-width: 860px) {
+  .frame {
+    padding-bottom: clamp(28px, 8vw, 48px);
   }
   .hero {
     grid-template-columns: 1fr;
-    gap: 10px;
-    padding: 22px 0 20px;
+    gap: 12px;
   }
   .ticketwrap {
     order: -1;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
   .ticket {
-    width: min(240px, 62%);
+    height: clamp(220px, 56vw, 300px);
   }
   .copy {
     align-items: center;
     text-align: center;
   }
-  .boxoffice {
-    max-width: 100%;
+  .sub,
+  .num {
+    text-align: center;
+  }
+  .sub {
+    max-width: 30ch;
+  }
+  /* Let the long labels wrap and centre instead of forcing the sheet wider than the phone. */
+  .present,
+  .fine {
+    display: block;
+    text-align: center;
+  }
+  .present .flr,
+  .fine .fineHand {
+    display: none;
   }
   .acts {
     grid-template-columns: 1fr;
-    gap: 16px;
+    padding: 0;
+    gap: 26px;
+  }
+  .act {
+    padding: 0;
+  }
+  .act + .act::before,
+  .act + .act::after {
+    display: none;
+  }
+  .strongman,
+  .horse {
+    display: none;
+  }
+  .footer {
+    position: static;
+    margin-top: clamp(28px, 8vw, 44px);
   }
 }

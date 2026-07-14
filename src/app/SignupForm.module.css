@@ -11,7 +11,7 @@
   align-items: stretch;
   width: 100%;
   border: 2px solid var(--ink);
-  background: color-mix(in srgb, var(--paper-raised) 70%, white);
+  background: var(--cream);
   transition: box-shadow 120ms ease-out;
 }
 
@@ -26,8 +26,8 @@
   border: none;
   background: transparent;
   color: var(--ink);
-  font-family: var(--font-zilla), Georgia, serif;
-  font-size: 1rem;
+  font-family: var(--font-bitter), Georgia, serif;
+  font-size: 1.05rem;
 }
 
 .input::placeholder {
@@ -44,12 +44,11 @@
   border-left: 2px solid var(--ink);
   background: var(--accent);
   color: var(--accent-text);
-  font-family: var(--font-oswald), system-ui, sans-serif;
+  font-family: var(--font-patua), Georgia, serif;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-weight: 600;
-  font-size: 0.875rem;
-  padding: 0 22px;
+  letter-spacing: 0.07em;
+  font-size: 1rem;
+  padding: 0 24px;
   cursor: pointer;
   transition: filter 120ms ease-out, transform 120ms ease-out;
 }
@@ -79,7 +78,7 @@
 
 /* Confirmation, reads like a torn-off stub receipt. */
 .success {
-  font-family: var(--font-zilla), Georgia, serif;
+  font-family: var(--font-bitter), Georgia, serif;
   font-size: 1.05rem;
   line-height: 1.6;
   max-width: 44ch;

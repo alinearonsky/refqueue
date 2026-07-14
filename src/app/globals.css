@@ -42,99 +42,98 @@ a {
 }
 
 /*
- * Public-page surface (landing + status), see DESIGN.md.
- * "Admit One": a vintage theatre-ticket playbill, an aged programme sheet pinned to a
- * board, letterpress type, playbill vermilion, and a real scanned ticket stub. Always
- * LIGHT so every deploy's screenshots match the demo. Scoped to .rq-surface so the
+ * Public-page surface (landing + status): a vintage theatre-ticket playbill.
+ * Aged paper pinned to a dark board, a navy double-keyline frame, letterpress
+ * display type in navy + playbill red, and hand-drawn engravings. Always LIGHT so
+ * every deploy's screenshots match the demo. Scoped to .rq-surface so the
  * maker-internal dashboard/login are untouched.
- * `--accent` is a DEFAULT (playbill red). A themed inline `--accent` on the same <main>
- * wins, and the soft tint re-derives via color-mix.
+ * `--accent` is a DEFAULT (playbill red); a themed inline `--accent` still wins.
  */
 .rq-surface {
-  --board: #c9b790;          /* the board the playbill is pinned to (page backdrop) */
-  --paper: #ece0c6;          /* aged programme paper */
-  --paper-2: #e6d8ba;        /* deeper paper, at the foot of the sheet */
-  --paper-raised: #f1e7cf;   /* lighter paper, input wells, card tops */
-  --paper-sunken: #e2d3b0;   /* sunken wells (referral link) */
-  --ink: #241c14;            /* sepia-black letterpress ink, headlines & body */
-  --ink-soft: #5a4b38;       /* faded ink, subheads, captions */
-  --ink-faint: #6f5f42;      /* fine print, meta, darkened to clear WCAG AA (4.7:1 on paper) */
-  --red: #b5321f;            /* playbill vermilion, the DEFAULT accent */
-  --blue: #2f4d6b;           /* ink-blue, used sparingly */
-  --line: #c3ad84;           /* aged hairline rule */
-  --line-strong: #b49b6d;
-  --accent: var(--red);      /* DEFAULT accent = playbill red (themeable per maker) */
-  --accent-text: #f7ecd2;    /* cream ink on an accent fill */
+  --board: #26170f;            /* dark board the playbill is pinned to */
+  --paper: #ecdcb8;            /* aged paper (fallback under the texture) */
+  --cream: #efe6d0;            /* light cream: input wells, ink on accent fills */
+  --navy: #24405f;             /* letterpress ink: headlines, body, frame */
+  --navy-2: #1c3350;
+  --ink: var(--navy);
+  --ink-soft: #4a5a6e;         /* faded ink: captions, meta (AA on paper) */
+  --ink-faint: #6f5f42;        /* placeholder / fine print (AA on the cream input) */
+  --red: #bf392a;              /* playbill vermilion, the DEFAULT accent */
+  --line: rgba(36, 64, 95, 0.42); /* aged hairline rule */
+  --accent: var(--red);
+  --accent-text: var(--cream);
   --accent-soft: color-mix(in srgb, var(--accent) 12%, transparent);
-  --status-success-fg: #4a5d23;
-  --status-success-bg: color-mix(in srgb, #4a5d23 14%, transparent);
+  --status-success-fg: #3f5a2a;
+  --status-success-bg: color-mix(in srgb, #3f5a2a 14%, transparent);
   --status-warning-fg: #8a3b1e;
   --status-warning-bg: color-mix(in srgb, #8a3b1e 12%, transparent);
 
+  /* letterpress ink-erosion masks: keep live/dynamic text, add faded texture */
+  --rq-m: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='360' height='360'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3.3 2.72'/></filter><rect width='100%25' height='100%25' fill='white'/><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  --rq-mt: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='t'><feTurbulence type='fractalNoise' baseFrequency='1.05' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.5 2.02'/></filter><rect width='100%25' height='100%25' fill='white'/><rect width='100%25' height='100%25' filter='url(%23t)'/></svg>");
+
   color-scheme: light;
   background-color: var(--board);
-  color: var(--ink);
-  font-family: var(--font-zilla), Georgia, 'Times New Roman', serif;
+  color: var(--navy);
+  font-family: var(--font-bitter), Georgia, 'Times New Roman', serif;
 }
 
-/*
- * The printed sheet, an aged programme with grain, a warm vignette, and a double-ruled
- * border frame. Shared by landing + status so the playbill chrome stays consistent.
- */
+/* The printed sheet: aged paper filling its box, framed by a navy double keyline. */
 .rq-surface .rq-sheet {
   position: relative;
   width: 100%;
-  background:
-    radial-gradient(120% 90% at 80% 0%, #f1e7cf 0%, var(--paper) 46%, var(--paper-2) 100%);
-  box-shadow: 0 26px 60px rgba(40, 28, 14, 0.4), 0 2px 0 rgba(255, 255, 255, 0.3) inset;
+  background: var(--paper) url('/playbill/paper.jpg') center / cover;
+  box-shadow: 0 26px 60px rgba(20, 12, 4, 0.45);
   isolation: isolate;
-  overflow: hidden;
-}
-
-.rq-surface .rq-sheet::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  mix-blend-mode: multiply;
-  opacity: 0.5;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
-}
-
-.rq-surface .rq-sheet::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: radial-gradient(120% 120% at 50% 40%, transparent 55%, rgba(90, 60, 25, 0.22) 100%);
 }
 
 .rq-surface .rq-frame {
   position: relative;
   z-index: 1;
-  border: 2px double var(--ink);
-  padding: clamp(22px, 3vw, 40px);
+  border: 2px double var(--navy);
+  margin: clamp(12px, 1.5vw, 22px);
+  padding: clamp(22px, 3.4vw, 56px) clamp(18px, 4vw, 66px);
 }
 
-/* Aged rules, hairline and thick double. */
+/* Letterpress masks. Fully visible by default; the mask only erodes a little ink. */
+.rq-surface .rq-fade {
+  -webkit-mask-image: var(--rq-m);
+  mask-image: var(--rq-m);
+  -webkit-mask-size: 360px;
+  mask-size: 360px;
+}
+.rq-surface .rq-tfade {
+  -webkit-mask-image: var(--rq-mt);
+  mask-image: var(--rq-mt);
+  -webkit-mask-size: 200px;
+  mask-size: 200px;
+}
+
+/* The big two-tone serial numerals (landing hero + status position). */
+.rq-surface .rq-num {
+  font-family: var(--font-rye), Georgia, serif;
+  color: var(--red);
+  -webkit-text-stroke: 2px var(--cream);
+  text-shadow: 5px 6px 0 var(--navy);
+  letter-spacing: 0.02em;
+  line-height: 0.9;
+}
+
+/* Uppercase playbill labels & act lettering. */
+.rq-surface .rq-caps {
+  font-family: var(--font-patua), Georgia, serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Aged rules. */
 .rq-surface .rq-rule {
   height: 0;
   border: 0;
   border-top: 1px solid var(--line);
 }
-
 .rq-surface .rq-rule--thick {
-  border-top: 3px double var(--ink);
-}
-
-/* The letterhead / footer utility caps. */
-.rq-surface .rq-caps {
-  font-family: var(--font-oswald), system-ui, sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  font-weight: 600;
+  border-top: 2px solid var(--line);
 }
 
 /* Visually-hidden but screen-reader-available (used for the status page h1). */
@@ -151,74 +150,36 @@ a {
 }
 
 /*
- * Motion, a small, deliberate set tied to handling a printed ticket. All entrance/emphasis
- * animations are gated behind prefers-reduced-motion:no-preference and enhance an
- * already-visible default (the elements are fully visible with no animation applied).
+ * Motion: a small, deliberate set tied to handling a printed ticket. All gated behind
+ * prefers-reduced-motion:no-preference and enhancing an already-visible default.
  */
 @media (prefers-reduced-motion: no-preference) {
   .rq-enter {
     animation: rq-enter 480ms cubic-bezier(0.16, 1, 0.3, 1) both;
   }
-  /* Landing ticket: dropped onto the sheet and settling to its resting tilt.
-     `backwards` (not forwards) so the resting transform returns to the base rule and
-     the hover interaction stays free. */
   .rq-ticketDrop {
     animation: rq-ticketDrop 560ms cubic-bezier(0.22, 1, 0.36, 1) 120ms backwards;
   }
-  /* Status serial: stamped in like a ticket punch. */
   .rq-stamp {
     animation: rq-stamp 420ms cubic-bezier(0.16, 1, 0.3, 1) 260ms backwards;
   }
-  /* "You're in" confirmation: an approval stamp. */
   .rq-bannerStamp {
     animation: rq-stamp 360ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
   }
 }
 
 @keyframes rq-enter {
-  from {
-    opacity: 0;
-    transform: translateY(8px) scale(0.985);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+  from { opacity: 0; transform: translateY(8px) scale(0.985); }
+  to { opacity: 1; transform: none; }
 }
 
 @keyframes rq-ticketDrop {
-  from {
-    opacity: 0;
-    transform: translateY(-16px) rotate(9deg);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) rotate(4.5deg);
-  }
+  from { opacity: 0; transform: translateY(-16px) rotate(9deg); }
+  to { opacity: 1; transform: translateY(0) rotate(4.5deg); }
 }
 
 @keyframes rq-stamp {
-  from {
-    opacity: 0;
-    transform: scale(1.14) rotate(-2deg);
-  }
-  60% {
-    opacity: 1;
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) rotate(0);
-  }
-}
-
-@keyframes rq-pop {
-  0% {
-    transform: scale(1);
-  }
-  45% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(1.14) rotate(-2deg); }
+  60% { opacity: 1; }
+  to { opacity: 1; transform: scale(1) rotate(0); }
 }

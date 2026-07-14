@@ -1,18 +1,19 @@
 /* Sits inside the sheet footer on public pages, the printed credit line. */
 .credit {
-  font-family: var(--font-oswald), system-ui, sans-serif;
+  font-family: var(--font-patua), Georgia, serif;
   text-transform: uppercase;
-  letter-spacing: 0.18em;
-  font-size: 11px;
+  letter-spacing: 0.14em;
+  font-size: 12px;
   color: var(--ink-soft);
   white-space: nowrap;
 }
 
 .credit strong {
-  font-weight: 600;
-  color: var(--ink);
+  font-weight: 400;
+  color: var(--red);
 }
 
 .credit:hover strong {
-  color: var(--accent);
+  color: var(--red);
+  filter: brightness(0.92);
 }

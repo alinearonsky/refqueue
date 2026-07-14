@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Rye, Oswald, Zilla_Slab } from "next/font/google";
+import { Geist, Geist_Mono, Rye, Patua_One, Bitter } from "next/font/google";
 import "./globals.css";
 
 // Geist stays for the maker-internal surface (dashboard, login).
@@ -14,25 +14,25 @@ const geistMono = Geist_Mono({
 });
 
 // Public surface = a vintage theatre-ticket playbill (see DESIGN.md).
-// Rye: the aged letterpress display face (headline + serial numerals).
+// Rye: the ornate Tuscan letterpress display face (the big serial numerals).
 const rye = Rye({
   variable: "--font-rye",
   subsets: ["latin"],
   weight: ["400"],
 });
 
-// Oswald: the condensed grotesque for uppercase utility labels & ticket lettering.
-const oswald = Oswald({
-  variable: "--font-oswald",
+// Patua One: bold condensed slab for uppercase playbill labels, act titles, the CTA.
+const patua = Patua_One({
+  variable: "--font-patua",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400"],
 });
 
-// Zilla Slab: the slab-serif body. Reads like printed programme copy.
-const zillaSlab = Zilla_Slab({
-  variable: "--font-zilla",
+// Bitter: the Clarendon-ish slab-serif body. Reads like printed programme copy.
+const bitter = Bitter({
+  variable: "--font-bitter",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
 });
 
@@ -74,7 +74,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${rye.variable} ${oswald.variable} ${zillaSlab.variable}`}
+        className={`${geistSans.variable} ${geistMono.variable} ${rye.variable} ${patua.variable} ${bitter.variable}`}
       >
         {children}
       </body>

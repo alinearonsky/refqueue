@@ -3,35 +3,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 22px;
+  padding: clamp(16px, 4vw, 44px);
   overflow-x: hidden;
 }
 
 .sheet {
-  max-width: 600px;
-  padding: 36px clamp(24px, 5vw, 48px) 30px;
-}
-
-/* Letterhead, shared language with the landing */
-.head {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  color: var(--ink-soft);
-}
-
-.headMid {
-  letter-spacing: 0.2em;
-  text-align: center;
-}
-
-.ruleTop {
-  margin-top: 14px;
+  width: 100%;
+  max-width: 620px;
+  /* flex item: shrink to the viewport instead of its widest descendant on mobile */
+  min-width: 0;
 }
 
 .ruleFoot {
-  margin-top: 24px;
+  margin-top: 26px;
 }
 
 .foot {
@@ -45,36 +29,36 @@
   display: block;
   width: max-content;
   max-width: 100%;
-  margin: 18px auto 0;
+  margin: 20px auto 0;
   background: var(--status-success-bg);
   color: var(--status-success-fg);
-  border: 1px solid color-mix(in srgb, var(--status-success-fg) 30%, transparent);
-  padding: 8px 16px;
-  font-family: var(--font-oswald), system-ui, sans-serif;
+  border: 1px solid color-mix(in srgb, var(--status-success-fg) 34%, transparent);
+  padding: 9px 18px;
+  font-family: var(--font-patua), Georgia, serif;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.72rem;
-  font-weight: 600;
+  letter-spacing: 0.09em;
+  font-size: 0.74rem;
+  text-align: center;
 }
 
-/* THE stub */
+/* THE stub: the live position printed as a torn ticket. */
 .ticket {
   position: relative;
   margin: 26px auto 8px;
-  max-width: 440px;
-  padding: 28px 30px 30px;
+  max-width: 460px;
+  padding: 30px 30px 32px;
   text-align: center;
-  background: color-mix(in srgb, var(--paper-raised) 75%, white);
-  border: 2px solid var(--accent);
-  box-shadow: 0 10px 26px rgba(40, 28, 14, 0.18);
+  background: color-mix(in srgb, var(--cream) 70%, white);
+  border: 2px double var(--navy);
+  box-shadow: 0 12px 28px rgba(20, 12, 4, 0.16);
 }
 
 /* inner dashed rule, the printed ticket frame */
 .ticket::before {
   content: '';
   position: absolute;
-  inset: 5px;
-  border: 1px dashed color-mix(in srgb, var(--accent) 45%, transparent);
+  inset: 6px;
+  border: 1px dashed color-mix(in srgb, var(--red) 50%, transparent);
   pointer-events: none;
 }
 
@@ -90,123 +74,128 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin-top: 12px;
   font-size: 13px;
   letter-spacing: 0.18em;
-  color: var(--accent);
+  color: var(--red);
 }
 
 .admitRule {
   height: 1px;
-  width: 26px;
-  background: color-mix(in srgb, var(--accent) 55%, transparent);
+  width: 28px;
+  background: color-mix(in srgb, var(--red) 55%, transparent);
 }
 
+/* The live serial; .rq-num + .rq-fade (globals) carry the two-tone letterpress + erosion. */
 .serial {
-  font-family: var(--font-rye), Georgia, 'Times New Roman', serif;
-  font-size: clamp(60px, 15vw, 100px);
-  line-height: 0.95;
-  letter-spacing: 0.09em;
-  color: var(--accent);
-  margin: 4px 0 2px;
-  text-shadow: 1px 1px 0 rgba(90, 60, 25, 0.14);
+  font-size: clamp(66px, 17vw, 108px);
+  margin: 8px 0 4px;
 }
 
+/* "No." resets the numeral's stroke/shadow back to plain navy. */
 .serialNo {
-  font-family: var(--font-oswald), system-ui, sans-serif;
-  font-size: 0.24em;
-  letter-spacing: 0.08em;
+  font-family: var(--font-patua), system-ui, sans-serif;
+  font-size: 0.2em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   vertical-align: 0.95em;
-  margin-right: 0.14em;
-  color: var(--ink-soft);
+  margin-right: 0.16em;
+  color: var(--navy);
+  -webkit-text-stroke: 0;
+  text-shadow: none;
 }
 
 .referrals {
-  font-family: var(--font-zilla), Georgia, serif;
+  font-family: var(--font-bitter), Georgia, serif;
   color: var(--ink-soft);
-  font-size: 0.95rem;
-  margin-top: 6px;
+  font-size: 0.98rem;
+  margin-top: 8px;
 }
 
 /* Pending (unverified) */
 .pending {
   text-align: center;
-  padding: 34px 0 30px;
+  padding: 36px 0 32px;
   max-width: 46ch;
   margin: 0 auto;
 }
 
 .pendingTitle {
   font-family: var(--font-rye), Georgia, serif;
-  font-size: clamp(30px, 7vw, 48px);
-  line-height: 1.05;
-  color: var(--ink);
-  margin: 12px 0 12px;
+  color: var(--red);
+  -webkit-text-stroke: 1.5px var(--cream);
+  text-shadow: 3px 4px 0 var(--navy);
+  font-size: clamp(30px, 8vw, 52px);
+  line-height: 1.1;
+  margin: 16px 0;
   text-wrap: balance;
-  text-shadow: 1px 1px 0 rgba(90, 60, 25, 0.12);
 }
 
 .pendingText {
-  font-family: var(--font-zilla), Georgia, serif;
-  color: var(--ink-soft);
+  font-family: var(--font-bitter), Georgia, serif;
+  color: var(--navy-2);
   line-height: 1.6;
 }
 
-/* Cards, aged paper panels */
+/* Cards, aged paper panels framed by a navy hairline. */
 .card {
-  margin-top: 22px;
-  border: 1px solid var(--line-strong);
-  background: color-mix(in srgb, var(--paper-raised) 60%, white);
+  margin-top: 24px;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--cream) 55%, white);
   padding: 22px 24px;
   text-align: left;
 }
 
 .cardTitle {
-  font-family: var(--font-rye), Georgia, serif;
-  font-size: 1.3rem;
-  line-height: 1.15;
-  color: var(--ink);
-  margin-bottom: 8px;
+  display: inline-block;
+  font-family: var(--font-patua), Georgia, serif;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 1.02rem;
+  color: var(--navy);
+  padding-bottom: 7px;
+  margin-bottom: 12px;
+  border-bottom: 2px solid var(--red);
 }
 
 .cardText {
-  font-family: var(--font-zilla), Georgia, serif;
-  color: var(--ink-soft);
-  font-size: 0.95rem;
-  line-height: 1.55;
+  font-family: var(--font-bitter), Georgia, serif;
+  color: var(--navy-2);
+  font-size: 0.74rem;
+  line-height: 1.5;
 }
 
 .linkRow {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: stretch;
   gap: 8px;
-  margin-top: 14px;
+  margin-top: 16px;
 }
 
 .link {
   flex: 1 1 240px;
-  padding: 11px 14px;
-  background: var(--paper-sunken);
-  border: 1px solid var(--line-strong);
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+  background: var(--cream);
+  border: 1.5px solid var(--navy);
   font-family: var(--font-geist-mono), ui-monospace, monospace;
   font-size: 0.82rem;
-  color: var(--ink);
+  color: var(--navy);
   overflow-wrap: anywhere;
 }
 
 .linkRow button {
   flex: 0 0 auto;
-  min-height: 44px; /* tap target parity with the input well */
-  padding: 11px 18px;
+  min-height: 44px;
+  padding: 11px 20px;
   border: none;
-  background: var(--accent);
-  color: var(--accent-text);
-  font-family: var(--font-oswald), system-ui, sans-serif;
+  background: var(--red);
+  color: var(--cream);
+  font-family: var(--font-patua), system-ui, sans-serif;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-weight: 600;
+  letter-spacing: 0.09em;
   font-size: 0.8rem;
   cursor: pointer;
   transition: filter 120ms ease-out, transform 120ms ease-out;
@@ -221,6 +210,12 @@
   transform: translateY(1px);
 }
 
+@keyframes rq-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .linkRow button:global(.copied) {
     animation: rq-pop 260ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -230,29 +225,28 @@
 .shareRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px 18px;
-  margin-top: 6px;
+  gap: 4px 20px;
+  margin-top: 8px;
 }
 
 .shareRow a {
   display: inline-flex;
   align-items: center;
   min-height: 44px; /* comfortable tap target (WCAG 2.5.8) */
-  font-family: var(--font-oswald), system-ui, sans-serif;
+  font-family: var(--font-patua), system-ui, sans-serif;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--ink-soft);
+  letter-spacing: 0.07em;
+  font-size: 0.76rem;
+  color: var(--navy);
   text-decoration: underline;
-  text-decoration-color: var(--line-strong);
+  text-decoration-color: var(--line);
   text-underline-offset: 4px;
   transition: color 120ms ease-out, text-decoration-color 120ms ease-out;
 }
 
 .shareRow a:hover {
-  color: var(--accent);
-  text-decoration-color: var(--accent);
+  color: var(--red);
+  text-decoration-color: var(--red);
 }
 
 /* Reward tiers */
@@ -261,18 +255,18 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-top: 14px;
+  margin-top: 16px;
 }
 
 .unlocked {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 14px;
-  background: var(--accent-soft);
-  color: var(--ink);
-  font-family: var(--font-zilla), Georgia, serif;
-  font-size: 0.95rem;
+  padding: 11px 14px;
+  background: color-mix(in srgb, var(--red) 9%, transparent);
+  color: var(--navy);
+  font-family: var(--font-bitter), Georgia, serif;
+  font-size: 0.96rem;
 }
 
 .check {
@@ -281,25 +275,25 @@
 }
 
 .nextTier {
-  padding: 10px 14px;
+  padding: 11px 14px;
   color: var(--ink-soft);
-  font-family: var(--font-zilla), Georgia, serif;
-  font-size: 0.95rem;
+  font-family: var(--font-bitter), Georgia, serif;
+  font-size: 0.96rem;
 }
 
 .nextTier strong {
-  color: var(--ink);
-  font-weight: 600;
+  color: var(--red);
+  font-weight: 700;
 }
 
 @media (max-width: 560px) {
-  .sheet {
-    padding: 26px 18px 24px;
-  }
   .admitRule {
     display: none;
   }
   .card {
     padding: 18px 18px;
+  }
+  .ticket {
+    padding: 24px 20px 26px;
   }
 }

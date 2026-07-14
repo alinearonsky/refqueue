@@ -26,14 +26,6 @@ interface Props {
   searchParams: Promise<Record<string, string | string[] | undefined>>
 }
 
-function Letterhead({ name }: { name: string }) {
-  return (
-    <div className={`${styles.head} rq-caps`}>
-      <span className={styles.headMid}>★ The {name} Variety Co. ★</span>
-    </div>
-  )
-}
-
 export default async function StatusPage({ params, searchParams }: Props) {
   const { code } = await params
   if (!isValidReferralCode(code)) notFound()
@@ -52,8 +44,6 @@ export default async function StatusPage({ params, searchParams }: Props) {
       <main className={`rq-surface ${styles.main}`} style={accentStyle(theme)}>
         <div className={`${styles.sheet} rq-sheet rq-enter`}>
           <div className="rq-frame">
-            <Letterhead name={waitlist.name} />
-            <hr className={`${styles.ruleTop} rq-rule rq-rule--thick`} />
             <div className={styles.pending}>
               <span className={`${styles.overline} rq-caps`}>One step left</span>
               <h1 className={styles.pendingTitle}>Almost there</h1>
@@ -80,9 +70,6 @@ export default async function StatusPage({ params, searchParams }: Props) {
     <main className={`rq-surface ${styles.main}`} style={accentStyle(theme)}>
       <div className={`${styles.sheet} rq-sheet rq-enter`}>
         <div className="rq-frame">
-          <Letterhead name={waitlist.name} />
-          <hr className={`${styles.ruleTop} rq-rule rq-rule--thick`} />
-
           <h1 className="rq-srOnly">
             Your position on {waitlist.name}: No. {status.position}
           </h1>
@@ -93,13 +80,12 @@ export default async function StatusPage({ params, searchParams }: Props) {
 
           {/* THE stub, the live position printed as a ticket serial */}
           <div className={styles.ticket}>
-            <span className={`${styles.overline} rq-caps`}>Your position on {waitlist.name}</span>
             <div className={`${styles.admit} rq-caps`}>
               <span className={styles.admitRule} aria-hidden="true" />
-              Admit one · in line
+              Your position on {waitlist.name}
               <span className={styles.admitRule} aria-hidden="true" />
             </div>
-            <p className={`${styles.serial} rq-stamp`}>
+            <p className={`${styles.serial} rq-num rq-fade rq-stamp`}>
               <span className={styles.serialNo}>No.</span>
               {status.position}
             </p>
