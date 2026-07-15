@@ -17,6 +17,15 @@ export function getAppBaseUrl(): string {
   return process.env.APP_BASE_URL ?? 'http://localhost:3000'
 }
 
+/**
+ * Opt-in web analytics for the HOSTED DEMO only (refqueue.com). Off by default so
+ * self-hosted installs ship with zero third-party telemetry — set NEXT_PUBLIC_ANALYTICS_ENABLED
+ * to 'true' only on the public demo deployment.
+ */
+export function getAnalyticsEnabled(): boolean {
+  return process.env.NEXT_PUBLIC_ANALYTICS_ENABLED === 'true'
+}
+
 /** Anon (publishable) key, used ONLY for Supabase Auth sessions, never for data access. */
 export function getSupabaseAnonKey(): string {
   const key = process.env.SUPABASE_ANON_KEY

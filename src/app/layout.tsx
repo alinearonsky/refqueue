@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Rye, Patua_One, Bitter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { getAnalyticsEnabled } from "@/lib/config";
 import "./globals.css";
 
 // Geist stays for the maker-internal surface (dashboard, login).
@@ -77,6 +79,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${rye.variable} ${patua.variable} ${bitter.variable}`}
       >
         {children}
+        {/* Hosted-demo only; self-hosted installs stay telemetry-free (see getAnalyticsEnabled). */}
+        {getAnalyticsEnabled() && <Analytics />}
       </body>
     </html>
   );
