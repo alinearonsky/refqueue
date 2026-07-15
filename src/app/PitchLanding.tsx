@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import styles from './PitchLanding.module.css'
 
 const REPO_URL = 'https://github.com/alinearonsky/refqueue'
@@ -61,9 +62,9 @@ export function PitchLanding() {
               <a className={`${styles.navLink} rq-caps`} href="#how">
                 How it works
               </a>
-              <a className={`${styles.navLink} rq-caps`} href={DEMO_URL}>
+              <Link className={`${styles.navLink} rq-caps`} href={DEMO_URL}>
                 Demo
-              </a>
+              </Link>
               <a
                 className={`${styles.navStar} rq-caps`}
                 href={REPO_URL}
@@ -89,9 +90,9 @@ export function PitchLanding() {
                 open-source, free alternative to GetWaitlist or Viral Loops.
               </p>
               <div className={styles.ctaRow}>
-                <a className={`${styles.ctaPrimary} rq-caps`} href={DEMO_URL}>
+                <Link className={`${styles.ctaPrimary} rq-caps`} href={DEMO_URL}>
                   View live demo
-                </a>
+                </Link>
                 <a className={`${styles.ctaGhost} rq-caps`} href="#how">
                   How it works
                 </a>

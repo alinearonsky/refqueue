@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import styles from './DemoBar.module.css'
 
 const REPO_URL = 'https://github.com/alinearonsky/refqueue'
@@ -12,9 +13,9 @@ export function DemoBar() {
       <span className={`${styles.tag} rq-caps`}>Live demo</span>
       <span className={styles.txt}>A working Refqueue waitlist. Try it.</span>
       <span className={styles.links}>
-        <a className={`${styles.link} rq-caps`} href="/">
+        <Link className={`${styles.link} rq-caps`} href="/">
           What is Refqueue?
-        </a>
+        </Link>
         <a
           className={`${styles.star} rq-caps`}
           href={REPO_URL}
