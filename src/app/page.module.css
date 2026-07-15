@@ -4,7 +4,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(12px, 3vw, 40px);
+  /* slim, even board reveal around the pinned sheet (was up to 40px) */
+  padding: clamp(10px, 1.6vw, 22px);
   overflow-x: hidden;
 }
 
@@ -13,11 +14,10 @@
   max-width: 1340px;
   /* flex item: without this it grows to its widest descendant's min-content and overflows the phone */
   min-width: 0;
-}
-
-/* Reserve room at the foot of the sheet for the flanking engravings + footer. */
-.frame {
-  padding-bottom: clamp(120px, 22vw, 300px);
+  /* Reserve the foot-of-sheet band for the flanking engravings + footer credit.
+     Lives on .sheet (not .rq-frame) because the global .rq-frame padding shorthand
+     outranks a .frame padding-bottom and would silently erase it. */
+  padding-bottom: clamp(150px, 15vw, 220px);
 }
 
 /* ---- hero: copy left, ticket right ---- */
@@ -153,26 +153,41 @@
   }
 }
 
-/* ---- thin flourish separator ---- */
+/* ---- thin flourish separator ----
+   Centered, capped width so the rule never reaches the flanking engravings, and
+   split by the ornament (::before / ::after rules with a gap) so the hairline
+   never runs through the flourish. */
 .sep {
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 520px;
+  margin: clamp(38px, 5vw, 60px) auto clamp(30px, 4vw, 48px);
+}
+.sep::before,
+.sep::after {
+  content: '';
+  flex: 1 1 auto;
   height: 0;
   border-top: 1px solid var(--line);
-  margin: clamp(30px, 5vw, 56px) 0 clamp(24px, 3.4vw, 40px);
+}
+.sep::before {
+  margin-right: clamp(14px, 1.6vw, 20px);
+}
+.sep::after {
+  margin-left: clamp(14px, 1.6vw, 20px);
 }
 .sepFlr {
-  position: absolute;
-  top: 50%;
-  height: 22px;
+  height: 20px;
   width: auto;
+  flex: 0 0 auto;
 }
 .sepL {
-  right: calc(50% - 3px);
-  transform: translateY(-50%);
+  transform: none;
 }
 .sepR {
-  left: calc(50% - 3px);
-  transform: translateY(-50%) scaleX(-1);
+  transform: scaleX(-1);
 }
 
 /* ---- three acts ---- */
@@ -235,19 +250,21 @@
 }
 
 /* ---- flanking engravings + footer ---- */
+/* Both engravings share one foot baseline (identical `bottom`) so they read as
+   standing on the same ground line at the foot of the sheet. */
 .strongman {
   position: absolute;
-  left: -6px;
-  bottom: clamp(56px, 8vw, 78px);
-  height: clamp(190px, 26vw, 400px);
+  left: 0;
+  bottom: clamp(58px, 6vw, 84px);
+  height: clamp(180px, 24vw, 360px);
   width: auto;
   pointer-events: none;
 }
 .horse {
   position: absolute;
-  right: -4px;
-  bottom: clamp(56px, 8vw, 80px);
-  height: clamp(160px, 21vw, 320px);
+  right: 0;
+  bottom: clamp(58px, 6vw, 84px);
+  height: clamp(150px, 20vw, 300px);
   width: auto;
   pointer-events: none;
 }
@@ -255,7 +272,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  bottom: clamp(26px, 3.4vw, 44px);
+  bottom: clamp(28px, 3vw, 44px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -273,8 +290,9 @@
 
 /* ---- mobile: stack the poster ---- */
 @media (max-width: 860px) {
-  .frame {
-    padding-bottom: clamp(28px, 8vw, 48px);
+  .sheet {
+    /* no flanking engravings on mobile, so drop the reserved foot band */
+    padding-bottom: 0;
   }
   .hero {
     grid-template-columns: 1fr;
