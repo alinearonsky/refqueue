@@ -1,8 +1,8 @@
 # Refqueue
 
 **Open-source waitlist with built-in referrals.** The "refer friends to skip the line"
-mechanic behind Superhuman's and Robinhood's launches, the one GetWaitlist and Viral
-Loops paywall at $35–50/mo. Free, self-hosted, and yours.
+launch mechanic, self-hosted and free. GetWaitlist and LaunchList are hosted SaaS that
+keep your signup data and charge to remove their branding. Refqueue is yours.
 
 **▶ Live demo: [refqueue.com](https://refqueue.com)**
 
@@ -120,5 +120,5 @@ Issues and PRs welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-[MIT](LICENSE). An open-source alternative to GetWaitlist / Viral Loops. Own implementation;
+[MIT](LICENSE). An open-source alternative to GetWaitlist / LaunchList. Own implementation;
 no affiliation.

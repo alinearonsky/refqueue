@@ -39,7 +39,7 @@ const bitter = Bitter({
 });
 
 const OG_DESCRIPTION =
-  "Refer friends to skip the line. The free, open-source, self-hosted alternative to GetWaitlist and Viral Loops.";
+  "Refer friends to skip the line. The free, open-source, self-hosted alternative to GetWaitlist and LaunchList.";
 
 export const metadata: Metadata = {
   // Absolute-URL base for OG/Twitter image resolution. Makers set APP_BASE_URL to their

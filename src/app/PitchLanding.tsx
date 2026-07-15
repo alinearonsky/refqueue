@@ -38,7 +38,7 @@ const BILL = [
   },
   {
     title: 'Referrals, not paywalled',
-    body: 'The refer-a-friend-to-move-up loop that GetWaitlist and Viral Loops keep behind a paywall.',
+    body: 'The refer-a-friend-to-move-up loop that GetWaitlist and LaunchList keep behind a paywall.',
   },
   {
     title: 'Counts you can trust',
@@ -87,7 +87,7 @@ export function PitchLanding() {
               </h1>
               <p className={styles.lede}>
                 Refqueue is a free, self-hosted waitlist with built-in referrals. An
-                open-source, free alternative to GetWaitlist or Viral Loops.
+                open-source, free alternative to GetWaitlist or LaunchList.
               </p>
               <div className={styles.ctaRow}>
                 <Link className={`${styles.ctaPrimary} rq-caps`} href={DEMO_URL}>

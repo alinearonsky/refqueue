@@ -12,7 +12,7 @@ export function generateMetadata(): Metadata {
     return {
       title: 'Refqueue: open-source waitlist with referrals',
       description:
-        'A free, self-hosted waitlist with built-in referrals. An open-source, free alternative to GetWaitlist or Viral Loops.',
+        'A free, self-hosted waitlist with built-in referrals. An open-source, free alternative to GetWaitlist or LaunchList.',
     }
   }
   const { name } = getWaitlistConfig()
