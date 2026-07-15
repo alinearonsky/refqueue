@@ -4,10 +4,10 @@ import { SmtpEmailSender } from './smtp'
 describe('SmtpEmailSender', () => {
   test('maps EmailMessage to transporter.sendMail with the configured from', async () => {
     const sendMail = vi.fn().mockResolvedValue({ messageId: '1' })
-    const sender = new SmtpEmailSender('RefQueue <no-reply@refqueue.dev>', { sendMail } as never)
+    const sender = new SmtpEmailSender('Refqueue <no-reply@refqueue.dev>', { sendMail } as never)
     await sender.send({ to: 'a@b.com', subject: 'Hi', html: '<p>x</p>' })
     expect(sendMail).toHaveBeenCalledWith({
-      from: 'RefQueue <no-reply@refqueue.dev>',
+      from: 'Refqueue <no-reply@refqueue.dev>',
       to: 'a@b.com',
       subject: 'Hi',
       html: '<p>x</p>',

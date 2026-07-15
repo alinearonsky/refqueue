@@ -12,7 +12,7 @@ export async function register() {
 
   const errors = collectProductionConfigErrors()
   if (errors.length > 0) {
-    const message = ['RefQueue cannot start. Fix these environment variables:', ...errors.map((e) => `  • ${e}`)].join(
+    const message = ['Refqueue cannot start. Fix these environment variables:', ...errors.map((e) => `  • ${e}`)].join(
       '\n',
     )
     throw new Error(message)

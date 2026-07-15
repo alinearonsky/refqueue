@@ -4,10 +4,10 @@ import { ResendEmailSender } from './resend'
 describe('ResendEmailSender', () => {
   test('maps EmailMessage to the Resend client call with the configured from', async () => {
     const send = vi.fn().mockResolvedValue({ data: { id: 'x' }, error: null })
-    const sender = new ResendEmailSender('RefQueue <no-reply@refqueue.dev>', { emails: { send } })
+    const sender = new ResendEmailSender('Refqueue <no-reply@refqueue.dev>', { emails: { send } })
     await sender.send({ to: 'a@b.com', subject: 'Hi', html: '<p>x</p>' })
     expect(send).toHaveBeenCalledWith({
-      from: 'RefQueue <no-reply@refqueue.dev>',
+      from: 'Refqueue <no-reply@refqueue.dev>',
       to: 'a@b.com',
       subject: 'Hi',
       html: '<p>x</p>',

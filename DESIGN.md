@@ -1,6 +1,6 @@
-# RefQueue Design System
+# Refqueue Design System
 
-The single source of truth for RefQueue's public pages (landing + status). Maker-internal
+The single source of truth for Refqueue's public pages (landing + status). Maker-internal
 screens (dashboard, login) stay neutral (Geist) and are out of scope. Every color, size, and
 spacing value on the public pages traces to a token here.
 
@@ -22,7 +22,7 @@ the fixed identity marks (the two-tone numeral, the red hairline rules, the card
 
 ## 1. Atmosphere & Identity
 
-RefQueue reads like a **printed variety-show playbill**: an aged paper sheet, a navy double-ruled
+Refqueue reads like a **printed variety-show playbill**: an aged paper sheet, a navy double-ruled
 frame, hand-set letterpress numerals, engraved figures, and a torn ticket stub. The drama is
 **material**: paper grain, ink-on-paper contrast, navy and one saturated red. Type carries the
 period, an ornate Tuscan display face (Rye) for the numerals, a bold condensed slab (Patua One)
@@ -165,7 +165,7 @@ Base unit **4px**. The public page is a centered **sheet** floating on the dark 
 ### Flanking engravings + footer (landing)
 - **Structure:** anchored to the foot of the sheet, a strongman (`/playbill/strongman.png`, left)
   and a horse (`/playbill/horse.png`, right) frame a centered footer: a star, the "Powered by
-  RefQueue" credit (Patua caps, `RefQueue` in red), and a mirrored star. Engravings hide on mobile.
+  Refqueue" credit (Patua caps, `Refqueue` in red), and a mirrored star. Engravings hide on mobile.
 
 ### Ticket stub, status (signature)
 - **Structure:** a bordered stub (2px double `--navy` + inner red dashed rule, `--cream` well)
@@ -185,7 +185,7 @@ Base unit **4px**. The public page is a centered **sheet** floating on the dark 
   maker has configured tiers.
 
 ### Credit (PoweredBy)
-- Patua caps, `--ink-soft`, centered inside the sheet footer. `RefQueue` is `--red`. On by default;
+- Patua caps, `--ink-soft`, centered inside the sheet footer. `Refqueue` is `--red`. On by default;
   `POWERED_BY=false` removes it.
 
 ---

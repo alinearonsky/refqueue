@@ -1,6 +1,6 @@
 # Supabase setup
 
-RefQueue uses Supabase for Postgres, Auth (maker dashboard), and RLS. Point your
+Refqueue uses Supabase for Postgres, Auth (maker dashboard), and RLS. Point your
 deploy at a Supabase project, [Supabase Cloud](https://supabase.com) free tier
 is the easy path; self-hosting Supabase is the advanced path
 ([their Docker guide](https://supabase.com/docs/guides/self-hosting/docker)).

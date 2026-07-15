@@ -13,7 +13,7 @@ import { buildConfirmationEmail } from '@/lib/email/templates'
 // Module-scoped limiter: 5 signups / 10 min / IP. Plan 6 swaps in a shared store.
 const limiter = new InMemoryRateLimiter({ max: 5, windowMs: 10 * 60_000 })
 
-// Rate-limit key is derived from x-forwarded-for. RefQueue must be deployed behind a
+// Rate-limit key is derived from x-forwarded-for. Refqueue must be deployed behind a
 // reverse proxy (Vercel, or nginx/Caddy for Docker self-hosters) that OVERWRITES this
 // header with the real client IP, otherwise the value is client-spoofable, and if the
 // header is absent all traffic collapses into a single 'unknown' bucket. Trusted-proxy

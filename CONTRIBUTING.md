@@ -1,4 +1,4 @@
-# Contributing to RefQueue
+# Contributing to Refqueue
 
 Thanks for helping, issues and PRs are welcome.
 
@@ -15,7 +15,7 @@ See the "Development" section of the [README](README.md). You'll need Node 20+ a
 
 ## Scope
 
-RefQueue is deliberately small (see the README roadmap for what's planned vs. out of scope).
+Refqueue is deliberately small (see the README roadmap for what's planned vs. out of scope).
 If you're proposing a feature, open an issue first so we can check it fits before you build it.
 
 ## Reporting bugs

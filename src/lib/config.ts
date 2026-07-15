@@ -28,7 +28,7 @@ export function getAnalyticsEnabled(): boolean {
 
 /**
  * Marketing mode for the PUBLIC demo (refqueue.com) only. When on, `/` renders the
- * RefQueue product pitch and the live waitlist moves to `/demo`. OFF by default so a
+ * Refqueue product pitch and the live waitlist moves to `/demo`. OFF by default so a
  * self-hosted install keeps `/` as the maker's own waitlist. Set only on refqueue.com.
  */
 export function getDemoSiteEnabled(): boolean {
@@ -84,7 +84,7 @@ export function getRewardTiersConfig(): RewardTier[] {
   }
 }
 
-/** "Powered by RefQueue" credit, on unless the maker explicitly sets "false" (PRODUCT.md default-on). */
+/** "Powered by Refqueue" credit, on unless the maker explicitly sets "false" (PRODUCT.md default-on). */
 export function getPoweredByConfig(): boolean {
   return process.env.POWERED_BY !== 'false'
 }

@@ -1,4 +1,4 @@
-// Seed a RefQueue waitlist with believable, already-verified signups so a fresh
+// Seed a Refqueue waitlist with believable, already-verified signups so a fresh
 // demo lands a visitor at a real-looking position (e.g. "No. 247") and the maker
 // dashboard shows a live 30-day curve, a populated top-referrers list, and a CSV
 // worth exporting. Writes straight to Supabase with the service role, so it does

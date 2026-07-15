@@ -300,7 +300,7 @@ main .sheet .frame {
   margin: 0;
 }
 
-/* Why RefQueue — the bill */
+/* Why Refqueue — the bill */
 .bill {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

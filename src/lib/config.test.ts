@@ -140,7 +140,7 @@ describe('collectProductionConfigErrors', () => {
       SUPABASE_SERVICE_ROLE_KEY: 'service-key',
       SUPABASE_ANON_KEY: 'anon-key',
       APP_BASE_URL: 'https://waitlist.example.com',
-      EMAIL_FROM: 'RefQueue <no-reply@example.com>',
+      EMAIL_FROM: 'Refqueue <no-reply@example.com>',
       RESEND_API_KEY: 're_123',
     } as unknown as NodeJS.ProcessEnv
   }

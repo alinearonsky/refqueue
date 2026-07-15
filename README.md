@@ -1,4 +1,4 @@
-# RefQueue
+# Refqueue
 
 **Open-source waitlist with built-in referrals.** The "refer friends to skip the line"
 mechanic behind Superhuman's and Robinhood's launches, the one GetWaitlist and Viral
@@ -6,7 +6,7 @@ Loops paywall at $35–50/mo. Free, self-hosted, and yours.
 
 **▶ Live demo: [refqueue.com](https://refqueue.com)**
 
-![RefQueue, join the waitlist, get a numbered ticket, refer friends to move up the line](docs/demo.gif)
+![Refqueue, join the waitlist, get a numbered ticket, refer friends to move up the line](docs/demo.gif)
 
 They took the free plan away and the category leader just got acquired. Here's the
 open-source one that can't be paywalled or taken from you.
@@ -20,7 +20,7 @@ open-source one that can't be paywalled or taken from you.
 - **Configurable reward milestones** ("refer 3 → early access") with automatic emails.
 - **A maker dashboard**: signups, positions, top referrers, a 30-day chart, CSV export.
 - **Themeable**: logo, color, and copy via environment variables.
-- **"Powered by RefQueue" credit**: on by default, removable with one env var.
+- **"Powered by Refqueue" credit**: on by default, removable with one env var.
 
 ![Status page](docs/screenshots/status.png)
 
@@ -32,7 +32,7 @@ Per-IP rate limiting and disposable-email blocking back it up.
 
 ## Quick start
 
-RefQueue is a Next.js app backed by [Supabase](https://supabase.com) (Postgres + Auth).
+Refqueue is a Next.js app backed by [Supabase](https://supabase.com) (Postgres + Auth).
 Set up Supabase first (see [`supabase/README.md`](supabase/README.md)), then deploy.
 
 ### Deploy to Vercel
@@ -97,7 +97,7 @@ default it clears the waitlist's existing signups first; pass `--append` to keep
 
 ## Known limitations
 
-RefQueue v1 is deliberately small. Documented tradeoffs (tracked for v1.1):
+Refqueue v1 is deliberately small. Documented tradeoffs (tracked for v1.1):
 
 - **Rate limiting is per-instance** and keyed on `x-forwarded-for`. Deploy behind a proxy
   that sets it, and expect a shared limiter to arrive with multi-instance support.
