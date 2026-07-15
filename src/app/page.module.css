@@ -14,10 +14,12 @@
   max-width: 1340px;
   /* flex item: without this it grows to its widest descendant's min-content and overflows the phone */
   min-width: 0;
-  /* Reserve the foot-of-sheet band for the flanking engravings + footer credit.
-     Lives on .sheet (not .rq-frame) because the global .rq-frame padding shorthand
-     outranks a .frame padding-bottom and would silently erase it. */
-  padding-bottom: clamp(150px, 15vw, 220px);
+}
+
+/* Default foot band: just enough for the credit line (engravings are a wide-screen
+   flourish, hidden below 1280 — see the min-width query near the bottom). */
+main .sheet .frame {
+  padding-bottom: clamp(52px, 6vw, 84px);
 }
 
 /* ---- hero: copy left, ticket right ---- */
@@ -191,14 +193,15 @@
 }
 
 /* ---- three acts ---- */
+/* Default: full width, no engraving clearance (engravings hidden below 1280). */
 .acts {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   list-style: none;
-  padding: 0 clamp(16px, 14vw, 205px) 0 clamp(12px, 8vw, 116px);
+  padding: 0 clamp(16px, 4vw, 64px);
 }
 .act {
-  padding: 0 clamp(12px, 1.6vw, 24px);
+  padding: 0 clamp(14px, 2vw, 30px);
   position: relative;
 }
 .act + .act::before {
@@ -236,11 +239,12 @@
   width: auto;
 }
 .actTitle {
-  font-size: clamp(17px, 1.85vw, 21px);
+  font-size: clamp(16px, 1.7vw, 20px);
   color: var(--navy);
   padding-bottom: 8px;
   margin-bottom: 12px;
   border-bottom: 2px solid var(--red);
+  text-wrap: balance;
 }
 .actText {
   font-family: var(--font-bitter), Georgia, serif;
@@ -252,19 +256,25 @@
 /* ---- flanking engravings + footer ---- */
 /* Both engravings share one foot baseline (identical `bottom`) so they read as
    standing on the same ground line at the foot of the sheet. */
+/* Engravings positioned against the frame (position:relative via rq-frame). `bottom: 0`
+   keeps their FEET on the bottom keyline at any size; they rise up over the acts'
+   wide side margins. Hidden by default — only shown at >=1280 where there's room
+   (see the min-width query), otherwise they squeeze the three columns. */
 .strongman {
+  display: none;
   position: absolute;
-  left: 0;
-  bottom: clamp(58px, 6vw, 84px);
-  height: clamp(180px, 24vw, 360px);
+  left: clamp(-8px, -0.5vw, 0px);
+  bottom: 0;
+  height: clamp(190px, 23vw, 360px);
   width: auto;
   pointer-events: none;
 }
 .horse {
+  display: none;
   position: absolute;
-  right: 0;
-  bottom: clamp(58px, 6vw, 84px);
-  height: clamp(150px, 20vw, 300px);
+  right: clamp(-8px, -0.5vw, 0px);
+  bottom: 0;
+  height: clamp(160px, 19vw, 300px);
   width: auto;
   pointer-events: none;
 }
@@ -272,7 +282,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  bottom: clamp(28px, 3vw, 44px);
+  bottom: clamp(14px, 1.7vw, 24px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -288,11 +298,31 @@
   font-size: clamp(13px, 1.4vw, 16px);
 }
 
+/* ---- wide screens: bring back the flanking engravings ----
+   Only >=1280, where there's room for the big engravings PLUS three one-line
+   step columns. The acts inset to clear the engravings; the foot band grows to
+   hold their lower bodies. */
+@media (min-width: 1280px) {
+  .strongman,
+  .horse {
+    display: block;
+  }
+  .acts {
+    padding: 0 clamp(120px, 14vw, 205px) 0 clamp(80px, 8vw, 116px);
+  }
+  main .sheet .frame {
+    padding-bottom: clamp(140px, 11vw, 176px);
+  }
+}
+
 /* ---- mobile: stack the poster ---- */
 @media (max-width: 860px) {
   .sheet {
-    /* no flanking engravings on mobile, so drop the reserved foot band */
     padding-bottom: 0;
+  }
+  /* No flanking engravings on mobile — drop the reserved in-frame foot band. */
+  main .sheet .frame {
+    padding-bottom: clamp(24px, 7vw, 44px);
   }
   .hero {
     grid-template-columns: 1fr;

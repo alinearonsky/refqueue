@@ -45,24 +45,24 @@ export const metadata: Metadata = {
   // Absolute-URL base for OG/Twitter image resolution. Makers set APP_BASE_URL to their
   // public URL; relative image paths below resolve against it.
   metadataBase: new URL(process.env.APP_BASE_URL ?? "http://localhost:3000"),
-  title: "RefQueue",
+  title: "Refqueue",
   description: "Open-source waitlist with referrals. Refer friends to move up the line.",
   openGraph: {
     type: "website",
-    title: "RefQueue: refer friends to skip the line",
+    title: "Refqueue: refer friends to skip the line",
     description: OG_DESCRIPTION,
     images: [
       {
         url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "RefQueue, the open-source referral waitlist, shown as a vintage Admit One ticket",
+        alt: "Refqueue, the open-source referral waitlist, shown as a vintage Admit One ticket",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "RefQueue: refer friends to skip the line",
+    title: "Refqueue: refer friends to skip the line",
     description: OG_DESCRIPTION,
     images: ["/og.png"],
   },

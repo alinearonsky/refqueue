@@ -1,0 +1,64 @@
+/* Slim board-colored bar pinned above the live demo. */
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  padding: 10px clamp(14px, 3vw, 28px);
+  background-color: var(--board);
+  border-bottom: 1px solid color-mix(in srgb, var(--cream) 16%, transparent);
+}
+
+.tag {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--board);
+  background: var(--red);
+  padding: 3px 9px;
+  border-radius: 2px;
+}
+
+.txt {
+  font-family: var(--font-bitter), Georgia, serif;
+  font-size: clamp(13px, 1.4vw, 15px);
+  color: color-mix(in srgb, var(--cream) 82%, transparent);
+}
+
+.links {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.link,
+.star {
+  font-size: clamp(11px, 1.2vw, 13px);
+  letter-spacing: 0.1em;
+  color: var(--cream);
+  transition: color 120ms ease-out;
+}
+.link:hover {
+  color: color-mix(in srgb, var(--cream) 70%, var(--red));
+}
+.star {
+  color: var(--red);
+  border: 1px solid color-mix(in srgb, var(--red) 60%, transparent);
+  padding: 5px 12px;
+  border-radius: 2px;
+  transition: background-color 120ms ease-out, color 120ms ease-out;
+}
+.star:hover {
+  background: var(--red);
+  color: var(--cream);
+}
+
+/* On narrow screens drop the descriptive line; keep the tag + links. */
+@media (max-width: 560px) {
+  .txt {
+    display: none;
+  }
+}

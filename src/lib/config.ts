@@ -26,6 +26,15 @@ export function getAnalyticsEnabled(): boolean {
   return process.env.NEXT_PUBLIC_ANALYTICS_ENABLED === 'true'
 }
 
+/**
+ * Marketing mode for the PUBLIC demo (refqueue.com) only. When on, `/` renders the
+ * RefQueue product pitch and the live waitlist moves to `/demo`. OFF by default so a
+ * self-hosted install keeps `/` as the maker's own waitlist. Set only on refqueue.com.
+ */
+export function getDemoSiteEnabled(): boolean {
+  return process.env.NEXT_PUBLIC_DEMO_SITE === 'true'
+}
+
 /** Anon (publishable) key, used ONLY for Supabase Auth sessions, never for data access. */
 export function getSupabaseAnonKey(): string {
   const key = process.env.SUPABASE_ANON_KEY

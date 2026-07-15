@@ -10,7 +10,7 @@ export function PoweredBy({ enabled }: { enabled: boolean }) {
   if (!enabled) return null
   return (
     <a className={styles.credit} href={REPO_URL} target="_blank" rel="noopener noreferrer">
-      Powered by <strong>RefQueue</strong>
+      Powered by <strong>Refqueue</strong>
     </a>
   )
 }

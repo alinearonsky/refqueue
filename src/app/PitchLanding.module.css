@@ -1,0 +1,497 @@
+/* Pitch page for refqueue.com (getDemoSiteEnabled). Playbill styling, marketing layout. */
+
+/* Full-bleed paper — no dark board framing the page.
+   `main.main` outranks the global `.rq-surface` board background. */
+main.main {
+  min-height: 100dvh;
+  padding: 0;
+  background: var(--paper) url('/playbill/paper.jpg') center / cover;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.sheet {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  box-shadow: none;
+}
+
+/* Reserve the foot band INSIDE the frame so the bottom keyline sits below the
+   engravings + credit, not across them. `main .sheet .frame` (0,2,1) outranks the
+   global `.rq-surface .rq-frame` (0,2,0) padding shorthand. */
+main .sheet .frame {
+  padding-bottom: clamp(104px, 11vw, 176px);
+}
+
+.frame {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(40px, 5vw, 68px);
+  padding: clamp(28px, 4vw, 56px) clamp(24px, 4vw, 60px);
+}
+
+/* Masthead ------------------------------------------------------------- */
+.masthead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px 24px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: clamp(14px, 1.6vw, 20px);
+}
+
+.wordmark {
+  font-family: var(--font-patua), Georgia, serif;
+  font-size: clamp(20px, 2.4vw, 26px);
+  letter-spacing: 0.02em;
+  color: var(--navy);
+}
+
+.nav {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(16px, 2.4vw, 30px);
+}
+
+.navLink {
+  font-size: clamp(11px, 1.2vw, 13px);
+  letter-spacing: 0.12em;
+  color: var(--ink-soft);
+  transition: color 120ms ease-out;
+}
+.navLink:hover {
+  color: var(--navy);
+}
+
+.navStar {
+  font-size: clamp(11px, 1.2vw, 13px);
+  letter-spacing: 0.12em;
+  color: var(--red);
+  border: 1px solid color-mix(in srgb, var(--red) 55%, transparent);
+  padding: 6px 13px;
+  border-radius: 2px;
+  transition: background-color 120ms ease-out, color 120ms ease-out;
+}
+.navStar:hover {
+  background: var(--red);
+  color: var(--cream);
+}
+
+/* Hero ----------------------------------------------------------------- */
+.hero {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: clamp(28px, 4vw, 56px);
+  align-items: center;
+}
+
+.heroCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(14px, 1.6vw, 20px);
+}
+
+.eyebrow {
+  font-size: clamp(10px, 1.1vw, 12px);
+  letter-spacing: 0.2em;
+  color: var(--red);
+}
+
+.headline {
+  font-family: var(--font-rye), Georgia, serif;
+  font-size: clamp(30px, 6.2vw, 68px);
+  line-height: 1;
+  white-space: nowrap;
+  /* Red face with the navy two-tone shadow — no cream outline stroke. */
+  color: var(--red);
+  text-shadow: 4px 5px 0 var(--navy);
+  margin: 0;
+}
+
+.lede {
+  font-family: var(--font-bitter), Georgia, serif;
+  font-size: clamp(15px, 1.6vw, 18px);
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 46ch;
+}
+
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 14px;
+  margin-top: 4px;
+}
+
+.ctaPrimary {
+  font-size: clamp(12px, 1.3vw, 14px);
+  letter-spacing: 0.1em;
+  color: var(--cream);
+  background: var(--red);
+  border: 1px solid var(--red);
+  padding: 12px 22px;
+  border-radius: 2px;
+  transition: background-color 120ms ease-out, transform 120ms ease-out;
+}
+.ctaPrimary:hover {
+  background: color-mix(in srgb, var(--red) 86%, black);
+  transform: translateY(-1px);
+}
+
+.ctaGhost {
+  font-size: clamp(12px, 1.3vw, 14px);
+  letter-spacing: 0.1em;
+  color: var(--navy);
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 12px 22px;
+  border-radius: 2px;
+  transition: border-color 120ms ease-out, color 120ms ease-out;
+}
+.ctaGhost:hover {
+  border-color: var(--navy);
+  color: var(--navy-2);
+}
+
+.heroFine {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: clamp(10px, 1.1vw, 12px);
+  letter-spacing: 0.16em;
+  color: color-mix(in srgb, var(--ink-soft) 78%, transparent);
+}
+
+.fineHand {
+  height: 13px;
+  width: auto;
+  opacity: 0.85;
+}
+.fineHandR {
+  transform: scaleX(-1);
+}
+
+.ticketwrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ticket {
+  width: min(100%, 300px);
+  height: auto;
+  transform: rotate(-3deg);
+  filter: drop-shadow(0 18px 30px rgba(20, 12, 6, 0.28));
+}
+
+/* Separator ------------------------------------------------------------ */
+.sep {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  max-width: 520px;
+  margin: 0 auto;
+  width: 100%;
+}
+.sep::before,
+.sep::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.sepFlr {
+  width: clamp(26px, 3vw, 34px);
+  height: auto;
+  opacity: 0.9;
+}
+
+/* Sections ------------------------------------------------------------- */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 2.6vw, 32px);
+}
+
+.sectionTitle {
+  font-family: var(--font-patua), Georgia, serif;
+  font-size: clamp(13px, 1.5vw, 16px);
+  letter-spacing: 0.22em;
+  color: var(--red);
+  text-align: center;
+  margin: 0;
+}
+
+/* How it works — three acts, playbill treatment: manicule + dotted rules with a
+   red diamond between columns + red-underlined titles (ported from the waitlist). */
+.acts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  list-style: none;
+  margin: 0;
+  padding: 0 clamp(8px, 2.5vw, 40px);
+}
+
+.act {
+  position: relative;
+  padding: 0 clamp(26px, 4vw, 64px);
+  text-align: left;
+}
+.act + .act::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 12px;
+  border-left: 1px dotted #8a7350;
+}
+.act + .act::after {
+  content: '';
+  position: absolute;
+  left: -3px;
+  top: 46%;
+  width: 7px;
+  height: 7px;
+  background: var(--red);
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.actTop {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 6px;
+}
+
+.actNo {
+  font-family: var(--font-rye), Georgia, serif;
+  color: var(--red);
+  font-size: clamp(22px, 2.4vw, 28px);
+  line-height: 1;
+}
+
+.actHand {
+  height: 18px;
+  width: auto;
+}
+
+.actTitle {
+  font-family: var(--font-patua), Georgia, serif;
+  font-size: clamp(16px, 1.85vw, 21px);
+  letter-spacing: 0.04em;
+  color: var(--navy);
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--red);
+}
+
+.actText {
+  font-family: var(--font-bitter), Georgia, serif;
+  font-size: clamp(14px, 1.5vw, 16px);
+  line-height: 1.5;
+  color: var(--navy-2);
+  margin: 0;
+}
+
+/* Why RefQueue — the bill */
+.bill {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(18px, 2.4vw, 30px);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.billItem {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.billMark {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  margin-top: 7px;
+  background: var(--red);
+  transform: rotate(45deg);
+}
+
+.billTitle {
+  font-family: var(--font-patua), Georgia, serif;
+  font-size: clamp(14px, 1.5vw, 17px);
+  letter-spacing: 0.04em;
+  color: var(--navy);
+  margin: 0 0 4px;
+}
+
+.billText {
+  font-family: var(--font-bitter), Georgia, serif;
+  font-size: clamp(13px, 1.4vw, 15px);
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+/* Closing call to action ---------------------------------------------- */
+.close {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  border-top: 1px solid var(--line);
+  padding-top: clamp(30px, 4vw, 48px);
+}
+
+.closeTitle {
+  font-family: var(--font-rye), Georgia, serif;
+  font-size: clamp(34px, 5vw, 60px);
+  line-height: 1;
+  color: var(--navy);
+  margin: 0;
+}
+
+.closeSub {
+  font-family: var(--font-bitter), Georgia, serif;
+  font-size: clamp(14px, 1.5vw, 17px);
+  color: var(--ink-soft);
+  margin: 0 0 6px;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 12px;
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+}
+
+.badge {
+  font-size: clamp(10px, 1.1vw, 12px);
+  letter-spacing: 0.14em;
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+  padding: 5px 12px;
+  border-radius: 2px;
+}
+
+/* Engravings positioned against the frame (position:relative via rq-frame). `bottom: 0`
+   keeps their FEET on the bottom keyline at any size; they rise up over the closing
+   section's side margins. */
+.strongman {
+  position: absolute;
+  left: clamp(-8px, -0.5vw, 0px);
+  bottom: 0;
+  height: clamp(190px, 23vw, 370px);
+  width: auto;
+  pointer-events: none;
+}
+.horse {
+  position: absolute;
+  right: clamp(-8px, -0.5vw, 0px);
+  bottom: 0;
+  height: clamp(165px, 20vw, 320px);
+  width: auto;
+  pointer-events: none;
+}
+
+/* Foot of the sheet — the maker credit sits on the ground line between the engravings. */
+.foot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(14px, 1.7vw, 24px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 2vw, 24px);
+}
+
+.footFlr {
+  width: clamp(22px, 2.4vw, 28px);
+  height: auto;
+  opacity: 0.85;
+}
+
+.footTxt {
+  font-size: clamp(11px, 1.2vw, 13px);
+  letter-spacing: 0.14em;
+  color: var(--ink-soft);
+}
+.footTxt a {
+  color: var(--red);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--red) 45%, transparent);
+  transition: color 120ms ease-out, border-color 120ms ease-out;
+}
+.footTxt a:hover {
+  color: var(--navy);
+  border-bottom-color: var(--navy);
+}
+
+/* Mobile --------------------------------------------------------------- */
+@media (max-width: 860px) {
+  .sheet {
+    padding-bottom: 0;
+  }
+  /* No flanking engravings on mobile — drop the reserved in-frame foot band. */
+  main .sheet .frame {
+    padding-bottom: clamp(24px, 7vw, 44px);
+  }
+  .foot {
+    position: static;
+    margin-top: clamp(28px, 6vw, 44px);
+  }
+  .hero {
+    grid-template-columns: 1fr;
+    gap: clamp(24px, 6vw, 36px);
+  }
+  .heroCopy {
+    align-items: center;
+    text-align: center;
+  }
+  .lede {
+    max-width: none;
+  }
+  .ctaRow {
+    justify-content: center;
+  }
+  .ticketwrap {
+    order: -1;
+  }
+  .ticket {
+    width: min(72%, 240px);
+  }
+  /* No flanking engravings on mobile — the foot band isn't reserved. */
+  .strongman,
+  .horse {
+    display: none;
+  }
+  /* Stack the acts; drop the vertical rules and diamond that only make sense side by side. */
+  .acts {
+    grid-template-columns: 1fr;
+    padding: 0;
+    gap: clamp(26px, 7vw, 40px);
+  }
+  .act {
+    padding: 0;
+  }
+  .act + .act::before,
+  .act + .act::after {
+    display: none;
+  }
+  .bill {
+    grid-template-columns: 1fr;
+  }
+}
