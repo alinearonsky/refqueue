@@ -4,7 +4,7 @@
 mechanic behind Superhuman's and Robinhood's launches, the one GetWaitlist and Viral
 Loops paywall at $35–50/mo. Free, self-hosted, and yours.
 
-**▶ Live demo: [refqueue.vercel.app](https://refqueue.vercel.app)**
+**▶ Live demo: [refqueue.com](https://refqueue.com)**
 
 ![RefQueue, join the waitlist, get a numbered ticket, refer friends to move up the line](docs/demo.gif)
 
